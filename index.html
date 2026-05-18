@@ -340,6 +340,10 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
 // ══════════════════════════════════════════════════════════════════════
 const API = 'https://promptostore-backend-production.up.railway.app';
 
+// ── AUTH HELPERS ──
+function getToken() { return localStorage.getItem('ps_token'); }
+function authHeaders() { return {'Content-Type':'application/json','Authorization':'Bearer ' + getToken()}; }
+
 const CATS = [
   {id:'marketing',label:'Marketing',icon:'📣',color:'#DC2626'},
   {id:'imagen',label:'Imagen & Arte',icon:'🎨',color:'#1D6AE5'},
@@ -359,20 +363,11 @@ const AI_TOOLS = ['ChatGPT','Claude','Gemini','Midjourney','DALL-E','Stable Diff
 // ── STATE ──
 let state = {
   user: null,
-  prompts: [
-    {id:1,title:'Copywriter Experto para Ventas',category:'marketing',ai:'ChatGPT',author:'Ana García',av:'AG',votes:342,tier:'pro',price:300,preview:'Actúa como copywriter con 10 años en ventas digitales...',full:'Actúa como un copywriter con 10 años de experiencia en ventas digitales. Genera: 1) Headline impactante, 2) Propuesta de valor, 3) Bullets de beneficios, 4) CTA. Producto: [PRODUCTO]',tags:['ventas','copy'],downloads:1240},
-    {id:2,title:'Arte Cyberpunk Midjourney',category:'imagen',ai:'Midjourney',author:'Carlos Ruiz',av:'CR',votes:218,tier:'pro',price:300,preview:'Neon-lit cyberpunk cityscape, ultra-detailed, 8k...',full:'A neon-lit cyberpunk cityscape at night, ultra-detailed, 8k resolution, rain-slicked streets reflecting neon signs, flying cars, volumetric fog --ar 16:9 --v 6 --stylize 750',tags:['arte','imagen'],downloads:876},
-    {id:3,title:'Senior Dev Code Reviewer',category:'codigo',ai:'Claude',author:'Diego López',av:'DL',votes:189,tier:'medio',price:200,preview:'Eres senior developer. Revisa mi código y busca bugs...',full:'Eres senior developer con 15 años de experiencia. Cuando te comparta código: 1) Bugs y vulnerabilidades, 2) Optimizaciones con ejemplos, 3) Explica cada cambio. Código: [CÓDIGO]',tags:['código','review'],downloads:654},
-    {id:4,title:'Plan de Contenido 30 días',category:'redes',ai:'ChatGPT',author:'María Torres',av:'MT',votes:156,tier:'medio',price:200,preview:'Plan editorial 30 días para redes sociales...',full:'Crea plan editorial 30 días para [NICHO] en [RED SOCIAL]. Incluye: tema del día, formato, hook, copy, hashtags y horario óptimo.',tags:['redes','contenido'],downloads:432},
-    {id:5,title:'Ideas de Negocio con IA',category:'negocios',ai:'ChatGPT',author:'Roberto Sánchez',av:'RS',votes:89,tier:'free',price:0,preview:'Genera 10 ideas de negocio innovadoras para mi perfil...',full:'Genera 10 ideas de negocio para [PERFIL]. Cada idea: nombre, problema que resuelve, mercado objetivo, modelo de ingresos, inversión inicial, primeros 3 pasos.',tags:['negocio','ideas'],downloads:321},
-    {id:6,title:'Editor Profesional de Textos',category:'escritura',ai:'Claude',author:'Laura Jiménez',av:'LJ',votes:67,tier:'free',price:0,preview:'Editor profesional. Corrige sin perder mi voz...',full:'Eres editor con experiencia en medios digitales. Toma mi texto y: 1) Corrige gramática, 2) Mejora claridad, 3) Optimiza para digital. Texto: [TEXTO]',tags:['escritura','edición'],downloads:210},
-    {id:7,title:'Estrategia SEO 90 días',category:'seo',ai:'ChatGPT',author:'Javier Mora',av:'JM',votes:134,tier:'medio',price:200,preview:'Auditoría SEO completa y plan de 90 días...',full:'Analiza [URL] y genera estrategia SEO 90 días: keywords, contenido mensual, optimizaciones técnicas y backlinks.',tags:['seo','google'],downloads:567},
-    {id:8,title:'Foto de Producto Realista',category:'imagen',ai:'DALL-E',author:'Sofia Reyes',av:'SR',votes:45,tier:'free',price:0,preview:'Professional product photography, clean background...',full:'Professional product photography, [PRODUCT] on clean minimalist background, soft studio lighting, 85mm lens, high resolution commercial quality.',tags:['fotografía','producto'],downloads:189},
-  ],
-  votes: JSON.parse(localStorage.getItem('ps_votes') || '[]'),
-  purchased: JSON.parse(localStorage.getItem('ps_purchased') || '[]'),
+  prompts: [],
+  votes: [],
+  purchased: [],
   filterCat: 'all',
-  payments: JSON.parse(localStorage.getItem('ps_payments') || '[]'),
+  payments: [],
 };
 
 // ── HELPERS ──
@@ -393,9 +388,6 @@ function notify(msg, type='ok') {
 }
 
 function saveLocal() {
-  localStorage.setItem('ps_votes', JSON.stringify(state.votes));
-  localStorage.setItem('ps_purchased', JSON.stringify(state.purchased));
-  localStorage.setItem('ps_payments', JSON.stringify(state.payments));
   if (state.user) localStorage.setItem('ps_user', JSON.stringify(state.user));
 }
 
@@ -403,7 +395,7 @@ function saveLocal() {
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('s-' + id).classList.add('active');
-  if (id === 'app') { buildCatBar(); renderPrompts(); }
+  if (id === 'app') { buildCatBar(); loadPrompts(); }
   if (id === 'dashboard') renderDashboard();
   updateNav();
 }
@@ -509,25 +501,33 @@ function renderPrompts() {
 }
 
 // ── VOTE ──
-function votePrompt(id) {
+async function votePrompt(id) {
   if (!state.user) { openModal('login'); return; }
-  const hasVoted = state.votes.includes(id);
-  state.votes = hasVoted ? state.votes.filter(x => x !== id) : [...state.votes, id];
-  state.prompts = state.prompts.map(p => {
-    if (p.id !== id) return p;
-    const nv = hasVoted ? p.votes - 1 : p.votes + 1;
-    const ti = getTier(nv);
-    if (ti.tier !== getTier(p.votes).tier) notify(`¡Prompt subió a nivel ${ti.label}!`, 'info');
-    return {...p, votes: nv, tier: ti.tier, price: ti.price};
-  });
-  saveLocal();
-  renderPrompts();
+  try {
+    const res = await fetch(`${API}/prompts/${id}/vote`, {
+      method: 'POST', headers: authHeaders()
+    });
+    const data = await res.json();
+    if (data.error) { notify(data.error, 'err'); return; }
+    state.votes = data.voted
+      ? [...state.votes, id]
+      : state.votes.filter(x => x !== id);
+    state.prompts = state.prompts.map(p => {
+      if (p._id !== id && p.id !== id) return p;
+      const ti = getTier(data.votes);
+      if (ti.tier !== getTier(p.votes).tier) notify(`¡Prompt subió a nivel ${ti.label}!`, 'info');
+      return {...p, votes: data.votes, price: data.price};
+    });
+    renderPrompts();
+  } catch(err) {
+    notify('Error al votar', 'err');
+  }
 }
 
 // ── VIEW PROMPT ──
 function viewPrompt(id) {
   if (!state.user) { openModal('login'); return; }
-  const p = state.prompts.find(x => x.id === id);
+  const p = state.prompts.find(x => (x._id||x.id) === id);
   if (!p) return;
   const ti = getTier(p.votes);
   const ci = getCat(p.category);
@@ -571,29 +571,20 @@ function viewPrompt(id) {
   `);
 }
 
-// ── BUY PROMPT (conecta con Stripe real) ──
+// ── BUY PROMPT ──
 async function buyPromptReal(id) {
-  const p = state.prompts.find(x => x.id === id);
-  if (!p || !state.user) return;
+  if (!state.user) { openModal('login'); return; }
+  const p = state.prompts.find(x => (x._id || x.id) === id);
+  if (!p) return;
   const btn = document.getElementById('buy-btn-' + id);
   if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Procesando...'; }
   try {
     const res = await fetch(`${API}/prompt/buy`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        promptId: id,
-        buyerEmail: state.user.email,
-        promptTitle: p.title,
-        price: p.price,
-        authorStripeAccountId: null,
-      }),
+      method: 'POST', headers: authHeaders(),
+      body: JSON.stringify({promptId: id}),
     });
     const data = await res.json();
     if (data.url) {
-      // Guardar que compró para cuando regrese
-      state.purchased.push(id);
-      saveLocal();
       window.location.href = data.url;
     } else {
       throw new Error(data.error || 'Error al crear sesión de pago');
@@ -605,7 +596,7 @@ async function buyPromptReal(id) {
 }
 
 function copyPrompt(id) {
-  const p = state.prompts.find(x => x.id === id);
+  const p = state.prompts.find(x => (x._id||x.id) === id);
   navigator.clipboard?.writeText(p.full);
   notify('Prompt copiado al portapapeles ✓', 'ok');
 }
@@ -713,109 +704,123 @@ async function doRegister() {
 }
 
 // ── UPLOAD ──
-function doUpload() {
+async function doUpload() {
   const title = document.getElementById('u-title')?.value;
   const cat = document.getElementById('u-cat')?.value;
   const ai = document.getElementById('u-ai')?.value;
   const full = document.getElementById('u-full')?.value;
   if (!title || !cat || !ai || !full) { notify('Completa los campos obligatorios', 'err'); return; }
+  if (!state.user?.member) { notify('Necesitas membresía activa para publicar', 'err'); return; }
   const preview = document.getElementById('u-preview')?.value || full.slice(0, 70) + '...';
   const tags = (document.getElementById('u-tags')?.value || '').split(',').map(t => t.trim()).filter(Boolean);
-  const initials = (state.user?.name || 'U').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-  state.prompts = [{
-    id: Date.now(), title, category: cat, ai,
-    author: state.user?.name || 'Usuario', av: initials,
-    votes: 0, tier: 'free', price: 0,
-    preview, full, tags, downloads: 0
-  }, ...state.prompts];
-  closeModal();
-  renderPrompts();
-  notify('Prompt publicado con éxito ✓', 'ok');
+  const btn = document.querySelector('#modal-content .btn-p');
+  if(btn){btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Publicando...';}
+  try {
+    const res = await fetch(`${API}/prompts`, {
+      method: 'POST', headers: authHeaders(),
+      body: JSON.stringify({title, description: preview, content: full, category: cat, model: ai, tags})
+    });
+    const data = await res.json();
+    if (data.error) { notify(data.error, 'err'); if(btn){btn.disabled=false;btn.textContent='Publicar prompt →';} return; }
+    closeModal();
+    await loadPrompts();
+    notify('Prompt publicado con éxito ✓', 'ok');
+  } catch(err) {
+    notify('Error al publicar: ' + err.message, 'err');
+    if(btn){btn.disabled=false;btn.textContent='Publicar prompt →';}
+  }
 }
 
 // ── DASHBOARD ──
-function renderDashboard() {
+async function renderDashboard() {
   if (!state.user) return;
   document.getElementById('dash-welcome').textContent = 'Hola, ' + state.user.name;
-  const myP = state.prompts.filter(p => p.author === state.user.name);
-  const totalVotes = myP.reduce((s, p) => s + p.votes, 0);
-  const totalEarn = state.payments.reduce((s, pay) => s + (pay.authorEarning || 0), 0);
-  const totalSales = state.payments.length;
-  document.getElementById('d-total').textContent = '$' + totalEarn + ' MXN';
-  document.getElementById('d-count').textContent = myP.length;
-  document.getElementById('d-votes').textContent = totalVotes;
-  document.getElementById('d-sales').textContent = totalSales;
+  try {
+    const res = await fetch(`${API}/dashboard`, {headers: authHeaders()});
+    const data = await res.json();
+    if (data.error) { notify(data.error, 'err'); return; }
+    const totalVotes = (data.prompts || []).reduce((s, p) => s + (p.votes||0), 0);
+    document.getElementById('d-total').textContent = '$' + (data.totalEarnings||0).toFixed(0) + ' MXN';
+    document.getElementById('d-count').textContent = data.promptCount || 0;
+    document.getElementById('d-votes').textContent = totalVotes;
+    document.getElementById('d-sales').textContent = data.salesCount || 0;
 
-  // Connect status
-  const cs = document.getElementById('dash-connect-status');
-  cs.innerHTML = `<div class="card" style="padding:14px">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
-      <div>
-        <div style="font-weight:600;font-size:13px;margin-bottom:3px">Cuenta bancaria para depósitos</div>
-        <div style="font-size:12px;color:var(--mu)">Conecta tu cuenta para recibir el 70% automáticamente via Stripe Connect</div>
-      </div>
-      <button class="btn btn-sm" style="background:#635BFF;color:#fff;border-color:#635BFF" onclick="connectStripeAccount()">
-        S Conectar →
-      </button>
-    </div>
-  </div>`;
+    // Connect status
+    const cs = document.getElementById('dash-connect-status');
+    if (data.connected) {
+      cs.innerHTML = `<div class="card" style="padding:14px;background:#D1FAE518">
+        <div style="font-weight:600;font-size:13px;color:var(--ok)">✓ Cuenta bancaria conectada via Stripe</div>
+        <div style="font-size:12px;color:var(--mu);margin-top:3px">Recibes el 70% automáticamente en cada venta</div>
+      </div>`;
+    } else {
+      cs.innerHTML = `<div class="card" style="padding:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <div>
+            <div style="font-weight:600;font-size:13px;margin-bottom:3px">Cuenta bancaria para depósitos</div>
+            <div style="font-size:12px;color:var(--mu)">Conecta tu cuenta para recibir el 70% automáticamente via Stripe Connect</div>
+          </div>
+          <button class="btn btn-sm" style="background:#635BFF;color:#fff;border-color:#635BFF" onclick="connectStripeAccount()">S Conectar →</button>
+        </div>
+      </div>`;
+    }
 
-  // Mis prompts
-  const dp = document.getElementById('dash-prompts');
-  if (!myP.length) {
-    dp.innerHTML = `<div class="card" style="padding:20px;text-align:center;color:var(--mu)">
-      <div style="font-size:28px;margin-bottom:8px">🚀</div>
-      <p style="font-size:13px;margin-bottom:12px">Aún no has publicado prompts</p>
-      <button class="btn btn-p btn-sm" onclick="openModal('upload')">+ Subir primer prompt</button>
-    </div>`;
-  } else {
-    dp.innerHTML = myP.map(p => {
-      const ti = getTier(p.votes);
-      const ci = getCat(p.category);
-      const nextThresh = ti.tier === 'free' ? 101 : ti.tier === 'medio' ? 201 : ti.tier === 'medio2' ? 301 : null;
-      const progress = nextThresh ? Math.min(100, Math.round(p.votes / nextThresh * 100)) : 100;
-      const earn = state.payments.filter(pay => pay.promptTitle === p.title).reduce((s, pay) => s + (pay.authorEarning || 0), 0);
-      const sales = state.payments.filter(pay => pay.promptTitle === p.title).length;
-      return `<div class="card" style="padding:14px">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-          <div style="flex:1">
-            <div style="font-weight:700;font-size:13px;margin-bottom:4px">${p.title}</div>
-            <div style="display:flex;gap:5px;flex-wrap:wrap">
-              <span class="badge" style="background:${ci.color}18;color:${ci.color}">${ci.icon} ${ci.label}</span>
-              <span class="badge" style="background:${ti.bg};color:${ti.color}">${ti.label}</span>
+    // Mis prompts
+    const dp = document.getElementById('dash-prompts');
+    const myP = data.prompts || [];
+    if (!myP.length) {
+      dp.innerHTML = `<div class="card" style="padding:20px;text-align:center;color:var(--mu)">
+        <div style="font-size:28px;margin-bottom:8px">🚀</div>
+        <p style="font-size:13px;margin-bottom:12px">Aún no has publicado prompts</p>
+        <button class="btn btn-p btn-sm" onclick="openModal('upload')">+ Subir primer prompt</button>
+      </div>`;
+    } else {
+      dp.innerHTML = myP.map(p => {
+        const ti = getTier(p.votes);
+        const ci = getCat(p.category);
+        const nextThresh = ti.tier === 'free' ? 101 : ti.tier === 'medio' ? 201 : ti.tier === 'medio2' ? 301 : null;
+        const progress = nextThresh ? Math.min(100, Math.round(p.votes / nextThresh * 100)) : 100;
+        return `<div class="card" style="padding:14px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+            <div style="flex:1">
+              <div style="font-weight:700;font-size:13px;margin-bottom:4px">${p.title}</div>
+              <div style="display:flex;gap:5px;flex-wrap:wrap">
+                <span class="badge" style="background:${ci.color}18;color:${ci.color}">${ci.icon} ${ci.label}</span>
+                <span class="badge" style="background:${ti.bg};color:${ti.color}">${ti.label}</span>
+              </div>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <div class="syne" style="font-size:16px;font-weight:800;color:var(--mu)">▲ ${p.votes}</div>
+              <div style="font-size:11px;color:var(--mu)">votos</div>
             </div>
           </div>
-          <div style="text-align:right;flex-shrink:0">
-            <div class="syne" style="font-size:16px;font-weight:800;color:${earn > 0 ? '#B45309' : 'var(--mu)'}">$${earn} MXN</div>
-            <div style="font-size:11px;color:var(--mu)">${sales} ventas</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--mu)">
+            ${nextThresh ? `<div>${p.votes}/${nextThresh} para siguiente nivel</div>` : '<div style="color:var(--ok);font-weight:600">Nivel máximo ⭐</div>'}
           </div>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--mu)">
-          <div>▲ ${p.votes} votos · ⬇ ${p.downloads} usos</div>
-          ${nextThresh ? `<div>${p.votes}/${nextThresh} para siguiente nivel</div>` : '<div style="color:var(--ok);font-weight:600">Nivel máximo ⭐</div>'}
-        </div>
-        ${nextThresh ? `<div class="prog"><div class="prog-fill" style="width:${progress}%;background:${ti.tier === 'free' ? 'var(--ok)' : '#DC2626'}"></div></div>` : ''}
-      </div>`;
-    }).join('');
-  }
+          ${nextThresh ? `<div class="prog"><div class="prog-fill" style="width:${progress}%;background:${ti.tier==='free'?'var(--ok)':'#DC2626'}"></div></div>` : ''}
+        </div>`;
+      }).join('');
+    }
 
-  // Historial
-  const ph = document.getElementById('payment-history');
-  if (!state.payments.length) {
-    ph.innerHTML = '<div style="padding:20px;text-align:center;color:var(--mu);font-size:13px">Sin pagos registrados aún</div>';
-  } else {
-    ph.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:12px">
-      <thead><tr style="background:var(--sur)">
-        ${['Prompt','Total','Tu parte','Fecha','Estado'].map(h => `<th style="padding:10px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);font-weight:600">${h}</th>`).join('')}
-      </tr></thead>
-      <tbody>${state.payments.map((pay, i) => `<tr style="border-top:.5px solid var(--bdr)">
-        <td style="padding:10px 14px;font-weight:500">${pay.promptTitle}</td>
-        <td style="padding:10px 14px;font-weight:600">$${pay.amount} MXN</td>
-        <td style="padding:10px 14px;font-weight:700;color:#B45309">$${pay.authorEarning} MXN</td>
-        <td style="padding:10px 14px;color:var(--mu)">${pay.date}</td>
-        <td style="padding:10px 14px"><span class="badge" style="background:#D1FAE5;color:#065F46">✓ completado</span></td>
-      </tr>`).join('')}</tbody>
-    </table>`;
+    // Historial
+    const ph = document.getElementById('payment-history');
+    const sales = data.recentSales || [];
+    if (!sales.length) {
+      ph.innerHTML = '<div style="padding:20px;text-align:center;color:var(--mu);font-size:13px">Sin pagos registrados aún</div>';
+    } else {
+      ph.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead><tr style="background:var(--sur)">
+          ${['Prompt','Tu parte','Fecha','Estado'].map(h => `<th style="padding:10px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);font-weight:600">${h}</th>`).join('')}
+        </tr></thead>
+        <tbody>${sales.map(pay => `<tr style="border-top:.5px solid var(--bdr)">
+          <td style="padding:10px 14px;font-weight:500">${pay.promptId}</td>
+          <td style="padding:10px 14px;font-weight:700;color:#B45309">$${pay.authorEarning} MXN</td>
+          <td style="padding:10px 14px;color:var(--mu)">${new Date(pay.date).toLocaleDateString('es-MX')}</td>
+          <td style="padding:10px 14px"><span class="badge" style="background:#D1FAE5;color:#065F46">✓ completado</span></td>
+        </tr>`).join('')}</tbody>
+      </table>`;
+    }
+  } catch(err) {
+    notify('Error cargando dashboard', 'err');
   }
 }
 
@@ -825,9 +830,7 @@ async function connectStripeAccount() {
   notify('Conectando con Stripe Connect...', 'info');
   try {
     const res = await fetch(`${API}/connect/onboard`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({email: state.user.email, name: state.user.name}),
+      method: 'POST', headers: authHeaders()
     });
     const data = await res.json();
     if (data.url) window.location.href = data.url;
@@ -840,14 +843,18 @@ async function connectStripeAccount() {
 // ── LOGOUT ──
 function logout() {
   state.user = null;
+  state.prompts = [];
+  state.votes = [];
+  state.purchased = [];
   localStorage.removeItem('ps_user');
+  localStorage.removeItem('ps_token');
   showScreen('landing');
   updateNav();
   notify('Sesión cerrada', 'info');
 }
 
 // ── SUCCESS PAGE ──
-function checkSuccess() {
+async function checkSuccess() {
   const params = new URLSearchParams(window.location.search);
   const type = params.get('type');
   const connectStatus = params.get('connect');
@@ -859,29 +866,27 @@ function checkSuccess() {
       state.user.member = true;
       saveLocal();
     }
+    // Refresh user data from backend
+    try {
+      const res = await fetch(`${API}/auth/me`, {headers: authHeaders()});
+      const data = await res.json();
+      if (!data.error) { state.user = {...state.user, member: data.membershipActive}; saveLocal(); }
+    } catch(e){}
     notify('✓ Membresía activada. ¡Bienvenido a PromptStore.pro!', 'ok');
     window.history.replaceState({}, '', '/');
+    await loadPrompts();
+    await loadMyData();
     showScreen('app');
     updateNav();
   }
 
   if (type === 'prompt') {
-    const promptId = parseInt(params.get('promptId'));
-    if (promptId && !state.purchased.includes(promptId)) {
-      state.purchased.push(promptId);
-      const p = state.prompts.find(x => x.id === promptId);
-      if (p) {
-        state.payments.push({
-          promptTitle: p.title,
-          amount: p.price,
-          authorEarning: Math.round(p.price * .7),
-          date: new Date().toLocaleDateString('es-MX'),
-        });
-      }
-      saveLocal();
-    }
+    const promptId = params.get('promptId');
+    if (promptId) state.purchased.push(promptId);
     notify('✓ Prompt desbloqueado permanentemente', 'ok');
     window.history.replaceState({}, '', '/');
+    await loadPrompts();
+    await loadMyData();
     showScreen('app');
     updateNav();
   }
@@ -893,22 +898,64 @@ function checkSuccess() {
   }
 }
 
+// ── LOAD PROMPTS FROM API ──
+async function loadPrompts() {
+  try {
+    const cat = state.filterCat !== 'all' ? `?category=${state.filterCat}` : '';
+    const res = await fetch(`${API}/prompts${cat}`);
+    const data = await res.json();
+    if (data.prompts) {
+      state.prompts = data.prompts.map(p => ({
+        ...p,
+        id: p._id,
+        ai: p.model || 'ChatGPT',
+        author: p.authorName,
+        av: (p.authorName||'U').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2),
+        preview: p.description,
+        full: p.content,
+        tier: getTier(p.votes).tier,
+        downloads: 0,
+      }));
+      renderPrompts();
+    }
+  } catch(err) {
+    console.error('Error cargando prompts:', err);
+  }
+}
+
+// ── LOAD USER VOTES & UNLOCKED ──
+async function loadMyData() {
+  if (!getToken()) return;
+  try {
+    const [votesRes, unlockedRes] = await Promise.all([
+      fetch(`${API}/votes/me`, {headers: authHeaders()}),
+      fetch(`${API}/unlocked`, {headers: authHeaders()})
+    ]);
+    const vData = await votesRes.json();
+    const uData = await unlockedRes.json();
+    if (vData.votedIds) state.votes = vData.votedIds;
+    if (uData.unlockedIds) state.purchased = uData.unlockedIds;
+  } catch(e){}
+}
+
 // ── INIT ──
-function init() {
+async function init() {
   buildLandingCats();
   buildCatBar();
 
   // Restaurar sesión
   const saved = localStorage.getItem('ps_user');
-  if (saved) {
+  if (saved && getToken()) {
     state.user = JSON.parse(saved);
     updateNav();
   }
 
   // Verificar si viene de Stripe
   if (window.location.search.includes('type=') || window.location.search.includes('connect=')) {
-    checkSuccess();
+    await checkSuccess();
   } else if (state.user) {
+    await loadPrompts();
+    await loadMyData();
     showScreen('app');
   }
 }
