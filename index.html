@@ -777,10 +777,78 @@ function checkSuccess() {
   }
 }
 
+
+// ── i18n ──
+let lang = localStorage.getItem('ps_lang') || 'es';
+
+const I18N = {
+  es: {
+    nav_explore:'Explorar',
+    nav_dash:'Dashboard',
+    nav_up:'Subir',
+    nav_login:'Iniciar sesión',
+    nav_reg:'Registrarse',
+    login_title:'Iniciar sesión',
+    login_sub:'Accede a tu cuenta',
+    login_btn:'Entrar',
+    login_noacc:'¿No tienes cuenta?',
+    login_link:'Regístrate',
+    reg_title:'Crear cuenta',
+    reg_sub:'Únete a PromptStore.pro',
+    reg_btn:'Crear cuenta',
+    reg_secure:'Pago seguro con Stripe'
+  },
+  en: {
+    nav_explore:'Explore',
+    nav_dash:'Dashboard',
+    nav_up:'Upload',
+    nav_login:'Login',
+    nav_reg:'Register',
+    login_title:'Login',
+    login_sub:'Access your account',
+    login_btn:'Enter',
+    login_noacc:"Don't have an account?",
+    login_link:'Register',
+    reg_title:'Create account',
+    reg_sub:'Join PromptStore.pro',
+    reg_btn:'Create account',
+    reg_secure:'Secure payment with Stripe'
+  }
+};
+
+function t(k){
+  return I18N[lang]?.[k] || k;
+}
+
+function toggleLang(){
+  lang = lang === 'es' ? 'en' : 'es';
+  localStorage.setItem('ps_lang', lang);
+
+  const btn = document.getElementById('lang-btn');
+  if(btn){
+    btn.textContent = lang === 'es' ? '🌐 EN' : '🌐 ES';
+  }
+
+  updateNav();
+
+  if(state.user){
+    renderPrompts();
+    renderDashboard();
+  }
+}
+
+
 // ── INIT ──
 function init() {
-  buildLandingCats();
+  // landing-content aún no existe aquí
+  // buildLandingCats();
+
   buildCatBar();
+
+  const btn = document.getElementById('lang-btn');
+  if(btn){
+    btn.textContent = lang === 'es' ? '🌐 EN' : '🌐 ES';
+  }
 
   // Restaurar sesión
   const saved = localStorage.getItem('ps_user');
