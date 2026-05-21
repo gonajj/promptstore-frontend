@@ -314,43 +314,12 @@ function updateNav() {
   }
 }
 
-
-// ── LANDING ──
-function buildLanding() {
-  document.getElementById('landing-content').innerHTML = `
-    <section class="hero">
-      <h1 class="syne">Marketplace de Prompts IA</h1>
-      <p>Compra, vende y descubre prompts premium para ChatGPT, Claude, Midjourney y más.</p>
-
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px">
-        <button class="btn btn-p btn-lg" onclick="openModal('register')">
-          🚀 Empezar ahora
-        </button>
-        <button class="btn btn-lg" onclick="showScreen('app')">
-          🔍 Explorar prompts
-        </button>
-      </div>
-    </section>
-
-    <section class="section">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:10px;flex-wrap:wrap">
-        <div>
-          <h2 class="syne" style="font-size:28px;font-weight:800">Explora categorías</h2>
-          <p style="color:var(--mu);margin-top:6px">Encuentra prompts para cualquier necesidad</p>
-        </div>
-      </div>
-
-      <div id="landing-cats" class="pgrid"></div>
-    </section>
-  `;
-
-  // importante: ahora sí existe el div
-  buildLandingCats();
-}
-
 // ── LANDING CATS ──
 function buildLandingCats() {
-  document.getElementById('landing-cats').innerHTML = CATS.map(c => `
+  const landingCats = document.getElementById('landing-cats');
+  if (!landingCats) return;
+
+  landingCats.innerHTML = CATS.map(c => `
     <div class="card" style="padding:14px;text-align:center;cursor:pointer;transition:all .2s;border-color:transparent"
       onmouseenter="this.style.borderColor='${c.color}'" onmouseleave="this.style.borderColor='transparent'"
       onclick="showScreen('app');setFCat('${c.id}')">
@@ -812,6 +781,7 @@ function checkSuccess() {
 }
 
 
+
 // ── i18n ──
 let lang = localStorage.getItem('ps_lang') || 'es';
 
@@ -865,17 +835,13 @@ function toggleLang(){
 
   updateNav();
 
-  if(state.user){
-    renderPrompts();
-    renderDashboard();
-  }
+  try { renderPrompts(); } catch(e){}
+  try { renderDashboard(); } catch(e){}
 }
-
 
 // ── INIT ──
 function init() {
-  buildLanding();
-
+  buildLandingCats();
   buildCatBar();
 
   const btn = document.getElementById('lang-btn');
