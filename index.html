@@ -148,6 +148,7 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
 <!-- NAV -->
 <nav>
   <div class="logo" onclick="goHome()">⚡ PromptStore.pro</div>
+  <button id="lang-btn" onclick="toggleLang()" style="background:none;border:.5px solid var(--bdr2);color:var(--mu);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;margin-right:4px">🌐 EN</button>
   <div class="nav-links" id="nav-btns">
     <button class="btn btn-sm" onclick="openModal('login')">Iniciar sesión</button>
     <button class="btn btn-p btn-sm" onclick="openModal('register')">Registrarse</button>
@@ -338,11 +339,7 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
 // ══════════════════════════════════════════════════════════════════════
 // CONFIG
 // ══════════════════════════════════════════════════════════════════════
-const API = 'https://promptostore-backend-production.up.railway.app';
-
-// ── AUTH HELPERS ──
-function getToken() { return localStorage.getItem('ps_token'); }
-function authHeaders() { return {'Content-Type':'application/json','Authorization':'Bearer ' + getToken()}; }
+const API = 'https://promptstore.pro';
 
 const CATS = [
   {id:'marketing',label:'Marketing',icon:'📣',color:'#DC2626'},
@@ -363,11 +360,20 @@ const AI_TOOLS = ['ChatGPT','Claude','Gemini','Midjourney','DALL-E','Stable Diff
 // ── STATE ──
 let state = {
   user: null,
-  prompts: [],
-  votes: [],
-  purchased: [],
+  prompts: [
+    {id:1,title:'Copywriter Experto para Ventas',category:'marketing',ai:'ChatGPT',author:'Ana García',av:'AG',votes:342,tier:'pro',price:300,preview:'Actúa como copywriter con 10 años en ventas digitales...',full:'Actúa como un copywriter con 10 años de experiencia en ventas digitales. Genera: 1) Headline impactante, 2) Propuesta de valor, 3) Bullets de beneficios, 4) CTA. Producto: [PRODUCTO]',tags:['ventas','copy'],downloads:1240},
+    {id:2,title:'Arte Cyberpunk Midjourney',category:'imagen',ai:'Midjourney',author:'Carlos Ruiz',av:'CR',votes:218,tier:'pro',price:300,preview:'Neon-lit cyberpunk cityscape, ultra-detailed, 8k...',full:'A neon-lit cyberpunk cityscape at night, ultra-detailed, 8k resolution, rain-slicked streets reflecting neon signs, flying cars, volumetric fog --ar 16:9 --v 6 --stylize 750',tags:['arte','imagen'],downloads:876},
+    {id:3,title:'Senior Dev Code Reviewer',category:'codigo',ai:'Claude',author:'Diego López',av:'DL',votes:189,tier:'medio',price:200,preview:'Eres senior developer. Revisa mi código y busca bugs...',full:'Eres senior developer con 15 años de experiencia. Cuando te comparta código: 1) Bugs y vulnerabilidades, 2) Optimizaciones con ejemplos, 3) Explica cada cambio. Código: [CÓDIGO]',tags:['código','review'],downloads:654},
+    {id:4,title:'Plan de Contenido 30 días',category:'redes',ai:'ChatGPT',author:'María Torres',av:'MT',votes:156,tier:'medio',price:200,preview:'Plan editorial 30 días para redes sociales...',full:'Crea plan editorial 30 días para [NICHO] en [RED SOCIAL]. Incluye: tema del día, formato, hook, copy, hashtags y horario óptimo.',tags:['redes','contenido'],downloads:432},
+    {id:5,title:'Ideas de Negocio con IA',category:'negocios',ai:'ChatGPT',author:'Roberto Sánchez',av:'RS',votes:89,tier:'free',price:0,preview:'Genera 10 ideas de negocio innovadoras para mi perfil...',full:'Genera 10 ideas de negocio para [PERFIL]. Cada idea: nombre, problema que resuelve, mercado objetivo, modelo de ingresos, inversión inicial, primeros 3 pasos.',tags:['negocio','ideas'],downloads:321},
+    {id:6,title:'Editor Profesional de Textos',category:'escritura',ai:'Claude',author:'Laura Jiménez',av:'LJ',votes:67,tier:'free',price:0,preview:'Editor profesional. Corrige sin perder mi voz...',full:'Eres editor con experiencia en medios digitales. Toma mi texto y: 1) Corrige gramática, 2) Mejora claridad, 3) Optimiza para digital. Texto: [TEXTO]',tags:['escritura','edición'],downloads:210},
+    {id:7,title:'Estrategia SEO 90 días',category:'seo',ai:'ChatGPT',author:'Javier Mora',av:'JM',votes:134,tier:'medio',price:200,preview:'Auditoría SEO completa y plan de 90 días...',full:'Analiza [URL] y genera estrategia SEO 90 días: keywords, contenido mensual, optimizaciones técnicas y backlinks.',tags:['seo','google'],downloads:567},
+    {id:8,title:'Foto de Producto Realista',category:'imagen',ai:'DALL-E',author:'Sofia Reyes',av:'SR',votes:45,tier:'free',price:0,preview:'Professional product photography, clean background...',full:'Professional product photography, [PRODUCT] on clean minimalist background, soft studio lighting, 85mm lens, high resolution commercial quality.',tags:['fotografía','producto'],downloads:189},
+  ],
+  votes: JSON.parse(localStorage.getItem('ps_votes') || '[]'),
+  purchased: JSON.parse(localStorage.getItem('ps_purchased') || '[]'),
   filterCat: 'all',
-  payments: [],
+  payments: JSON.parse(localStorage.getItem('ps_payments') || '[]'),
 };
 
 // ── HELPERS ──
@@ -388,6 +394,9 @@ function notify(msg, type='ok') {
 }
 
 function saveLocal() {
+  localStorage.setItem('ps_votes', JSON.stringify(state.votes));
+  localStorage.setItem('ps_purchased', JSON.stringify(state.purchased));
+  localStorage.setItem('ps_payments', JSON.stringify(state.payments));
   if (state.user) localStorage.setItem('ps_user', JSON.stringify(state.user));
 }
 
@@ -395,7 +404,7 @@ function saveLocal() {
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('s-' + id).classList.add('active');
-  if (id === 'app') { buildCatBar(); loadPrompts(); }
+  if (id === 'app') { buildCatBar(); renderPrompts(); }
   if (id === 'dashboard') renderDashboard();
   updateNav();
 }
@@ -409,14 +418,14 @@ function updateNav() {
   const nb = document.getElementById('nav-btns');
   if (state.user) {
     nb.innerHTML = `
-      <button class="btn btn-sm" onclick="showScreen('app')">Explorar</button>
-      <button class="btn btn-sm" onclick="showScreen('dashboard')">Mi dashboard</button>
-      <button class="btn btn-p btn-sm" onclick="openModal('upload')">+ Subir</button>
+      <button class="btn btn-sm" onclick="showScreen('app')">${t('nav_explore')}</button>
+      <button class="btn btn-sm" onclick="showScreen('dashboard')">${t('nav_dashboard')}</button>
+      <button class="btn btn-p btn-sm" onclick="openModal('upload')">${t('nav_upload')}</button>
       <div class="av" style="width:30px;height:30px;cursor:pointer;font-size:11px" onclick="logout()" title="Cerrar sesión">${state.user.name[0].toUpperCase()}</div>`;
   } else {
     nb.innerHTML = `
-      <button class="btn btn-sm" onclick="openModal('login')">Iniciar sesión</button>
-      <button class="btn btn-p btn-sm" onclick="openModal('register')">Registrarse</button>`;
+      <button class="btn btn-sm" onclick="openModal('login')">${t('nav_login')}</button>
+      <button class="btn btn-p btn-sm" onclick="openModal('register')">${t('nav_register')}</button>`;
   }
 }
 
@@ -501,33 +510,25 @@ function renderPrompts() {
 }
 
 // ── VOTE ──
-async function votePrompt(id) {
+function votePrompt(id) {
   if (!state.user) { openModal('login'); return; }
-  try {
-    const res = await fetch(`${API}/prompts/${id}/vote`, {
-      method: 'POST', headers: authHeaders()
-    });
-    const data = await res.json();
-    if (data.error) { notify(data.error, 'err'); return; }
-    state.votes = data.voted
-      ? [...state.votes, id]
-      : state.votes.filter(x => x !== id);
-    state.prompts = state.prompts.map(p => {
-      if (p._id !== id && p.id !== id) return p;
-      const ti = getTier(data.votes);
-      if (ti.tier !== getTier(p.votes).tier) notify(`¡Prompt subió a nivel ${ti.label}!`, 'info');
-      return {...p, votes: data.votes, price: data.price};
-    });
-    renderPrompts();
-  } catch(err) {
-    notify('Error al votar', 'err');
-  }
+  const hasVoted = state.votes.includes(id);
+  state.votes = hasVoted ? state.votes.filter(x => x !== id) : [...state.votes, id];
+  state.prompts = state.prompts.map(p => {
+    if (p.id !== id) return p;
+    const nv = hasVoted ? p.votes - 1 : p.votes + 1;
+    const ti = getTier(nv);
+    if (ti.tier !== getTier(p.votes).tier) notify(`¡Prompt subió a nivel ${ti.label}!`, 'info');
+    return {...p, votes: nv, tier: ti.tier, price: ti.price};
+  });
+  saveLocal();
+  renderPrompts();
 }
 
 // ── VIEW PROMPT ──
 function viewPrompt(id) {
   if (!state.user) { openModal('login'); return; }
-  const p = state.prompts.find(x => (x._id||x.id) === id);
+  const p = state.prompts.find(x => x.id === id);
   if (!p) return;
   const ti = getTier(p.votes);
   const ci = getCat(p.category);
@@ -571,20 +572,29 @@ function viewPrompt(id) {
   `);
 }
 
-// ── BUY PROMPT ──
+// ── BUY PROMPT (conecta con Stripe real) ──
 async function buyPromptReal(id) {
-  if (!state.user) { openModal('login'); return; }
-  const p = state.prompts.find(x => (x._id || x.id) === id);
-  if (!p) return;
+  const p = state.prompts.find(x => x.id === id);
+  if (!p || !state.user) return;
   const btn = document.getElementById('buy-btn-' + id);
   if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Procesando...'; }
   try {
     const res = await fetch(`${API}/prompt/buy`, {
-      method: 'POST', headers: authHeaders(),
-      body: JSON.stringify({promptId: id}),
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        promptId: id,
+        buyerEmail: state.user.email,
+        promptTitle: p.title,
+        price: p.price,
+        authorStripeAccountId: null,
+      }),
     });
     const data = await res.json();
     if (data.url) {
+      // Guardar que compró para cuando regrese
+      state.purchased.push(id);
+      saveLocal();
       window.location.href = data.url;
     } else {
       throw new Error(data.error || 'Error al crear sesión de pago');
@@ -596,7 +606,7 @@ async function buyPromptReal(id) {
 }
 
 function copyPrompt(id) {
-  const p = state.prompts.find(x => (x._id||x.id) === id);
+  const p = state.prompts.find(x => x.id === id);
   navigator.clipboard?.writeText(p.full);
   notify('Prompt copiado al portapapeles ✓', 'ok');
 }
@@ -618,25 +628,25 @@ function closeModal() {
 
 function buildLogin() {
   return `
-    <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">Iniciar sesión</h2>
-    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">Bienvenido de vuelta</p>
-    <div class="fg"><label class="lbl">Correo</label><input class="inp" id="l-email" type="email" placeholder="hola@ejemplo.com"></div>
-    <div class="fg"><label class="lbl">Contraseña</label><input class="inp" id="l-pass" type="password" placeholder="••••••••"></div>
-    <button class="btn btn-p" style="width:100%;justify-content:center;padding:11px;margin-top:4px" onclick="doLogin()">Entrar →</button>
-    <p style="text-align:center;font-size:12px;color:var(--mu);margin-top:12px">¿No tienes cuenta? <span style="color:var(--acc2);cursor:pointer" onclick="openModal('register')">Regístrate</span></p>`;
+    <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">${t('modal_login_title')}</h2>
+    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">${t('modal_login_sub')}</p>
+    <div class="fg"><label class="lbl">${lang==='en'?'Email':'Correo'}</label><input class="inp" id="l-email" type="email" placeholder="${t('modal_login_email')}"></div>
+    <div class="fg"><label class="lbl">${lang==='en'?'Password':'Contraseña'}</label><input class="inp" id="l-pass" type="password" placeholder="${t('modal_login_pass')}"></div>
+    <button class="btn btn-p" style="width:100%;justify-content:center;padding:11px;margin-top:4px" onclick="doLogin()">${t('modal_login_btn')}</button>
+    <p style="text-align:center;font-size:12px;color:var(--mu);margin-top:12px">${t('modal_login_noacc')} <span style="color:var(--acc2);cursor:pointer" onclick="openModal('register')">${t('modal_login_link')}</span></p>`;
 }
 
 function buildRegister() {
   return `
-    <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">Crear cuenta</h2>
-    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">Membresía de acceso: <strong>$100 MXN/mes</strong> vía Stripe</p>
-    <div class="fg"><label class="lbl">Tu nombre</label><input class="inp" id="r-name" placeholder="Ej: Ana García"></div>
-    <div class="fg"><label class="lbl">Correo</label><input class="inp" id="r-email" type="email" placeholder="hola@ejemplo.com"></div>
-    <div class="fg"><label class="lbl">Contraseña</label><input class="inp" id="r-pass" type="password" placeholder="••••••••"></div>
+    <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">${t('modal_reg_title')}</h2>
+    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">${t('modal_reg_sub')}</p>
+    <div class="fg"><label class="lbl">${lang==='en'?'Your name':'Tu nombre'}</label><input class="inp" id="r-name" placeholder="${t('modal_reg_name')}"></div>
+    <div class="fg"><label class="lbl">${lang==='en'?'Email':'Correo'}</label><input class="inp" id="r-email" type="email" placeholder="${t('modal_reg_email')}"></div>
+    <div class="fg"><label class="lbl">${lang==='en'?'Password':'Contraseña'}</label><input class="inp" id="r-pass" type="password" placeholder="${t('modal_reg_pass')}"></div>
     <button class="btn btn-p" id="reg-btn" style="width:100%;justify-content:center;padding:11px;margin-top:4px" onclick="doRegister()">
-      Pagar $100 MXN y crear cuenta →
+      ${t('modal_reg_btn')}
     </button>
-    <p style="text-align:center;font-size:11px;color:var(--mu);margin-top:10px">🔒 Pago seguro procesado por Stripe</p>`;
+    <p style="text-align:center;font-size:11px;color:var(--mu);margin-top:10px">${t('modal_reg_secure')}</p>`;
 }
 
 function buildUpload() {
@@ -704,123 +714,109 @@ async function doRegister() {
 }
 
 // ── UPLOAD ──
-async function doUpload() {
+function doUpload() {
   const title = document.getElementById('u-title')?.value;
   const cat = document.getElementById('u-cat')?.value;
   const ai = document.getElementById('u-ai')?.value;
   const full = document.getElementById('u-full')?.value;
   if (!title || !cat || !ai || !full) { notify('Completa los campos obligatorios', 'err'); return; }
-  if (!state.user?.member) { notify('Necesitas membresía activa para publicar', 'err'); return; }
   const preview = document.getElementById('u-preview')?.value || full.slice(0, 70) + '...';
   const tags = (document.getElementById('u-tags')?.value || '').split(',').map(t => t.trim()).filter(Boolean);
-  const btn = document.querySelector('#modal-content .btn-p');
-  if(btn){btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Publicando...';}
-  try {
-    const res = await fetch(`${API}/prompts`, {
-      method: 'POST', headers: authHeaders(),
-      body: JSON.stringify({title, description: preview, content: full, category: cat, model: ai, tags})
-    });
-    const data = await res.json();
-    if (data.error) { notify(data.error, 'err'); if(btn){btn.disabled=false;btn.textContent='Publicar prompt →';} return; }
-    closeModal();
-    await loadPrompts();
-    notify('Prompt publicado con éxito ✓', 'ok');
-  } catch(err) {
-    notify('Error al publicar: ' + err.message, 'err');
-    if(btn){btn.disabled=false;btn.textContent='Publicar prompt →';}
-  }
+  const initials = (state.user?.name || 'U').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+  state.prompts = [{
+    id: Date.now(), title, category: cat, ai,
+    author: state.user?.name || 'Usuario', av: initials,
+    votes: 0, tier: 'free', price: 0,
+    preview, full, tags, downloads: 0
+  }, ...state.prompts];
+  closeModal();
+  renderPrompts();
+  notify('Prompt publicado con éxito ✓', 'ok');
 }
 
 // ── DASHBOARD ──
-async function renderDashboard() {
+function renderDashboard() {
   if (!state.user) return;
   document.getElementById('dash-welcome').textContent = 'Hola, ' + state.user.name;
-  try {
-    const res = await fetch(`${API}/dashboard`, {headers: authHeaders()});
-    const data = await res.json();
-    if (data.error) { notify(data.error, 'err'); return; }
-    const totalVotes = (data.prompts || []).reduce((s, p) => s + (p.votes||0), 0);
-    document.getElementById('d-total').textContent = '$' + (data.totalEarnings||0).toFixed(0) + ' MXN';
-    document.getElementById('d-count').textContent = data.promptCount || 0;
-    document.getElementById('d-votes').textContent = totalVotes;
-    document.getElementById('d-sales').textContent = data.salesCount || 0;
+  const myP = state.prompts.filter(p => p.author === state.user.name);
+  const totalVotes = myP.reduce((s, p) => s + p.votes, 0);
+  const totalEarn = state.payments.reduce((s, pay) => s + (pay.authorEarning || 0), 0);
+  const totalSales = state.payments.length;
+  document.getElementById('d-total').textContent = '$' + totalEarn + ' MXN';
+  document.getElementById('d-count').textContent = myP.length;
+  document.getElementById('d-votes').textContent = totalVotes;
+  document.getElementById('d-sales').textContent = totalSales;
 
-    // Connect status
-    const cs = document.getElementById('dash-connect-status');
-    if (data.connected) {
-      cs.innerHTML = `<div class="card" style="padding:14px;background:#D1FAE518">
-        <div style="font-weight:600;font-size:13px;color:var(--ok)">✓ Cuenta bancaria conectada via Stripe</div>
-        <div style="font-size:12px;color:var(--mu);margin-top:3px">Recibes el 70% automáticamente en cada venta</div>
-      </div>`;
-    } else {
-      cs.innerHTML = `<div class="card" style="padding:14px">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
-          <div>
-            <div style="font-weight:600;font-size:13px;margin-bottom:3px">Cuenta bancaria para depósitos</div>
-            <div style="font-size:12px;color:var(--mu)">Conecta tu cuenta para recibir el 70% automáticamente via Stripe Connect</div>
+  // Connect status
+  const cs = document.getElementById('dash-connect-status');
+  cs.innerHTML = `<div class="card" style="padding:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-weight:600;font-size:13px;margin-bottom:3px">Cuenta bancaria para depósitos</div>
+        <div style="font-size:12px;color:var(--mu)">Conecta tu cuenta para recibir el 70% automáticamente via Stripe Connect</div>
+      </div>
+      <button class="btn btn-sm" style="background:#635BFF;color:#fff;border-color:#635BFF" onclick="connectStripeAccount()">
+        S Conectar →
+      </button>
+    </div>
+  </div>`;
+
+  // Mis prompts
+  const dp = document.getElementById('dash-prompts');
+  if (!myP.length) {
+    dp.innerHTML = `<div class="card" style="padding:20px;text-align:center;color:var(--mu)">
+      <div style="font-size:28px;margin-bottom:8px">🚀</div>
+      <p style="font-size:13px;margin-bottom:12px">Aún no has publicado prompts</p>
+      <button class="btn btn-p btn-sm" onclick="openModal('upload')">+ Subir primer prompt</button>
+    </div>`;
+  } else {
+    dp.innerHTML = myP.map(p => {
+      const ti = getTier(p.votes);
+      const ci = getCat(p.category);
+      const nextThresh = ti.tier === 'free' ? 101 : ti.tier === 'medio' ? 201 : ti.tier === 'medio2' ? 301 : null;
+      const progress = nextThresh ? Math.min(100, Math.round(p.votes / nextThresh * 100)) : 100;
+      const earn = state.payments.filter(pay => pay.promptTitle === p.title).reduce((s, pay) => s + (pay.authorEarning || 0), 0);
+      const sales = state.payments.filter(pay => pay.promptTitle === p.title).length;
+      return `<div class="card" style="padding:14px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+          <div style="flex:1">
+            <div style="font-weight:700;font-size:13px;margin-bottom:4px">${p.title}</div>
+            <div style="display:flex;gap:5px;flex-wrap:wrap">
+              <span class="badge" style="background:${ci.color}18;color:${ci.color}">${ci.icon} ${ci.label}</span>
+              <span class="badge" style="background:${ti.bg};color:${ti.color}">${ti.label}</span>
+            </div>
           </div>
-          <button class="btn btn-sm" style="background:#635BFF;color:#fff;border-color:#635BFF" onclick="connectStripeAccount()">S Conectar →</button>
+          <div style="text-align:right;flex-shrink:0">
+            <div class="syne" style="font-size:16px;font-weight:800;color:${earn > 0 ? '#B45309' : 'var(--mu)'}">$${earn} MXN</div>
+            <div style="font-size:11px;color:var(--mu)">${sales} ventas</div>
+          </div>
         </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--mu)">
+          <div>▲ ${p.votes} votos · ⬇ ${p.downloads} usos</div>
+          ${nextThresh ? `<div>${p.votes}/${nextThresh} para siguiente nivel</div>` : '<div style="color:var(--ok);font-weight:600">Nivel máximo ⭐</div>'}
+        </div>
+        ${nextThresh ? `<div class="prog"><div class="prog-fill" style="width:${progress}%;background:${ti.tier === 'free' ? 'var(--ok)' : '#DC2626'}"></div></div>` : ''}
       </div>`;
-    }
+    }).join('');
+  }
 
-    // Mis prompts
-    const dp = document.getElementById('dash-prompts');
-    const myP = data.prompts || [];
-    if (!myP.length) {
-      dp.innerHTML = `<div class="card" style="padding:20px;text-align:center;color:var(--mu)">
-        <div style="font-size:28px;margin-bottom:8px">🚀</div>
-        <p style="font-size:13px;margin-bottom:12px">Aún no has publicado prompts</p>
-        <button class="btn btn-p btn-sm" onclick="openModal('upload')">+ Subir primer prompt</button>
-      </div>`;
-    } else {
-      dp.innerHTML = myP.map(p => {
-        const ti = getTier(p.votes);
-        const ci = getCat(p.category);
-        const nextThresh = ti.tier === 'free' ? 101 : ti.tier === 'medio' ? 201 : ti.tier === 'medio2' ? 301 : null;
-        const progress = nextThresh ? Math.min(100, Math.round(p.votes / nextThresh * 100)) : 100;
-        return `<div class="card" style="padding:14px">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-            <div style="flex:1">
-              <div style="font-weight:700;font-size:13px;margin-bottom:4px">${p.title}</div>
-              <div style="display:flex;gap:5px;flex-wrap:wrap">
-                <span class="badge" style="background:${ci.color}18;color:${ci.color}">${ci.icon} ${ci.label}</span>
-                <span class="badge" style="background:${ti.bg};color:${ti.color}">${ti.label}</span>
-              </div>
-            </div>
-            <div style="text-align:right;flex-shrink:0">
-              <div class="syne" style="font-size:16px;font-weight:800;color:var(--mu)">▲ ${p.votes}</div>
-              <div style="font-size:11px;color:var(--mu)">votos</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--mu)">
-            ${nextThresh ? `<div>${p.votes}/${nextThresh} para siguiente nivel</div>` : '<div style="color:var(--ok);font-weight:600">Nivel máximo ⭐</div>'}
-          </div>
-          ${nextThresh ? `<div class="prog"><div class="prog-fill" style="width:${progress}%;background:${ti.tier==='free'?'var(--ok)':'#DC2626'}"></div></div>` : ''}
-        </div>`;
-      }).join('');
-    }
-
-    // Historial
-    const ph = document.getElementById('payment-history');
-    const sales = data.recentSales || [];
-    if (!sales.length) {
-      ph.innerHTML = '<div style="padding:20px;text-align:center;color:var(--mu);font-size:13px">Sin pagos registrados aún</div>';
-    } else {
-      ph.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:12px">
-        <thead><tr style="background:var(--sur)">
-          ${['Prompt','Tu parte','Fecha','Estado'].map(h => `<th style="padding:10px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);font-weight:600">${h}</th>`).join('')}
-        </tr></thead>
-        <tbody>${sales.map(pay => `<tr style="border-top:.5px solid var(--bdr)">
-          <td style="padding:10px 14px;font-weight:500">${pay.promptId}</td>
-          <td style="padding:10px 14px;font-weight:700;color:#B45309">$${pay.authorEarning} MXN</td>
-          <td style="padding:10px 14px;color:var(--mu)">${new Date(pay.date).toLocaleDateString('es-MX')}</td>
-          <td style="padding:10px 14px"><span class="badge" style="background:#D1FAE5;color:#065F46">✓ completado</span></td>
-        </tr>`).join('')}</tbody>
-      </table>`;
-    }
-  } catch(err) {
-    notify('Error cargando dashboard', 'err');
+  // Historial
+  const ph = document.getElementById('payment-history');
+  if (!state.payments.length) {
+    ph.innerHTML = '<div style="padding:20px;text-align:center;color:var(--mu);font-size:13px">Sin pagos registrados aún</div>';
+  } else {
+    ph.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead><tr style="background:var(--sur)">
+        ${['Prompt','Total','Tu parte','Fecha','Estado'].map(h => `<th style="padding:10px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);font-weight:600">${h}</th>`).join('')}
+      </tr></thead>
+      <tbody>${state.payments.map((pay, i) => `<tr style="border-top:.5px solid var(--bdr)">
+        <td style="padding:10px 14px;font-weight:500">${pay.promptTitle}</td>
+        <td style="padding:10px 14px;font-weight:600">$${pay.amount} MXN</td>
+        <td style="padding:10px 14px;font-weight:700;color:#B45309">$${pay.authorEarning} MXN</td>
+        <td style="padding:10px 14px;color:var(--mu)">${pay.date}</td>
+        <td style="padding:10px 14px"><span class="badge" style="background:#D1FAE5;color:#065F46">✓ completado</span></td>
+      </tr>`).join('')}</tbody>
+    </table>`;
   }
 }
 
@@ -830,7 +826,9 @@ async function connectStripeAccount() {
   notify('Conectando con Stripe Connect...', 'info');
   try {
     const res = await fetch(`${API}/connect/onboard`, {
-      method: 'POST', headers: authHeaders()
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email: state.user.email, name: state.user.name}),
     });
     const data = await res.json();
     if (data.url) window.location.href = data.url;
@@ -843,18 +841,14 @@ async function connectStripeAccount() {
 // ── LOGOUT ──
 function logout() {
   state.user = null;
-  state.prompts = [];
-  state.votes = [];
-  state.purchased = [];
   localStorage.removeItem('ps_user');
-  localStorage.removeItem('ps_token');
   showScreen('landing');
   updateNav();
   notify('Sesión cerrada', 'info');
 }
 
 // ── SUCCESS PAGE ──
-async function checkSuccess() {
+function checkSuccess() {
   const params = new URLSearchParams(window.location.search);
   const type = params.get('type');
   const connectStatus = params.get('connect');
@@ -866,101 +860,246 @@ async function checkSuccess() {
       state.user.member = true;
       saveLocal();
     }
-    // Refresh user data from backend
-    try {
-      const res = await fetch(`${API}/auth/me`, {headers: authHeaders()});
-      const data = await res.json();
-      if (!data.error) { state.user = {...state.user, member: data.membershipActive}; saveLocal(); }
-    } catch(e){}
-    notify('✓ Membresía activada. ¡Bienvenido a PromptStore.pro!', 'ok');
+    notify(t('success_membership'), 'ok');
     window.history.replaceState({}, '', '/');
-    await loadPrompts();
-    await loadMyData();
     showScreen('app');
     updateNav();
   }
 
   if (type === 'prompt') {
-    const promptId = params.get('promptId');
-    if (promptId) state.purchased.push(promptId);
-    notify('✓ Prompt desbloqueado permanentemente', 'ok');
+    const promptId = parseInt(params.get('promptId'));
+    if (promptId && !state.purchased.includes(promptId)) {
+      state.purchased.push(promptId);
+      const p = state.prompts.find(x => x.id === promptId);
+      if (p) {
+        state.payments.push({
+          promptTitle: p.title,
+          amount: p.price,
+          authorEarning: Math.round(p.price * .7),
+          date: new Date().toLocaleDateString('es-MX'),
+        });
+      }
+      saveLocal();
+    }
+    notify(t('success_prompt'), 'ok');
     window.history.replaceState({}, '', '/');
-    await loadPrompts();
-    await loadMyData();
     showScreen('app');
     updateNav();
   }
 
   if (connectStatus === 'success') {
-    notify('✓ Cuenta bancaria conectada via Stripe', 'ok');
+    notify(t('success_connect'), 'ok');
     window.history.replaceState({}, '', '/');
     showScreen('dashboard');
   }
 }
 
-// ── LOAD PROMPTS FROM API ──
-async function loadPrompts() {
-  try {
-    const cat = state.filterCat !== 'all' ? `?category=${state.filterCat}` : '';
-    const res = await fetch(`${API}/prompts${cat}`);
-    const data = await res.json();
-    if (data.prompts) {
-      state.prompts = data.prompts.map(p => ({
-        ...p,
-        id: p._id,
-        ai: p.model || 'ChatGPT',
-        author: p.authorName,
-        av: (p.authorName||'U').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2),
-        preview: p.description,
-        full: p.content,
-        tier: getTier(p.votes).tier,
-        downloads: 0,
-      }));
-      renderPrompts();
-    }
-  } catch(err) {
-    console.error('Error cargando prompts:', err);
-  }
-}
-
-// ── LOAD USER VOTES & UNLOCKED ──
-async function loadMyData() {
-  if (!getToken()) return;
-  try {
-    const [votesRes, unlockedRes] = await Promise.all([
-      fetch(`${API}/votes/me`, {headers: authHeaders()}),
-      fetch(`${API}/unlocked`, {headers: authHeaders()})
-    ]);
-    const vData = await votesRes.json();
-    const uData = await unlockedRes.json();
-    if (vData.votedIds) state.votes = vData.votedIds;
-    if (uData.unlockedIds) state.purchased = uData.unlockedIds;
-  } catch(e){}
-}
-
 // ── INIT ──
-async function init() {
+function init() {
   buildLandingCats();
   buildCatBar();
+  applyLang();
 
   // Restaurar sesión
   const saved = localStorage.getItem('ps_user');
-  if (saved && getToken()) {
+  if (saved) {
     state.user = JSON.parse(saved);
     updateNav();
   }
 
   // Verificar si viene de Stripe
   if (window.location.search.includes('type=') || window.location.search.includes('connect=')) {
-    await checkSuccess();
+    checkSuccess();
   } else if (state.user) {
-    await loadPrompts();
-    await loadMyData();
     showScreen('app');
   }
 }
 
 init();
+
+// ══════════════════════════════════════════════════════════════════════
+// i18n — BILINGUAL SUPPORT
+// ══════════════════════════════════════════════════════════════════════
+const T = {
+  es: {
+    tagline: '✦ Marketplace de prompts en español · Pagos con Stripe',
+    h1: 'Los mejores prompts,<br>votados por la comunidad',
+    hero_p: 'Accede, sube y monetiza prompts de IA. Gana el 70% de cada venta directo a tu cuenta bancaria.',
+    cta_register: '🚀 Crear cuenta — $100 MXN/mes',
+    cta_catalog: 'Ver el catálogo gratis →',
+    trust: '✓ Sin permanencia &nbsp;·&nbsp; ✓ Cancela cuando quieras &nbsp;·&nbsp; ✓ Pagos seguros con Stripe',
+    stat1_val: '$100', stat1_label: 'MXN/mes membresía',
+    stat2_val: '70%', stat2_label: 'Para el autor',
+    stat3_val: '$210', stat3_label: 'Máx por venta MXN',
+    cats_title: 'Explora por categoría',
+    why1_title: 'Prompts que funcionan', why1_desc: 'Votados y probados por la comunidad. Solo los mejores llegan a los primeros lugares.',
+    why2_title: 'Gana publicando', why2_desc: 'Sube tus prompts y recibe el 70% de cada venta directamente en tu cuenta bancaria.',
+    why3_title: 'Tuyo para siempre', why3_desc: 'Los prompts que compras son tuyos permanentemente, aunque canceles la membresía.',
+    why4_title: '100% en español', why4_flag: '🇲🇽', why4_desc: 'El único marketplace de prompts creado y pensado para hispanohablantes.',
+    price_title: '¿Cómo funciona el precio?',
+    price_sub: 'Como Canva: pagas una membresía mensual para entrar y usar todo lo gratuito. Los prompts con más votos se desbloquean por un pago único y son tuyos para siempre.',
+    ex_title: '📖 Ejemplo práctico:',
+    ex1: '1. Pagas <strong>$100 MXN/mes</strong> → accedes a todos los prompts con 1–100 votos, ilimitados.',
+    ex2: '2. Encuentras un prompt con 150 votos → lo desbloqueas por <strong>$100 MXN una sola vez</strong>.',
+    ex3: '3. Ese prompt es tuyo para siempre, aunque canceles la membresía.',
+    ex4: '4. Si quieres otro prompt diferente → pagas solo por ese.',
+    plan1_step: 'Paso 1 — Membresía', plan1_price: '$100 MXN', plan1_period: '/mes', plan1_desc: 'Tu entrada al marketplace',
+    plan1_f1: '✓ Prompts gratuitos ilimitados (1–100 votos)', plan1_f2: '✓ Sube tus propios prompts', plan1_f3: '✓ Vota y descubre los mejores', plan1_f4: '✓ Gana dinero con tus prompts',
+    plan2_step: 'Paso 2 opcional — 🔥 Popular', plan2_badge: 'MÁS COMPRADO', plan2_price: '$100 MXN', plan2_desc: 'Por cada prompt con 101–200 votos',
+    plan2_f1: '★ Pago único — tuyo para siempre', plan2_f2: '★ Autor recibe $70 MXN', plan2_f3: '★ Solo pagas si lo quieres',
+    plan3_step: 'Paso 2 opcional — ✨ Destacado', plan3_price: '$200 MXN', plan3_desc: 'Por cada prompt con 201–300 votos',
+    plan3_f1: '✨ Pago único — tuyo para siempre', plan3_f2: '✨ Autor recibe $140 MXN', plan3_f3: '✨ Los más validados por la comunidad',
+    plan4_step: 'Paso 2 opcional — ⭐ PRO', plan4_price: '$300 MXN', plan4_desc: 'Por cada prompt con 300+ votos',
+    plan4_f1: '⭐ Pago único — tuyo para siempre', plan4_f2: '⭐ Autor recibe $210 MXN', plan4_f3: '⭐ Los más votados de toda la plataforma',
+    stripe_badge: 'S Pagos procesados con Stripe · Depósito en 1–2 días hábiles a tu cuenta bancaria',
+    cta_start: '🚀 Empezar por $100 MXN →',
+    cta_cancel: 'Sin permanencia · Cancela cuando quieras',
+    nav_login: 'Iniciar sesión', nav_register: 'Registrarse',
+    nav_explore: 'Explorar', nav_dashboard: 'Mi dashboard', nav_upload: '+ Subir',
+    modal_login_title: 'Iniciar sesión', modal_login_sub: 'Bienvenido de vuelta',
+    modal_login_email: 'hola@ejemplo.com', modal_login_pass: '••••••••',
+    modal_login_btn: 'Entrar →', modal_login_noacc: '¿No tienes cuenta?', modal_login_link: 'Regístrate',
+    modal_reg_title: 'Crear cuenta', modal_reg_sub: 'Membresía de acceso: <strong>$100 MXN/mes</strong> vía Stripe',
+    modal_reg_name: 'Ej: Ana García', modal_reg_email: 'hola@ejemplo.com', modal_reg_pass: '••••••••',
+    modal_reg_btn: 'Pagar $100 MXN y crear cuenta →', modal_reg_secure: '🔒 Pago seguro procesado por Stripe',
+    upload_title: 'Subir prompt', upload_sub: 'Gratis → 100 votos ($70/venta) → 200 votos ($140/venta)',
+    upload_tip: '💡 Empieza gratis. La comunidad vota y el nivel sube automáticamente.',
+    upload_btn: 'Publicar prompt →',
+    membership_price: '$100 MXN/mes',
+    currency: 'MXN',
+    explore_title: 'Explorar prompts',
+    search_placeholder: '🔍  Buscar prompts o tags...',
+    filter_all: 'Todos los niveles', filter_free: '✓ Gratis', filter_pop: '🔥 Popular', filter_pro: '⭐ PRO',
+    sort_votes: '↑ Más votados', sort_recent: 'Recientes',
+    btn_upload: '+ Subir prompt',
+    btn_requires: '🔒 Requiere membresía',
+    btn_view_free: 'Ver gratis',
+    unlock_info: '💰 El autor recibe', unlock_stripe: '· Pagado con Stripe · Acceso permanente',
+    unlock_btn: 'Desbloquear por',
+    unlocked_msg: '✓ Prompt desbloqueado permanentemente',
+    success_membership: '✓ Membresía activada. ¡Bienvenido a PromptStore.pro!',
+    success_prompt: '✓ Prompt desbloqueado permanentemente',
+    success_connect: '✓ Cuenta bancaria conectada via Stripe',
+    lang_btn: '🌐 EN',
+  },
+  en: {
+    tagline: '✦ AI Prompt Marketplace · Payments with Stripe',
+    h1: 'The best prompts,<br>voted by the community',
+    hero_p: 'Access, upload and monetize AI prompts. Earn 70% of every sale directly to your bank account.',
+    cta_register: '🚀 Create account — $5 USD/month',
+    cta_catalog: 'Browse catalog free →',
+    trust: '✓ No commitment &nbsp;·&nbsp; ✓ Cancel anytime &nbsp;·&nbsp; ✓ Secure payments with Stripe',
+    stat1_val: '$5', stat1_label: 'USD/month membership',
+    stat2_val: '70%', stat2_label: 'For the author',
+    stat3_val: '$11', stat3_label: 'Max per sale USD',
+    cats_title: 'Browse by category',
+    why1_title: 'Prompts that work', why1_desc: 'Voted and tested by the community. Only the best reach the top.',
+    why2_title: 'Earn by publishing', why2_desc: 'Upload your prompts and receive 70% of every sale directly to your bank account.',
+    why3_title: 'Yours forever', why3_desc: 'Prompts you purchase are yours permanently, even if you cancel your membership.',
+    why4_title: 'Global community', why4_flag: '🌎', why4_desc: 'Prompts in Spanish and English for creators worldwide.',
+    price_title: 'How does pricing work?',
+    price_sub: 'Like Canva: pay a monthly membership to access all free content. Top-voted prompts unlock with a one-time payment and are yours forever.',
+    ex_title: '📖 Practical example:',
+    ex1: '1. Pay <strong>$5 USD/month</strong> → access all prompts with 1–100 votes, unlimited.',
+    ex2: '2. Find a prompt with 150 votes → unlock it for <strong>$5 USD one time</strong>.',
+    ex3: '3. That prompt is yours forever, even if you cancel your membership.',
+    ex4: '4. Want another prompt? → pay only for that one.',
+    plan1_step: 'Step 1 — Membership', plan1_price: '$5 USD', plan1_period: '/month', plan1_desc: 'Your access to the marketplace',
+    plan1_f1: '✓ Unlimited free prompts (1–100 votes)', plan1_f2: '✓ Upload your own prompts', plan1_f3: '✓ Vote and discover the best', plan1_f4: '✓ Earn money from your prompts',
+    plan2_step: 'Step 2 optional — 🔥 Popular', plan2_badge: 'MOST BOUGHT', plan2_price: '$5 USD', plan2_desc: 'Per prompt with 101–200 votes',
+    plan2_f1: '★ One-time payment — yours forever', plan2_f2: '★ Author receives $3.50 USD', plan2_f3: '★ Only pay if you want it',
+    plan3_step: 'Step 2 optional — ✨ Featured', plan3_price: '$10 USD', plan3_desc: 'Per prompt with 201–300 votes',
+    plan3_f1: '✨ One-time payment — yours forever', plan3_f2: '✨ Author receives $7 USD', plan3_f3: '✨ Most validated by the community',
+    plan4_step: 'Step 2 optional — ⭐ PRO', plan4_price: '$15 USD', plan4_desc: 'Per prompt with 300+ votes',
+    plan4_f1: '⭐ One-time payment — yours forever', plan4_f2: '⭐ Author receives $10.50 USD', plan4_f3: '⭐ Top voted on the entire platform',
+    stripe_badge: 'S Payments processed by Stripe · Deposit in 1–2 business days',
+    cta_start: '🚀 Start for $5 USD →',
+    cta_cancel: 'No commitment · Cancel anytime',
+    nav_login: 'Log in', nav_register: 'Sign up',
+    nav_explore: 'Explore', nav_dashboard: 'My dashboard', nav_upload: '+ Upload',
+    modal_login_title: 'Log in', modal_login_sub: 'Welcome back',
+    modal_login_email: 'hello@example.com', modal_login_pass: '••••••••',
+    modal_login_btn: 'Log in →', modal_login_noacc: "Don't have an account?", modal_login_link: 'Sign up',
+    modal_reg_title: 'Create account', modal_reg_sub: 'Membership: <strong>$5 USD/month</strong> via Stripe',
+    modal_reg_name: 'e.g. John Smith', modal_reg_email: 'hello@example.com', modal_reg_pass: '••••••••',
+    modal_reg_btn: 'Pay $5 USD and create account →', modal_reg_secure: '🔒 Secure payment processed by Stripe',
+    upload_title: 'Upload prompt', upload_sub: 'Free → 100 votes ($3.50/sale) → 200 votes ($7/sale)',
+    upload_tip: '💡 Start free. The community votes and your level rises automatically.',
+    upload_btn: 'Publish prompt →',
+    membership_price: '$5 USD/month',
+    currency: 'USD',
+    explore_title: 'Explore prompts',
+    search_placeholder: '🔍  Search prompts or tags...',
+    filter_all: 'All levels', filter_free: '✓ Free', filter_pop: '🔥 Popular', filter_pro: '⭐ PRO',
+    sort_votes: '↑ Most voted', sort_recent: 'Recent',
+    btn_upload: '+ Upload prompt',
+    btn_requires: '🔒 Membership required',
+    btn_view_free: 'View free',
+    unlock_info: '💰 Author receives', unlock_stripe: '· Paid with Stripe · Permanent access',
+    unlock_btn: 'Unlock for',
+    unlocked_msg: '✓ Prompt unlocked permanently',
+    success_membership: '✓ Membership activated. Welcome to PromptStore.pro!',
+    success_prompt: '✓ Prompt unlocked permanently',
+    success_connect: '✓ Bank account connected via Stripe',
+    lang_btn: '🌐 ES',
+  }
+};
+
+let lang = localStorage.getItem('ps_lang') || (navigator.language.startsWith('es') ? 'es' : 'en');
+
+function t(key) { return T[lang][key] || T['es'][key] || key; }
+
+function toggleLang() {
+  lang = lang === 'es' ? 'en' : 'es';
+  localStorage.setItem('ps_lang', lang);
+  applyLang();
+}
+
+function applyLang() {
+  const L = T[lang];
+  // Update lang button
+  const lb = document.getElementById('lang-btn');
+  if (lb) lb.textContent = L.lang_btn;
+
+  // Hero
+  const tagEl = document.querySelector('.hero [style*="5B9BF8"]');
+  if (tagEl) tagEl.textContent = L.tagline.replace('✦ ', '');
+  const h1El = document.querySelector('.hero h1');
+  if (h1El) h1El.innerHTML = L.h1;
+  const heroP = document.querySelector('.hero p');
+  if (heroP) heroP.textContent = L.hero_p;
+
+  // Hero buttons
+  const btns = document.querySelectorAll('.hero .btn');
+  if (btns[0]) btns[0].textContent = L.cta_register;
+  if (btns[1]) btns[1].textContent = L.cta_catalog;
+
+  // Trust line
+  const trust = document.querySelector('.hero [style*="12px"][style*="mu"]');
+  if (trust) trust.innerHTML = L.trust;
+
+  // Stats
+  const statVals = document.querySelectorAll('.hero .syne[style*="24px"]');
+  if (statVals[0]) statVals[0].textContent = L.stat1_val;
+  if (statVals[1]) statVals[1].textContent = L.stat2_val;
+  if (statVals[2]) statVals[2].textContent = L.stat3_val;
+  const statLabels = document.querySelectorAll('.hero [style*="6B7A95"]');
+  if (statLabels[0]) statLabels[0].textContent = L.stat1_label;
+  if (statLabels[1]) statLabels[1].textContent = L.stat2_label;
+  if (statLabels[2]) statLabels[2].textContent = L.stat3_label;
+
+  // Nav buttons
+  updateNav();
+
+  // Re-render prompts with new language
+  renderPrompts();
+
+  // document title
+  document.title = lang === 'en'
+    ? 'PromptStore.pro — AI Prompt Marketplace'
+    : 'PromptStore.pro — Marketplace de Prompts IA';
+}
+
 </script>
 </body>
 </html>
