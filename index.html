@@ -148,7 +148,6 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
 <!-- NAV -->
 <nav>
   <div class="logo" onclick="goHome()">⚡ PromptStore.pro</div>
-  <button id="lang-btn" onclick="toggleLang()" style="background:none;border:.5px solid var(--bdr2);color:var(--mu);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;margin-right:4px">🌐 EN</button>
   <div class="nav-links" id="nav-btns">
     <button class="btn btn-sm" onclick="openModal('login')">Iniciar sesión</button>
     <button class="btn btn-p btn-sm" onclick="openModal('register')">Registrarse</button>
@@ -156,7 +155,122 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
 </nav>
 
 <!-- ══════ SCREEN: LANDING ══════ -->
-<div id="s-landing" class="screen active"><div id="landing-content"></div></div>
+<div id="s-landing" class="screen active">
+  <div class="hero">
+    <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(29,106,229,.14);border:.5px solid rgba(29,106,229,.3);padding:5px 14px;border-radius:999px;font-size:12px;color:#5B9BF8;margin-bottom:14px">
+      ✦ Marketplace de prompts en español · Pagos con Stripe
+    </div>
+    <h1 class="syne">Los mejores prompts,<br>votados por la comunidad</h1>
+    <p>Accede, sube y monetiza prompts de IA. Gana el 70% de cada venta directo a tu cuenta bancaria.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-p btn-lg" onclick="openModal('register')" style="font-size:16px;padding:14px 32px;box-shadow:0 0 24px rgba(124,58,237,.5)">🚀 Crear cuenta — $100 MXN/mes</button>
+      <button class="btn btn-lg" onclick="showScreen('app')">Ver el catálogo gratis →</button>
+    </div>
+    <div style="margin-top:14px;font-size:12px;color:var(--mu)">✓ Sin permanencia &nbsp;·&nbsp; ✓ Cancela cuando quieras &nbsp;·&nbsp; ✓ Pagos seguros con Stripe</div>
+    <div style="display:flex;gap:32px;justify-content:center;margin-top:36px;flex-wrap:wrap">
+      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">$100</div><div style="font-size:12px;color:#6B7A95">MXN/mes membresía</div></div>
+      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">70%</div><div style="font-size:12px;color:#6B7A95">Para el autor</div></div>
+      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">$210</div><div style="font-size:12px;color:#6B7A95">Máx por venta MXN</div></div>
+      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">🔓</div><div style="font-size:12px;color:#6B7A95">Desde 101 votos</div></div>
+    </div>
+  </div>
+
+  <!-- Categorías -->
+  <div class="section">
+    <h2 class="syne" style="font-size:20px;font-weight:700;margin-bottom:16px;text-align:center">Explora por categoría</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px" id="landing-cats"></div>
+  </div>
+
+  <!-- Por qué unirse -->
+  <div class="section">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:900px;margin:0 auto">
+      <div class="card" style="padding:20px;text-align:center">
+        <div style="font-size:32px;margin-bottom:10px">🎯</div>
+        <div style="font-weight:700;margin-bottom:6px">Prompts que funcionan</div>
+        <div style="font-size:12px;color:var(--mu)">Votados y probados por la comunidad. Solo los mejores llegan a los primeros lugares.</div>
+      </div>
+      <div class="card" style="padding:20px;text-align:center">
+        <div style="font-size:32px;margin-bottom:10px">💰</div>
+        <div style="font-weight:700;margin-bottom:6px">Gana publicando</div>
+        <div style="font-size:12px;color:var(--mu)">Sube tus prompts y recibe el 70% de cada venta directamente en tu cuenta bancaria.</div>
+      </div>
+      <div class="card" style="padding:20px;text-align:center">
+        <div style="font-size:32px;margin-bottom:10px">🔓</div>
+        <div style="font-weight:700;margin-bottom:6px">Tuyo para siempre</div>
+        <div style="font-size:12px;color:var(--mu)">Los prompts que compras son tuyos permanentemente, aunque canceles la membresía.</div>
+      </div>
+      <div class="card" style="padding:20px;text-align:center">
+        <div style="font-size:32px;margin-bottom:10px">🇲🇽</div>
+        <div style="font-weight:700;margin-bottom:6px">100% en español</div>
+        <div style="font-size:12px;color:var(--mu)">El único marketplace de prompts creado y pensado para hispanohablantes.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Precios -->
+  <div class="section" style="padding-bottom:60px">
+    <h2 class="syne" style="font-size:20px;font-weight:700;margin-bottom:6px;text-align:center">¿Cómo funciona el precio?</h2>
+    <p style="color:var(--mu);text-align:center;margin-bottom:10px;font-size:13px;max-width:560px;margin-left:auto;margin-right:auto">
+      Como Canva: pagas una membresía mensual para entrar y usar todo lo gratuito. Los prompts con más votos se desbloquean por un pago único y son tuyos para siempre.
+    </p>
+
+    <!-- Ejemplo visual -->
+    <div style="background:rgba(29,106,229,.08);border:.5px solid rgba(29,106,229,.25);border-radius:12px;padding:16px 20px;max-width:560px;margin:0 auto 28px;font-size:13px;line-height:1.8">
+      <div style="font-weight:700;color:#5B9BF8;margin-bottom:8px">📖 Ejemplo práctico:</div>
+      <div>1. Pagas <strong>$100 MXN/mes</strong> → accedes a todos los prompts con 1–100 votos, ilimitados.</div>
+      <div style="margin-top:6px">2. Encuentras un prompt con 150 votos → lo desbloqueas por <strong>$100 MXN una sola vez</strong>.</div>
+      <div style="margin-top:6px">3. Ese prompt es tuyo para siempre, aunque canceles la membresía.</div>
+      <div style="margin-top:6px">4. Si quieres otro prompt diferente → pagas solo por ese.</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;max-width:900px;margin:0 auto">
+      <!-- Membresía -->
+      <div class="pcrd">
+        <div style="font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Paso 1 — Membresía</div>
+        <div class="syne" style="font-size:26px;font-weight:800;margin-bottom:3px">$100 MXN<span style="font-size:13px;color:var(--mu);font-weight:400">/mes</span></div>
+        <div style="font-size:12px;color:var(--mu);margin-bottom:14px">Tu entrada al marketplace</div>
+        <div style="font-size:13px;color:var(--ok)">✓ Prompts gratuitos ilimitados (1–100 votos)</div>
+        <div style="font-size:13px;color:var(--ok);margin-top:5px">✓ Sube tus propios prompts</div>
+        <div style="font-size:13px;color:var(--ok);margin-top:5px">✓ Vota y descubre los mejores</div>
+        <div style="font-size:13px;color:var(--ok);margin-top:5px">✓ Gana dinero con tus prompts</div>
+      </div>
+      <!-- Popular -->
+      <div class="pcrd feat">
+        <div style="position:absolute;top:12px;right:12px;background:var(--acc);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px">MÁS COMPRADO</div>
+        <div style="font-size:11px;font-weight:700;color:#DC2626;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Paso 2 opcional — 🔥 Popular</div>
+        <div class="syne" style="font-size:26px;font-weight:800;margin-bottom:3px">$100 MXN</div>
+        <div style="font-size:12px;color:var(--mu);margin-bottom:14px">Por cada prompt con 101–200 votos</div>
+        <div style="font-size:13px;color:#DC2626">★ Pago único — tuyo para siempre</div>
+        <div style="font-size:13px;color:#DC2626;margin-top:5px">★ Autor recibe $70 MXN</div>
+        <div style="font-size:13px;color:#DC2626;margin-top:5px">★ Solo pagas si lo quieres</div>
+      </div>
+      <!-- Popular+ -->
+      <div class="pcrd" style="border-color:#1D6AE544">
+        <div style="font-size:11px;font-weight:700;color:#1D6AE5;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Paso 2 opcional — ✨ Destacado</div>
+        <div class="syne" style="font-size:26px;font-weight:800;margin-bottom:3px">$200 MXN</div>
+        <div style="font-size:12px;color:var(--mu);margin-bottom:14px">Por cada prompt con 201–300 votos</div>
+        <div style="font-size:13px;color:#1D6AE5">✨ Pago único — tuyo para siempre</div>
+        <div style="font-size:13px;color:#1D6AE5;margin-top:5px">✨ Autor recibe $140 MXN</div>
+        <div style="font-size:13px;color:#1D6AE5;margin-top:5px">✨ Los más validados por la comunidad</div>
+      </div>
+      <!-- PRO -->
+      <div class="pcrd" style="border-color:#FCD34D44">
+        <div style="font-size:11px;font-weight:700;color:#B45309;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Paso 2 opcional — ⭐ PRO</div>
+        <div class="syne" style="font-size:26px;font-weight:800;margin-bottom:3px">$300 MXN</div>
+        <div style="font-size:12px;color:var(--mu);margin-bottom:14px">Por cada prompt con 300+ votos</div>
+        <div style="font-size:13px;color:#B45309">⭐ Pago único — tuyo para siempre</div>
+        <div style="font-size:13px;color:#B45309;margin-top:5px">⭐ Autor recibe $210 MXN</div>
+        <div style="font-size:13px;color:#B45309;margin-top:5px">⭐ Los más votados de toda la plataforma</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:24px">
+      <div class="stripe-pill" style="margin-bottom:12px">S Pagos procesados con Stripe · Depósito en 1–2 días hábiles a tu cuenta bancaria</div>
+      <br>
+      <button class="btn btn-p btn-lg" onclick="openModal('register')" style="margin-top:12px;box-shadow:0 0 20px rgba(124,58,237,.4)">🚀 Empezar por $100 MXN →</button>
+      <div style="margin-top:10px;font-size:12px;color:var(--mu)">Sin permanencia · Cancela cuando quieras</div>
+    </div>
+  </div>
+</div>
 
 <!-- ══════ SCREEN: APP ══════ -->
 <div id="s-app" class="screen">
@@ -224,7 +338,11 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
 // ══════════════════════════════════════════════════════════════════════
 // CONFIG
 // ══════════════════════════════════════════════════════════════════════
-const API = 'https://promptstore.pro';
+const API = 'https://promptostore-backend-production.up.railway.app';
+
+// ── AUTH HELPERS ──
+function getToken() { return localStorage.getItem('ps_token'); }
+function authHeaders() { return {'Content-Type':'application/json','Authorization':'Bearer ' + getToken()}; }
 
 const CATS = [
   {id:'marketing',label:'Marketing',icon:'📣',color:'#DC2626'},
@@ -245,20 +363,11 @@ const AI_TOOLS = ['ChatGPT','Claude','Gemini','Midjourney','DALL-E','Stable Diff
 // ── STATE ──
 let state = {
   user: null,
-  prompts: [
-    {id:1,title:'Copywriter Experto para Ventas',category:'marketing',ai:'ChatGPT',author:'Ana García',av:'AG',votes:342,tier:'pro',price:300,preview:'Actúa como copywriter con 10 años en ventas digitales...',full:'Actúa como un copywriter con 10 años de experiencia en ventas digitales. Genera: 1) Headline impactante, 2) Propuesta de valor, 3) Bullets de beneficios, 4) CTA. Producto: [PRODUCTO]',tags:['ventas','copy'],downloads:1240},
-    {id:2,title:'Arte Cyberpunk Midjourney',category:'imagen',ai:'Midjourney',author:'Carlos Ruiz',av:'CR',votes:218,tier:'pro',price:300,preview:'Neon-lit cyberpunk cityscape, ultra-detailed, 8k...',full:'A neon-lit cyberpunk cityscape at night, ultra-detailed, 8k resolution, rain-slicked streets reflecting neon signs, flying cars, volumetric fog --ar 16:9 --v 6 --stylize 750',tags:['arte','imagen'],downloads:876},
-    {id:3,title:'Senior Dev Code Reviewer',category:'codigo',ai:'Claude',author:'Diego López',av:'DL',votes:189,tier:'medio',price:200,preview:'Eres senior developer. Revisa mi código y busca bugs...',full:'Eres senior developer con 15 años de experiencia. Cuando te comparta código: 1) Bugs y vulnerabilidades, 2) Optimizaciones con ejemplos, 3) Explica cada cambio. Código: [CÓDIGO]',tags:['código','review'],downloads:654},
-    {id:4,title:'Plan de Contenido 30 días',category:'redes',ai:'ChatGPT',author:'María Torres',av:'MT',votes:156,tier:'medio',price:200,preview:'Plan editorial 30 días para redes sociales...',full:'Crea plan editorial 30 días para [NICHO] en [RED SOCIAL]. Incluye: tema del día, formato, hook, copy, hashtags y horario óptimo.',tags:['redes','contenido'],downloads:432},
-    {id:5,title:'Ideas de Negocio con IA',category:'negocios',ai:'ChatGPT',author:'Roberto Sánchez',av:'RS',votes:89,tier:'free',price:0,preview:'Genera 10 ideas de negocio innovadoras para mi perfil...',full:'Genera 10 ideas de negocio para [PERFIL]. Cada idea: nombre, problema que resuelve, mercado objetivo, modelo de ingresos, inversión inicial, primeros 3 pasos.',tags:['negocio','ideas'],downloads:321},
-    {id:6,title:'Editor Profesional de Textos',category:'escritura',ai:'Claude',author:'Laura Jiménez',av:'LJ',votes:67,tier:'free',price:0,preview:'Editor profesional. Corrige sin perder mi voz...',full:'Eres editor con experiencia en medios digitales. Toma mi texto y: 1) Corrige gramática, 2) Mejora claridad, 3) Optimiza para digital. Texto: [TEXTO]',tags:['escritura','edición'],downloads:210},
-    {id:7,title:'Estrategia SEO 90 días',category:'seo',ai:'ChatGPT',author:'Javier Mora',av:'JM',votes:134,tier:'medio',price:200,preview:'Auditoría SEO completa y plan de 90 días...',full:'Analiza [URL] y genera estrategia SEO 90 días: keywords, contenido mensual, optimizaciones técnicas y backlinks.',tags:['seo','google'],downloads:567},
-    {id:8,title:'Foto de Producto Realista',category:'imagen',ai:'DALL-E',author:'Sofia Reyes',av:'SR',votes:45,tier:'free',price:0,preview:'Professional product photography, clean background...',full:'Professional product photography, [PRODUCT] on clean minimalist background, soft studio lighting, 85mm lens, high resolution commercial quality.',tags:['fotografía','producto'],downloads:189},
-  ],
-  votes: JSON.parse(localStorage.getItem('ps_votes') || '[]'),
-  purchased: JSON.parse(localStorage.getItem('ps_purchased') || '[]'),
+  prompts: [],
+  votes: [],
+  purchased: [],
   filterCat: 'all',
-  payments: JSON.parse(localStorage.getItem('ps_payments') || '[]'),
+  payments: [],
 };
 
 // ── HELPERS ──
@@ -279,9 +388,6 @@ function notify(msg, type='ok') {
 }
 
 function saveLocal() {
-  localStorage.setItem('ps_votes', JSON.stringify(state.votes));
-  localStorage.setItem('ps_purchased', JSON.stringify(state.purchased));
-  localStorage.setItem('ps_payments', JSON.stringify(state.payments));
   if (state.user) localStorage.setItem('ps_user', JSON.stringify(state.user));
 }
 
@@ -289,7 +395,7 @@ function saveLocal() {
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('s-' + id).classList.add('active');
-  if (id === 'app') { buildCatBar(); renderPrompts(); }
+  if (id === 'app') { buildCatBar(); loadPrompts(); }
   if (id === 'dashboard') renderDashboard();
   updateNav();
 }
@@ -303,23 +409,20 @@ function updateNav() {
   const nb = document.getElementById('nav-btns');
   if (state.user) {
     nb.innerHTML = `
-      <button class="btn btn-sm" onclick="showScreen('app')">${t('nav_explore')}</button>
-      <button class="btn btn-sm" onclick="showScreen('dashboard')">${t('nav_dash')}</button>
-      <button class="btn btn-p btn-sm" onclick="openModal('upload')">${t('nav_up')}</button>
+      <button class="btn btn-sm" onclick="showScreen('app')">Explorar</button>
+      <button class="btn btn-sm" onclick="showScreen('dashboard')">Mi dashboard</button>
+      <button class="btn btn-p btn-sm" onclick="openModal('upload')">+ Subir</button>
       <div class="av" style="width:30px;height:30px;cursor:pointer;font-size:11px" onclick="logout()" title="Cerrar sesión">${state.user.name[0].toUpperCase()}</div>`;
   } else {
     nb.innerHTML = `
-      <button class="btn btn-sm" onclick="openModal('login')">${t('nav_login')}</button>
-      <button class="btn btn-p btn-sm" onclick="openModal('register')">${t('nav_reg')}</button>`;
+      <button class="btn btn-sm" onclick="openModal('login')">Iniciar sesión</button>
+      <button class="btn btn-p btn-sm" onclick="openModal('register')">Registrarse</button>`;
   }
 }
 
 // ── LANDING CATS ──
 function buildLandingCats() {
-  const landingCats = document.getElementById('landing-cats');
-  if (!landingCats) return;
-
-  landingCats.innerHTML = CATS.map(c => `
+  document.getElementById('landing-cats').innerHTML = CATS.map(c => `
     <div class="card" style="padding:14px;text-align:center;cursor:pointer;transition:all .2s;border-color:transparent"
       onmouseenter="this.style.borderColor='${c.color}'" onmouseleave="this.style.borderColor='transparent'"
       onclick="showScreen('app');setFCat('${c.id}')">
@@ -398,25 +501,33 @@ function renderPrompts() {
 }
 
 // ── VOTE ──
-function votePrompt(id) {
+async function votePrompt(id) {
   if (!state.user) { openModal('login'); return; }
-  const hasVoted = state.votes.includes(id);
-  state.votes = hasVoted ? state.votes.filter(x => x !== id) : [...state.votes, id];
-  state.prompts = state.prompts.map(p => {
-    if (p.id !== id) return p;
-    const nv = hasVoted ? p.votes - 1 : p.votes + 1;
-    const ti = getTier(nv);
-    if (ti.tier !== getTier(p.votes).tier) notify(`¡Prompt subió a nivel ${ti.label}!`, 'info');
-    return {...p, votes: nv, tier: ti.tier, price: ti.price};
-  });
-  saveLocal();
-  renderPrompts();
+  try {
+    const res = await fetch(`${API}/prompts/${id}/vote`, {
+      method: 'POST', headers: authHeaders()
+    });
+    const data = await res.json();
+    if (data.error) { notify(data.error, 'err'); return; }
+    state.votes = data.voted
+      ? [...state.votes, id]
+      : state.votes.filter(x => x !== id);
+    state.prompts = state.prompts.map(p => {
+      if (p._id !== id && p.id !== id) return p;
+      const ti = getTier(data.votes);
+      if (ti.tier !== getTier(p.votes).tier) notify(`¡Prompt subió a nivel ${ti.label}!`, 'info');
+      return {...p, votes: data.votes, price: data.price};
+    });
+    renderPrompts();
+  } catch(err) {
+    notify('Error al votar', 'err');
+  }
 }
 
 // ── VIEW PROMPT ──
 function viewPrompt(id) {
   if (!state.user) { openModal('login'); return; }
-  const p = state.prompts.find(x => x.id === id);
+  const p = state.prompts.find(x => (x._id||x.id) === id);
   if (!p) return;
   const ti = getTier(p.votes);
   const ci = getCat(p.category);
@@ -460,29 +571,20 @@ function viewPrompt(id) {
   `);
 }
 
-// ── BUY PROMPT (conecta con Stripe real) ──
+// ── BUY PROMPT ──
 async function buyPromptReal(id) {
-  const p = state.prompts.find(x => x.id === id);
-  if (!p || !state.user) return;
+  if (!state.user) { openModal('login'); return; }
+  const p = state.prompts.find(x => (x._id || x.id) === id);
+  if (!p) return;
   const btn = document.getElementById('buy-btn-' + id);
   if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Procesando...'; }
   try {
     const res = await fetch(`${API}/prompt/buy`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        promptId: id,
-        buyerEmail: state.user.email,
-        promptTitle: p.title,
-        price: p.price,
-        authorStripeAccountId: null,
-      }),
+      method: 'POST', headers: authHeaders(),
+      body: JSON.stringify({promptId: id}),
     });
     const data = await res.json();
     if (data.url) {
-      // Guardar que compró para cuando regrese
-      state.purchased.push(id);
-      saveLocal();
       window.location.href = data.url;
     } else {
       throw new Error(data.error || 'Error al crear sesión de pago');
@@ -494,7 +596,7 @@ async function buyPromptReal(id) {
 }
 
 function copyPrompt(id) {
-  const p = state.prompts.find(x => x.id === id);
+  const p = state.prompts.find(x => (x._id||x.id) === id);
   navigator.clipboard?.writeText(p.full);
   notify('Prompt copiado al portapapeles ✓', 'ok');
 }
@@ -516,23 +618,25 @@ function closeModal() {
 
 function buildLogin() {
   return `
-    <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">${t('login_title')}</h2>
-    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">${t('login_sub')}</p>
-    <div class="fg"><label class="lbl">${lang==='en'?'Email':'Correo'}</label><input class="inp" id="l-email" type="email" placeholder="${lang==='en'?'hello@example.com':'hola@ejemplo.com'}"></div>
-    <div class="fg"><label class="lbl">${lang==='en'?'Password':'Contraseña'}</label><input class="inp" id="l-pass" type="password" placeholder="••••••••"></div>
-    <button class="btn btn-p" style="width:100%;justify-content:center;padding:11px;margin-top:4px" onclick="doLogin()">${t('login_btn')}</button>
-    <p style="text-align:center;font-size:12px;color:var(--mu);margin-top:12px">${t('login_noacc')} <span style="color:var(--acc2);cursor:pointer" onclick="openModal('register')">${t('login_link')}</span></p>`;
+    <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">Iniciar sesión</h2>
+    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">Bienvenido de vuelta</p>
+    <div class="fg"><label class="lbl">Correo</label><input class="inp" id="l-email" type="email" placeholder="hola@ejemplo.com"></div>
+    <div class="fg"><label class="lbl">Contraseña</label><input class="inp" id="l-pass" type="password" placeholder="••••••••"></div>
+    <button class="btn btn-p" style="width:100%;justify-content:center;padding:11px;margin-top:4px" onclick="doLogin()">Entrar →</button>
+    <p style="text-align:center;font-size:12px;color:var(--mu);margin-top:12px">¿No tienes cuenta? <span style="color:var(--acc2);cursor:pointer" onclick="openModal('register')">Regístrate</span></p>`;
 }
 
 function buildRegister() {
   return `
-    <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">${t('reg_title')}</h2>
-    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">${t('reg_sub')}</p>
-    <div class="fg"><label class="lbl">${lang==='en'?'Your name':'Tu nombre'}</label><input class="inp" id="r-name" placeholder="${lang==='en'?'e.g. John Smith':'Ej: Ana García'}"></div>
-    <div class="fg"><label class="lbl">${lang==='en'?'Email':'Correo'}</label><input class="inp" id="r-email" type="email" placeholder="${lang==='en'?'hello@example.com':'hola@ejemplo.com'}"></div>
-    <div class="fg"><label class="lbl">${lang==='en'?'Password':'Contraseña'}</label><input class="inp" id="r-pass" type="password" placeholder="••••••••"></div>
-    <button class="btn btn-p" id="reg-btn" style="width:100%;justify-content:center;padding:11px;margin-top:4px" onclick="doRegister()">${t('reg_btn')}</button>
-    <p style="text-align:center;font-size:11px;color:var(--mu);margin-top:10px">${t('reg_secure')}</p>`;
+    <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">Crear cuenta</h2>
+    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">Membresía de acceso: <strong>$100 MXN/mes</strong> vía Stripe</p>
+    <div class="fg"><label class="lbl">Tu nombre</label><input class="inp" id="r-name" placeholder="Ej: Ana García"></div>
+    <div class="fg"><label class="lbl">Correo</label><input class="inp" id="r-email" type="email" placeholder="hola@ejemplo.com"></div>
+    <div class="fg"><label class="lbl">Contraseña</label><input class="inp" id="r-pass" type="password" placeholder="••••••••"></div>
+    <button class="btn btn-p" id="reg-btn" style="width:100%;justify-content:center;padding:11px;margin-top:4px" onclick="doRegister()">
+      Pagar $100 MXN y crear cuenta →
+    </button>
+    <p style="text-align:center;font-size:11px;color:var(--mu);margin-top:10px">🔒 Pago seguro procesado por Stripe</p>`;
 }
 
 function buildUpload() {
@@ -600,109 +704,123 @@ async function doRegister() {
 }
 
 // ── UPLOAD ──
-function doUpload() {
+async function doUpload() {
   const title = document.getElementById('u-title')?.value;
   const cat = document.getElementById('u-cat')?.value;
   const ai = document.getElementById('u-ai')?.value;
   const full = document.getElementById('u-full')?.value;
   if (!title || !cat || !ai || !full) { notify('Completa los campos obligatorios', 'err'); return; }
+  if (!state.user?.member) { notify('Necesitas membresía activa para publicar', 'err'); return; }
   const preview = document.getElementById('u-preview')?.value || full.slice(0, 70) + '...';
   const tags = (document.getElementById('u-tags')?.value || '').split(',').map(t => t.trim()).filter(Boolean);
-  const initials = (state.user?.name || 'U').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-  state.prompts = [{
-    id: Date.now(), title, category: cat, ai,
-    author: state.user?.name || 'Usuario', av: initials,
-    votes: 0, tier: 'free', price: 0,
-    preview, full, tags, downloads: 0
-  }, ...state.prompts];
-  closeModal();
-  renderPrompts();
-  notify('Prompt publicado con éxito ✓', 'ok');
+  const btn = document.querySelector('#modal-content .btn-p');
+  if(btn){btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Publicando...';}
+  try {
+    const res = await fetch(`${API}/prompts`, {
+      method: 'POST', headers: authHeaders(),
+      body: JSON.stringify({title, description: preview, content: full, category: cat, model: ai, tags})
+    });
+    const data = await res.json();
+    if (data.error) { notify(data.error, 'err'); if(btn){btn.disabled=false;btn.textContent='Publicar prompt →';} return; }
+    closeModal();
+    await loadPrompts();
+    notify('Prompt publicado con éxito ✓', 'ok');
+  } catch(err) {
+    notify('Error al publicar: ' + err.message, 'err');
+    if(btn){btn.disabled=false;btn.textContent='Publicar prompt →';}
+  }
 }
 
 // ── DASHBOARD ──
-function renderDashboard() {
+async function renderDashboard() {
   if (!state.user) return;
   document.getElementById('dash-welcome').textContent = 'Hola, ' + state.user.name;
-  const myP = state.prompts.filter(p => p.author === state.user.name);
-  const totalVotes = myP.reduce((s, p) => s + p.votes, 0);
-  const totalEarn = state.payments.reduce((s, pay) => s + (pay.authorEarning || 0), 0);
-  const totalSales = state.payments.length;
-  document.getElementById('d-total').textContent = '$' + totalEarn + ' MXN';
-  document.getElementById('d-count').textContent = myP.length;
-  document.getElementById('d-votes').textContent = totalVotes;
-  document.getElementById('d-sales').textContent = totalSales;
+  try {
+    const res = await fetch(`${API}/dashboard`, {headers: authHeaders()});
+    const data = await res.json();
+    if (data.error) { notify(data.error, 'err'); return; }
+    const totalVotes = (data.prompts || []).reduce((s, p) => s + (p.votes||0), 0);
+    document.getElementById('d-total').textContent = '$' + (data.totalEarnings||0).toFixed(0) + ' MXN';
+    document.getElementById('d-count').textContent = data.promptCount || 0;
+    document.getElementById('d-votes').textContent = totalVotes;
+    document.getElementById('d-sales').textContent = data.salesCount || 0;
 
-  // Connect status
-  const cs = document.getElementById('dash-connect-status');
-  cs.innerHTML = `<div class="card" style="padding:14px">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
-      <div>
-        <div style="font-weight:600;font-size:13px;margin-bottom:3px">Cuenta bancaria para depósitos</div>
-        <div style="font-size:12px;color:var(--mu)">Conecta tu cuenta para recibir el 70% automáticamente via Stripe Connect</div>
-      </div>
-      <button class="btn btn-sm" style="background:#635BFF;color:#fff;border-color:#635BFF" onclick="connectStripeAccount()">
-        S Conectar →
-      </button>
-    </div>
-  </div>`;
+    // Connect status
+    const cs = document.getElementById('dash-connect-status');
+    if (data.connected) {
+      cs.innerHTML = `<div class="card" style="padding:14px;background:#D1FAE518">
+        <div style="font-weight:600;font-size:13px;color:var(--ok)">✓ Cuenta bancaria conectada via Stripe</div>
+        <div style="font-size:12px;color:var(--mu);margin-top:3px">Recibes el 70% automáticamente en cada venta</div>
+      </div>`;
+    } else {
+      cs.innerHTML = `<div class="card" style="padding:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <div>
+            <div style="font-weight:600;font-size:13px;margin-bottom:3px">Cuenta bancaria para depósitos</div>
+            <div style="font-size:12px;color:var(--mu)">Conecta tu cuenta para recibir el 70% automáticamente via Stripe Connect</div>
+          </div>
+          <button class="btn btn-sm" style="background:#635BFF;color:#fff;border-color:#635BFF" onclick="connectStripeAccount()">S Conectar →</button>
+        </div>
+      </div>`;
+    }
 
-  // Mis prompts
-  const dp = document.getElementById('dash-prompts');
-  if (!myP.length) {
-    dp.innerHTML = `<div class="card" style="padding:20px;text-align:center;color:var(--mu)">
-      <div style="font-size:28px;margin-bottom:8px">🚀</div>
-      <p style="font-size:13px;margin-bottom:12px">Aún no has publicado prompts</p>
-      <button class="btn btn-p btn-sm" onclick="openModal('upload')">+ Subir primer prompt</button>
-    </div>`;
-  } else {
-    dp.innerHTML = myP.map(p => {
-      const ti = getTier(p.votes);
-      const ci = getCat(p.category);
-      const nextThresh = ti.tier === 'free' ? 101 : ti.tier === 'medio' ? 201 : ti.tier === 'medio2' ? 301 : null;
-      const progress = nextThresh ? Math.min(100, Math.round(p.votes / nextThresh * 100)) : 100;
-      const earn = state.payments.filter(pay => pay.promptTitle === p.title).reduce((s, pay) => s + (pay.authorEarning || 0), 0);
-      const sales = state.payments.filter(pay => pay.promptTitle === p.title).length;
-      return `<div class="card" style="padding:14px">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-          <div style="flex:1">
-            <div style="font-weight:700;font-size:13px;margin-bottom:4px">${p.title}</div>
-            <div style="display:flex;gap:5px;flex-wrap:wrap">
-              <span class="badge" style="background:${ci.color}18;color:${ci.color}">${ci.icon} ${ci.label}</span>
-              <span class="badge" style="background:${ti.bg};color:${ti.color}">${ti.label}</span>
+    // Mis prompts
+    const dp = document.getElementById('dash-prompts');
+    const myP = data.prompts || [];
+    if (!myP.length) {
+      dp.innerHTML = `<div class="card" style="padding:20px;text-align:center;color:var(--mu)">
+        <div style="font-size:28px;margin-bottom:8px">🚀</div>
+        <p style="font-size:13px;margin-bottom:12px">Aún no has publicado prompts</p>
+        <button class="btn btn-p btn-sm" onclick="openModal('upload')">+ Subir primer prompt</button>
+      </div>`;
+    } else {
+      dp.innerHTML = myP.map(p => {
+        const ti = getTier(p.votes);
+        const ci = getCat(p.category);
+        const nextThresh = ti.tier === 'free' ? 101 : ti.tier === 'medio' ? 201 : ti.tier === 'medio2' ? 301 : null;
+        const progress = nextThresh ? Math.min(100, Math.round(p.votes / nextThresh * 100)) : 100;
+        return `<div class="card" style="padding:14px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+            <div style="flex:1">
+              <div style="font-weight:700;font-size:13px;margin-bottom:4px">${p.title}</div>
+              <div style="display:flex;gap:5px;flex-wrap:wrap">
+                <span class="badge" style="background:${ci.color}18;color:${ci.color}">${ci.icon} ${ci.label}</span>
+                <span class="badge" style="background:${ti.bg};color:${ti.color}">${ti.label}</span>
+              </div>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <div class="syne" style="font-size:16px;font-weight:800;color:var(--mu)">▲ ${p.votes}</div>
+              <div style="font-size:11px;color:var(--mu)">votos</div>
             </div>
           </div>
-          <div style="text-align:right;flex-shrink:0">
-            <div class="syne" style="font-size:16px;font-weight:800;color:${earn > 0 ? '#B45309' : 'var(--mu)'}">$${earn} MXN</div>
-            <div style="font-size:11px;color:var(--mu)">${sales} ventas</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--mu)">
+            ${nextThresh ? `<div>${p.votes}/${nextThresh} para siguiente nivel</div>` : '<div style="color:var(--ok);font-weight:600">Nivel máximo ⭐</div>'}
           </div>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--mu)">
-          <div>▲ ${p.votes} votos · ⬇ ${p.downloads} usos</div>
-          ${nextThresh ? `<div>${p.votes}/${nextThresh} para siguiente nivel</div>` : '<div style="color:var(--ok);font-weight:600">Nivel máximo ⭐</div>'}
-        </div>
-        ${nextThresh ? `<div class="prog"><div class="prog-fill" style="width:${progress}%;background:${ti.tier === 'free' ? 'var(--ok)' : '#DC2626'}"></div></div>` : ''}
-      </div>`;
-    }).join('');
-  }
+          ${nextThresh ? `<div class="prog"><div class="prog-fill" style="width:${progress}%;background:${ti.tier==='free'?'var(--ok)':'#DC2626'}"></div></div>` : ''}
+        </div>`;
+      }).join('');
+    }
 
-  // Historial
-  const ph = document.getElementById('payment-history');
-  if (!state.payments.length) {
-    ph.innerHTML = '<div style="padding:20px;text-align:center;color:var(--mu);font-size:13px">Sin pagos registrados aún</div>';
-  } else {
-    ph.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:12px">
-      <thead><tr style="background:var(--sur)">
-        ${['Prompt','Total','Tu parte','Fecha','Estado'].map(h => `<th style="padding:10px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);font-weight:600">${h}</th>`).join('')}
-      </tr></thead>
-      <tbody>${state.payments.map((pay, i) => `<tr style="border-top:.5px solid var(--bdr)">
-        <td style="padding:10px 14px;font-weight:500">${pay.promptTitle}</td>
-        <td style="padding:10px 14px;font-weight:600">$${pay.amount} MXN</td>
-        <td style="padding:10px 14px;font-weight:700;color:#B45309">$${pay.authorEarning} MXN</td>
-        <td style="padding:10px 14px;color:var(--mu)">${pay.date}</td>
-        <td style="padding:10px 14px"><span class="badge" style="background:#D1FAE5;color:#065F46">✓ completado</span></td>
-      </tr>`).join('')}</tbody>
-    </table>`;
+    // Historial
+    const ph = document.getElementById('payment-history');
+    const sales = data.recentSales || [];
+    if (!sales.length) {
+      ph.innerHTML = '<div style="padding:20px;text-align:center;color:var(--mu);font-size:13px">Sin pagos registrados aún</div>';
+    } else {
+      ph.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead><tr style="background:var(--sur)">
+          ${['Prompt','Tu parte','Fecha','Estado'].map(h => `<th style="padding:10px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);font-weight:600">${h}</th>`).join('')}
+        </tr></thead>
+        <tbody>${sales.map(pay => `<tr style="border-top:.5px solid var(--bdr)">
+          <td style="padding:10px 14px;font-weight:500">${pay.promptId}</td>
+          <td style="padding:10px 14px;font-weight:700;color:#B45309">$${pay.authorEarning} MXN</td>
+          <td style="padding:10px 14px;color:var(--mu)">${new Date(pay.date).toLocaleDateString('es-MX')}</td>
+          <td style="padding:10px 14px"><span class="badge" style="background:#D1FAE5;color:#065F46">✓ completado</span></td>
+        </tr>`).join('')}</tbody>
+      </table>`;
+    }
+  } catch(err) {
+    notify('Error cargando dashboard', 'err');
   }
 }
 
@@ -712,9 +830,7 @@ async function connectStripeAccount() {
   notify('Conectando con Stripe Connect...', 'info');
   try {
     const res = await fetch(`${API}/connect/onboard`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({email: state.user.email, name: state.user.name}),
+      method: 'POST', headers: authHeaders()
     });
     const data = await res.json();
     if (data.url) window.location.href = data.url;
@@ -727,14 +843,18 @@ async function connectStripeAccount() {
 // ── LOGOUT ──
 function logout() {
   state.user = null;
+  state.prompts = [];
+  state.votes = [];
+  state.purchased = [];
   localStorage.removeItem('ps_user');
+  localStorage.removeItem('ps_token');
   showScreen('landing');
   updateNav();
   notify('Sesión cerrada', 'info');
 }
 
 // ── SUCCESS PAGE ──
-function checkSuccess() {
+async function checkSuccess() {
   const params = new URLSearchParams(window.location.search);
   const type = params.get('type');
   const connectStatus = params.get('connect');
@@ -746,29 +866,27 @@ function checkSuccess() {
       state.user.member = true;
       saveLocal();
     }
+    // Refresh user data from backend
+    try {
+      const res = await fetch(`${API}/auth/me`, {headers: authHeaders()});
+      const data = await res.json();
+      if (!data.error) { state.user = {...state.user, member: data.membershipActive}; saveLocal(); }
+    } catch(e){}
     notify('✓ Membresía activada. ¡Bienvenido a PromptStore.pro!', 'ok');
     window.history.replaceState({}, '', '/');
+    await loadPrompts();
+    await loadMyData();
     showScreen('app');
     updateNav();
   }
 
   if (type === 'prompt') {
-    const promptId = parseInt(params.get('promptId'));
-    if (promptId && !state.purchased.includes(promptId)) {
-      state.purchased.push(promptId);
-      const p = state.prompts.find(x => x.id === promptId);
-      if (p) {
-        state.payments.push({
-          promptTitle: p.title,
-          amount: p.price,
-          authorEarning: Math.round(p.price * .7),
-          date: new Date().toLocaleDateString('es-MX'),
-        });
-      }
-      saveLocal();
-    }
+    const promptId = params.get('promptId');
+    if (promptId) state.purchased.push(promptId);
     notify('✓ Prompt desbloqueado permanentemente', 'ok');
     window.history.replaceState({}, '', '/');
+    await loadPrompts();
+    await loadMyData();
     showScreen('app');
     updateNav();
   }
@@ -780,86 +898,64 @@ function checkSuccess() {
   }
 }
 
-
-
-// ── i18n ──
-let lang = localStorage.getItem('ps_lang') || 'es';
-
-const I18N = {
-  es: {
-    nav_explore:'Explorar',
-    nav_dash:'Dashboard',
-    nav_up:'Subir',
-    nav_login:'Iniciar sesión',
-    nav_reg:'Registrarse',
-    login_title:'Iniciar sesión',
-    login_sub:'Accede a tu cuenta',
-    login_btn:'Entrar',
-    login_noacc:'¿No tienes cuenta?',
-    login_link:'Regístrate',
-    reg_title:'Crear cuenta',
-    reg_sub:'Únete a PromptStore.pro',
-    reg_btn:'Crear cuenta',
-    reg_secure:'Pago seguro con Stripe'
-  },
-  en: {
-    nav_explore:'Explore',
-    nav_dash:'Dashboard',
-    nav_up:'Upload',
-    nav_login:'Login',
-    nav_reg:'Register',
-    login_title:'Login',
-    login_sub:'Access your account',
-    login_btn:'Enter',
-    login_noacc:"Don't have an account?",
-    login_link:'Register',
-    reg_title:'Create account',
-    reg_sub:'Join PromptStore.pro',
-    reg_btn:'Create account',
-    reg_secure:'Secure payment with Stripe'
+// ── LOAD PROMPTS FROM API ──
+async function loadPrompts() {
+  try {
+    const cat = state.filterCat !== 'all' ? `?category=${state.filterCat}` : '';
+    const res = await fetch(`${API}/prompts${cat}`);
+    const data = await res.json();
+    if (data.prompts) {
+      state.prompts = data.prompts.map(p => ({
+        ...p,
+        id: p._id,
+        ai: p.model || 'ChatGPT',
+        author: p.authorName,
+        av: (p.authorName||'U').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2),
+        preview: p.description,
+        full: p.content,
+        tier: getTier(p.votes).tier,
+        downloads: 0,
+      }));
+      renderPrompts();
+    }
+  } catch(err) {
+    console.error('Error cargando prompts:', err);
   }
-};
-
-function t(k){
-  return I18N[lang]?.[k] || k;
 }
 
-function toggleLang(){
-  lang = lang === 'es' ? 'en' : 'es';
-  localStorage.setItem('ps_lang', lang);
-
-  const btn = document.getElementById('lang-btn');
-  if(btn){
-    btn.textContent = lang === 'es' ? '🌐 EN' : '🌐 ES';
-  }
-
-  updateNav();
-
-  try { renderPrompts(); } catch(e){}
-  try { renderDashboard(); } catch(e){}
+// ── LOAD USER VOTES & UNLOCKED ──
+async function loadMyData() {
+  if (!getToken()) return;
+  try {
+    const [votesRes, unlockedRes] = await Promise.all([
+      fetch(`${API}/votes/me`, {headers: authHeaders()}),
+      fetch(`${API}/unlocked`, {headers: authHeaders()})
+    ]);
+    const vData = await votesRes.json();
+    const uData = await unlockedRes.json();
+    if (vData.votedIds) state.votes = vData.votedIds;
+    if (uData.unlockedIds) state.purchased = uData.unlockedIds;
+  } catch(e){}
 }
 
 // ── INIT ──
-function init() {
+async function init() {
   buildLandingCats();
   buildCatBar();
 
-  const btn = document.getElementById('lang-btn');
-  if(btn){
-    btn.textContent = lang === 'es' ? '🌐 EN' : '🌐 ES';
-  }
-
   // Restaurar sesión
   const saved = localStorage.getItem('ps_user');
-  if (saved) {
+  if (saved && getToken()) {
     state.user = JSON.parse(saved);
     updateNav();
   }
 
   // Verificar si viene de Stripe
   if (window.location.search.includes('type=') || window.location.search.includes('connect=')) {
-    checkSuccess();
+    await checkSuccess();
   } else if (state.user) {
+    await loadPrompts();
+    await loadMyData();
     showScreen('app');
   }
 }
