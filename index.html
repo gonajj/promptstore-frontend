@@ -164,7 +164,7 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
     <p>Accede, sube y monetiza prompts de IA. Gana el 70% de cada venta directo a tu cuenta bancaria.</p>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
       <button class="btn btn-p btn-lg" onclick="openModal('register')" style="font-size:16px;padding:14px 32px;box-shadow:0 0 24px rgba(124,58,237,.5)">🚀 Crear cuenta — $100 MXN/mes</button>
-      <button class="btn btn-lg" onclick="showScreen('app')">Ver el catálogo gratis →</button>
+      <button class="btn btn-lg" onclick="openModal('login')">Ver el catálogo →</button>
     </div>
     <div style="margin-top:14px;font-size:12px;color:var(--mu)">✓ Sin permanencia &nbsp;·&nbsp; ✓ Cancela cuando quieras &nbsp;·&nbsp; ✓ Pagos seguros con Stripe</div>
     <div style="display:flex;gap:32px;justify-content:center;margin-top:36px;flex-wrap:wrap">
@@ -280,7 +280,7 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
         <h1 class="syne" style="font-size:22px;font-weight:800">Explorar prompts</h1>
         <p style="color:var(--mu);font-size:12px" id="prompt-count">Cargando...</p>
       </div>
-      <button class="btn btn-p btn-sm" onclick="openModal('upload')">+ Subir prompt</button>
+      ${state.user?.member ? '<button class="btn btn-p btn-sm" onclick="openModal('upload')">+ Subir prompt</button>' : ''}
     </div>
     <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
       <input class="inp" id="search-inp" placeholder="🔍  Buscar prompts o tags..." style="flex:1;min-width:180px" oninput="renderPrompts()">
