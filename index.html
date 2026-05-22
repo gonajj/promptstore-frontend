@@ -393,6 +393,11 @@ function saveLocal() {
 
 // ── SCREENS ──
 function showScreen(id) {
+  // Block app/dashboard if not logged in or no membership
+  if (id === 'app' || id === 'dashboard') {
+    if (!state.user) { openModal('login'); return; }
+    if (!state.user.member) { openModal('register'); return; }
+  }
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('s-' + id).classList.add('active');
   if (id === 'app') { buildCatBar(); loadPrompts(); }
