@@ -163,12 +163,12 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
     <h1 class="syne">Los mejores prompts,<br>votados por la comunidad</h1>
     <p>Accede, sube y monetiza prompts de IA. Gana el 70% de cada venta directo a tu cuenta bancaria.</p>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn btn-p btn-lg" onclick="openModal('register')" style="font-size:16px;padding:14px 32px;box-shadow:0 0 24px rgba(124,58,237,.5)">🚀 Crear cuenta — $100 MXN/mes</button>
-      <button class="btn btn-lg" onclick="openModal('login')">Ver el catálogo →</button>
+      <button class="btn btn-p btn-lg" onclick="openModal('register')" style="font-size:16px;padding:14px 32px;box-shadow:0 0 24px rgba(124,58,237,.5)">🚀 Crear cuenta — $100 MXN único</button>
+      <button class="btn btn-lg" onclick="openModal('login')">Ya tengo cuenta →</button>
     </div>
-    <div style="margin-top:14px;font-size:12px;color:var(--mu)">✓ Sin permanencia &nbsp;·&nbsp; ✓ Cancela cuando quieras &nbsp;·&nbsp; ✓ Pagos seguros con Stripe</div>
+    <div style="margin-top:14px;font-size:12px;color:var(--mu)">✓ Pago único, sin mensualidades &nbsp;·&nbsp; ✓ Acceso de por vida &nbsp;·&nbsp; ✓ Pagos seguros con Stripe</div>
     <div style="display:flex;gap:32px;justify-content:center;margin-top:36px;flex-wrap:wrap">
-      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">$100</div><div style="font-size:12px;color:#6B7A95">MXN/mes membresía</div></div>
+      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">$100</div><div style="font-size:12px;color:#6B7A95">MXN acceso único</div></div>
       <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">70%</div><div style="font-size:12px;color:#6B7A95">Para el autor</div></div>
       <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">$210</div><div style="font-size:12px;color:#6B7A95">Máx por venta MXN</div></div>
       <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">🔓</div><div style="font-size:12px;color:#6B7A95">Desde 101 votos</div></div>
@@ -197,7 +197,7 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
       <div class="card" style="padding:20px;text-align:center">
         <div style="font-size:32px;margin-bottom:10px">🔓</div>
         <div style="font-weight:700;margin-bottom:6px">Tuyo para siempre</div>
-        <div style="font-size:12px;color:var(--mu)">Los prompts que compras son tuyos permanentemente, aunque canceles la membresía.</div>
+        <div style="font-size:12px;color:var(--mu)">Los prompts que compras son tuyos permanentemente.</div>
       </div>
       <div class="card" style="padding:20px;text-align:center">
         <div style="font-size:32px;margin-bottom:10px">🇲🇽</div>
@@ -211,38 +211,28 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
   <div class="section" style="padding-bottom:60px">
     <h2 class="syne" style="font-size:20px;font-weight:700;margin-bottom:6px;text-align:center">¿Cómo funciona el precio?</h2>
     <p style="color:var(--mu);text-align:center;margin-bottom:10px;font-size:13px;max-width:560px;margin-left:auto;margin-right:auto">
-      Como Canva: pagas una membresía mensual para entrar y usar todo lo gratuito. Los prompts con más votos se desbloquean por un pago único y son tuyos para siempre.
+      Pagas <strong>$100 MXN una sola vez</strong> para acceder al marketplace. Sin mensualidades, sin renovaciones. Los prompts más votados se desbloquean con un pago adicional único y son tuyos para siempre.
     </p>
 
     <!-- Ejemplo visual -->
     <div style="background:rgba(29,106,229,.08);border:.5px solid rgba(29,106,229,.25);border-radius:12px;padding:16px 20px;max-width:560px;margin:0 auto 28px;font-size:13px;line-height:1.8">
       <div style="font-weight:700;color:#5B9BF8;margin-bottom:8px">📖 Ejemplo práctico:</div>
-      <div>1. Pagas <strong>$100 MXN/mes</strong> → accedes a todos los prompts con 1–100 votos, ilimitados.</div>
-      <div style="margin-top:6px">2. Encuentras un prompt con 150 votos → lo desbloqueas por <strong>$100 MXN una sola vez</strong>.</div>
-      <div style="margin-top:6px">3. Ese prompt es tuyo para siempre, aunque canceles la membresía.</div>
+      <div>1. Pagas <strong>$100 MXN una sola vez</strong> → accedes de por vida a todos los prompts con 1–100 votos.</div>
+      <div style="margin-top:6px">2. Encuentras un prompt con 150 votos → lo desbloqueas por <strong>$100 MXN adicionales, una sola vez</strong>.</div>
+      <div style="margin-top:6px">3. Ese prompt es tuyo para siempre.</div>
       <div style="margin-top:6px">4. Si quieres otro prompt diferente → pagas solo por ese.</div>
     </div>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;max-width:900px;margin:0 auto">
-      <!-- Membresía -->
+      <!-- Acceso único -->
       <div class="pcrd">
-        <div style="font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Paso 1 — Membresía</div>
-        <div class="syne" style="font-size:26px;font-weight:800;margin-bottom:3px">$100 MXN<span style="font-size:13px;color:var(--mu);font-weight:400">/mes</span></div>
-        <div style="font-size:12px;color:var(--mu);margin-bottom:14px">Tu entrada al marketplace</div>
-        <div style="font-size:13px;color:var(--ok)">✓ Prompts gratuitos ilimitados (1–100 votos)</div>
-        <div style="font-size:13px;color:var(--ok);margin-top:5px">✓ Sube tus propios prompts</div>
-        <div style="font-size:13px;color:var(--ok);margin-top:5px">✓ Vota y descubre los mejores</div>
-        <div style="font-size:13px;color:var(--ok);margin-top:5px">✓ Gana dinero con tus prompts</div>
-      </div>
-      <!-- Popular -->
-      <div class="pcrd feat">
-        <div style="position:absolute;top:12px;right:12px;background:var(--acc);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px">MÁS COMPRADO</div>
-        <div style="font-size:11px;font-weight:700;color:#DC2626;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Paso 2 opcional — 🔥 Popular</div>
-        <div class="syne" style="font-size:26px;font-weight:800;margin-bottom:3px">$100 MXN</div>
-        <div style="font-size:12px;color:var(--mu);margin-bottom:14px">Por cada prompt con 101–200 votos</div>
-        <div style="font-size:13px;color:#DC2626">★ Pago único — tuyo para siempre</div>
-        <div style="font-size:13px;color:#DC2626;margin-top:5px">★ Autor recibe $70 MXN</div>
-        <div style="font-size:13px;color:#DC2626;margin-top:5px">★ Solo pagas si lo quieres</div>
+        <div style="font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Paso 1 — Acceso</div>
+        <div class="syne" style="font-size:26px;font-weight:800;margin-bottom:3px">$100 MXN<span style="font-size:13px;color:var(--mu);font-weight:400"> única vez</span></div>
+        <div style="font-size:12px;color:var(--mu);margin-bottom:14px">Tu acceso de por vida al marketplace</div>
+        <div style="font-size:13px;color:var(--ok)">✓ Sin mensualidades ni renovaciones</div>
+        <div style="font-size:13px;color:var(--ok);margin-top:5px">✓ Prompts gratuitos ilimitados (1–100 votos)</div>
+        <div style="font-size:13px;color:var(--ok);margin-top:5px">✓ Sube y vende tus propios prompts</div>
+        <div style="font-size:13px;color:var(--ok);margin-top:5px">✓ Gana el 70% de cada venta</div>
       </div>
       <!-- Popular+ -->
       <div class="pcrd" style="border-color:#1D6AE544">
@@ -266,8 +256,8 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
     <div style="text-align:center;margin-top:24px">
       <div class="stripe-pill" style="margin-bottom:12px">S Pagos procesados con Stripe · Depósito en 1–2 días hábiles a tu cuenta bancaria</div>
       <br>
-      <button class="btn btn-p btn-lg" onclick="openModal('register')" style="margin-top:12px;box-shadow:0 0 20px rgba(124,58,237,.4)">🚀 Empezar por $100 MXN →</button>
-      <div style="margin-top:10px;font-size:12px;color:var(--mu)">Sin permanencia · Cancela cuando quieras</div>
+      <button class="btn btn-p btn-lg" onclick="openModal('register')" style="margin-top:12px;box-shadow:0 0 20px rgba(124,58,237,.4)">🚀 Acceder por $100 MXN únicos →</button>
+      <div style="margin-top:10px;font-size:12px;color:var(--mu)">Pago único · Sin mensualidades · Acceso de por vida</div>
     </div>
   </div>
 </div>
@@ -280,7 +270,7 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
         <h1 class="syne" style="font-size:22px;font-weight:800">Explorar prompts</h1>
         <p style="color:var(--mu);font-size:12px" id="prompt-count">Cargando...</p>
       </div>
-      ${state.user?.member ? '<button class="btn btn-p btn-sm" onclick="openModal('upload')">+ Subir prompt</button>' : ''}
+      ${state.user ? '<button class="btn btn-p btn-sm" onclick="openModal(\'upload\')">+ Subir prompt</button>' : ''}
     </div>
     <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
       <input class="inp" id="search-inp" placeholder="🔍  Buscar prompts o tags..." style="flex:1;min-width:180px" oninput="renderPrompts()">
@@ -393,7 +383,6 @@ function saveLocal() {
 
 // ── SCREENS ──
 function showScreen(id) {
-  // Block app/dashboard if not logged in or no membership
   if (id === 'app' || id === 'dashboard') {
     if (!state.user) { openModal('login'); return; }
     if (!state.user.member) { openModal('register'); return; }
@@ -498,7 +487,7 @@ function renderPrompts() {
       <div style="padding:0 14px 12px">
         <button class="btn ${paid ? 'btn-gold' : 'btn-ok'} btn-sm" style="width:100%;justify-content:center"
           onclick="event.stopPropagation();viewPrompt(${p.id})">
-          ${!member ? '🔒 Requiere membresía' : paid ? `Ver prompt — $${p.price} MXN` : 'Ver gratis'}
+          ${!member ? '🔒 Requiere acceso' : paid ? `Ver prompt — $${p.price} MXN` : 'Ver gratis'}
         </button>
       </div>
     </div>`;
@@ -634,14 +623,14 @@ function buildLogin() {
 function buildRegister() {
   return `
     <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">Crear cuenta</h2>
-    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">Membresía de acceso: <strong>$100 MXN/mes</strong> vía Stripe</p>
+    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">Acceso único: <strong>$100 MXN una sola vez</strong> · Sin mensualidades</p>
     <div class="fg"><label class="lbl">Tu nombre</label><input class="inp" id="r-name" placeholder="Ej: Ana García"></div>
     <div class="fg"><label class="lbl">Correo</label><input class="inp" id="r-email" type="email" placeholder="hola@ejemplo.com"></div>
     <div class="fg"><label class="lbl">Contraseña</label><input class="inp" id="r-pass" type="password" placeholder="••••••••"></div>
     <button class="btn btn-p" id="reg-btn" style="width:100%;justify-content:center;padding:11px;margin-top:4px" onclick="doRegister()">
       Pagar $100 MXN y crear cuenta →
     </button>
-    <p style="text-align:center;font-size:11px;color:var(--mu);margin-top:10px">🔒 Pago seguro procesado por Stripe</p>`;
+    <p style="text-align:center;font-size:11px;color:var(--mu);margin-top:10px">🔒 Pago único seguro con Stripe · Sin renovaciones automáticas</p>`;
 }
 
 function buildUpload() {
@@ -678,28 +667,28 @@ function doLogin() {
   updateNav();
 }
 
-// ── REGISTER (conecta con Stripe real) ──
+// ── REGISTER (pago único de acceso con Stripe) ──
 async function doRegister() {
   const name = document.getElementById('r-name')?.value;
   const email = document.getElementById('r-email')?.value;
-  if (!name || !email) { notify('Completa todos los campos', 'err'); return; }
+  const pass = document.getElementById('r-pass')?.value;
+  if (!name || !email || !pass) { notify('Completa todos los campos', 'err'); return; }
   const btn = document.getElementById('reg-btn');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span> Conectando con Stripe...';
   try {
-    const res = await fetch(`${API}/membership/checkout`, {
+    const res = await fetch(`${API}/access/checkout`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({name, email}),
+      body: JSON.stringify({name, email, password: pass}),
     });
     const data = await res.json();
     if (data.url) {
-      // Guardar usuario pre-registro
       state.user = {name, email, member: false};
       saveLocal();
       window.location.href = data.url;
     } else {
-      throw new Error(data.error || 'Error al crear sesión');
+      throw new Error(data.error || 'Error al crear sesión de pago');
     }
   } catch (err) {
     notify('Error: ' + err.message, 'err');
@@ -715,7 +704,7 @@ async function doUpload() {
   const ai = document.getElementById('u-ai')?.value;
   const full = document.getElementById('u-full')?.value;
   if (!title || !cat || !ai || !full) { notify('Completa los campos obligatorios', 'err'); return; }
-  if (!state.user?.member) { notify('Necesitas membresía activa para publicar', 'err'); return; }
+  if (!state.user?.member) { notify('Necesitas acceso activo para publicar', 'err'); return; }
   const preview = document.getElementById('u-preview')?.value || full.slice(0, 70) + '...';
   const tags = (document.getElementById('u-tags')?.value || '').split(',').map(t => t.trim()).filter(Boolean);
   const btn = document.querySelector('#modal-content .btn-p');
@@ -864,20 +853,19 @@ async function checkSuccess() {
   const type = params.get('type');
   const connectStatus = params.get('connect');
 
-  if (type === 'membership') {
+  if (type === 'access') {
     const saved = localStorage.getItem('ps_user');
     if (saved) {
       state.user = JSON.parse(saved);
       state.user.member = true;
       saveLocal();
     }
-    // Refresh user data from backend
     try {
       const res = await fetch(`${API}/auth/me`, {headers: authHeaders()});
       const data = await res.json();
       if (!data.error) { state.user = {...state.user, member: data.membershipActive}; saveLocal(); }
     } catch(e){}
-    notify('✓ Membresía activada. ¡Bienvenido a PromptStore.pro!', 'ok');
+    notify('✓ Acceso activado. ¡Bienvenido a PromptStore.pro!', 'ok');
     window.history.replaceState({}, '', '/');
     await loadPrompts();
     await loadMyData();
