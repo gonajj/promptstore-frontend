@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PromptStore.pro — Marketplace de Prompts IA</title>
+<title>PromptStore.pro — AI Prompt Marketplace</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-99FKL8SVKN"></script>
 <script>
@@ -26,13 +26,9 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;font-
 .syne{font-family:'Syne',sans-serif}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:2px}
-
-/* NAV */
 nav{position:sticky;top:0;z-index:100;background:rgba(9,9,15,.92);backdrop-filter:blur(14px);border-bottom:.5px solid var(--bdr);height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
 .logo{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;background:linear-gradient(135deg,#5B9BF8,#38BDF8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;cursor:pointer}
 .nav-links{display:flex;align-items:center;gap:6px}
-
-/* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:8px;font-weight:600;cursor:pointer;border:.5px solid var(--bdr2);font-size:13px;transition:all .15s;font-family:'DM Sans',sans-serif;background:var(--card);color:var(--tx);text-decoration:none}
 .btn:hover{background:var(--sur);border-color:var(--acc2)}
 .btn-p{background:var(--acc);color:#fff;border-color:var(--acc)}
@@ -43,102 +39,61 @@ nav{position:sticky;top:0;z-index:100;background:rgba(9,9,15,.92);backdrop-filte
 .btn-sm{padding:5px 12px;font-size:12px}
 .btn-lg{padding:12px 28px;font-size:15px}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-
-/* INPUTS */
 .inp{width:100%;padding:10px 13px;background:var(--sur);border:.5px solid var(--bdr2);border-radius:8px;color:var(--tx);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .18s}
 .inp:focus{border-color:var(--acc)}
 .inp::placeholder{color:var(--mu)}
 textarea.inp{resize:vertical;min-height:90px}
 select.inp{cursor:pointer}
 .lbl{font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;display:block}
-
-/* CARDS */
 .card{background:var(--card);border:.5px solid var(--bdr);border-radius:12px;overflow:hidden}
 .badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600}
 .tag{background:var(--sur);border:.5px solid var(--bdr);padding:2px 8px;border-radius:999px;font-size:11px;color:var(--mu)}
 .av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;background:linear-gradient(135deg,var(--acc),#38BDF8);color:#fff;flex-shrink:0}
-
-/* MODAL */
 .mbg{position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;display:none}
 .mbg.open{display:flex}
 .modal{background:var(--card);border:.5px solid var(--bdr2);border-radius:16px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;padding:28px;position:relative}
-
-/* SCREENS */
 .screen{display:none}
 .screen.active{display:block}
-
-/* GRID */
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
-
-/* PILLS */
 .cpill{display:flex;align-items:center;gap:5px;padding:6px 13px;border-radius:999px;border:.5px solid var(--bdr);cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;white-space:nowrap;color:var(--mu);background:var(--sur)}
 .cpill:hover{border-color:var(--acc)}
 .cpill.on{background:var(--acc);color:#fff;border-color:var(--acc)}
-
-/* VOTE BTN */
 .vbtn{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:7px;background:var(--sur);border:.5px solid var(--bdr2);color:var(--tx);cursor:pointer;font-size:12px;font-weight:600;transition:all .15s}
 .vbtn:hover{border-color:var(--acc)}
 .vbtn.on{background:#DBEAFE;border-color:var(--acc);color:var(--acc)}
-
-/* TABS */
 .tab{padding:9px 16px;border-bottom:2px solid transparent;cursor:pointer;font-size:13px;font-weight:600;color:var(--mu);transition:all .15s}
 .tab.on{color:var(--acc2);border-bottom-color:var(--acc2)}
-
-/* STAT */
 .stat{background:var(--sur);border-radius:10px;padding:14px 16px;border:.5px solid var(--bdr)}
-
-/* NOTIFICATION */
 #notif{position:fixed;top:16px;right:16px;background:var(--card);border:.5px solid var(--bdr2);border-radius:10px;padding:12px 18px;font-size:13px;font-weight:500;z-index:300;box-shadow:0 4px 20px rgba(0,0,0,.3);transform:translateX(120%);transition:transform .3s;max-width:300px}
 #notif.show{transform:translateX(0)}
 #notif.ok{border-left:3px solid var(--ok)}
 #notif.info{border-left:3px solid var(--acc)}
 #notif.err{border-left:3px solid var(--er)}
-
-/* LOADING */
 .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* ANIMATIONS */
 @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .fi{animation:fi .25s ease forwards}
-
-/* HERO */
 .hero{padding:70px 20px 50px;text-align:center;background:radial-gradient(ellipse 70% 50% at 50% -5%,rgba(29,106,229,.3) 0%,transparent 70%)}
 .hero h1{font-size:clamp(32px,6vw,64px);font-weight:800;line-height:1.05;margin-bottom:16px;background:linear-gradient(135deg,#fff 30%,#5B9BF8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .hero p{font-size:16px;color:#9CA3AF;max-width:480px;margin:0 auto 28px;line-height:1.7}
-
-/* PRICING CARDS */
 .pcrd{border-radius:14px;padding:24px;border:.5px solid var(--bdr);background:var(--card);transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
 .pcrd:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.3)}
 .pcrd.feat{border-color:var(--acc)}
 .pcrd.feat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--acc),#38BDF8)}
-
-/* PROGRESS */
 .prog{height:4px;background:var(--sur);border-radius:2px;overflow:hidden;margin-top:5px}
 .prog-fill{height:100%;border-radius:2px;transition:width .4s}
-
-/* STRIPE BADGE */
 .stripe-pill{background:#635BFF;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:4px}
-
-/* PCARD */
 .pcard{display:flex;flex-direction:column;cursor:pointer;transition:box-shadow .15s,transform .15s}
 .pcard:hover{box-shadow:0 6px 24px rgba(0,0,0,.25);transform:translateY(-2px)}
-
-/* DIVIDER */
 hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
-
-/* FORM GROUP */
 .fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-/* SECTION */
 .section{max-width:1100px;margin:0 auto;padding:24px 18px}
-
-/* BLUR */
 .blurred{filter:blur(5px);user-select:none;pointer-events:none}
-
-/* LOCK OVERLAY */
 .lock-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(9,9,15,.65);border-radius:8px}
+/* LANG TOGGLE */
+.lang-btn{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;border:.5px solid var(--bdr2);background:var(--sur);color:var(--tx);cursor:pointer;font-size:12px;font-weight:700;transition:all .15s}
+.lang-btn:hover{border-color:var(--acc2)}
 </style>
 </head>
 <body>
@@ -149,115 +104,113 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
 <nav>
   <div class="logo" onclick="goHome()">⚡ PromptStore.pro</div>
   <div class="nav-links" id="nav-btns">
-    <button class="btn btn-sm" onclick="openModal('login')">Iniciar sesión</button>
-    <button class="btn btn-p btn-sm" onclick="openModal('register')">Registrarse</button>
+    <button class="lang-btn" onclick="toggleLang()" id="lang-toggle">🇪🇸 ES</button>
+    <button class="btn btn-sm" onclick="openModal('login')" id="nav-login">Sign in</button>
+    <button class="btn btn-p btn-sm" onclick="openModal('register')" id="nav-register">Sign up</button>
   </div>
 </nav>
 
 <!-- ══════ SCREEN: LANDING ══════ -->
 <div id="s-landing" class="screen active">
   <div class="hero">
-    <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(29,106,229,.14);border:.5px solid rgba(29,106,229,.3);padding:5px 14px;border-radius:999px;font-size:12px;color:#5B9BF8;margin-bottom:14px">
-      ✦ Marketplace de prompts en español · Pagos con Stripe
+    <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(29,106,229,.14);border:.5px solid rgba(29,106,229,.3);padding:5px 14px;border-radius:999px;font-size:12px;color:#5B9BF8;margin-bottom:14px" id="hero-pill">
+      ✦ AI Prompt Marketplace · Payments with Stripe
     </div>
-    <h1 class="syne">Los mejores prompts,<br>votados por la comunidad</h1>
-    <p>Accede, sube y monetiza prompts de IA. Gana el 70% de cada venta directo a tu cuenta bancaria.</p>
+    <h1 class="syne" id="hero-h1">The best prompts,<br>voted by the community</h1>
+    <p id="hero-p">Access, upload and monetize AI prompts. Earn 70% of every sale directly to your bank account.</p>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn btn-p btn-lg" onclick="openModal('register')" style="font-size:16px;padding:14px 32px;box-shadow:0 0 24px rgba(124,58,237,.5)">🚀 Crear cuenta — $100 MXN único</button>
-      <button class="btn btn-lg" onclick="openModal('login')">Ya tengo cuenta →</button>
+      <button class="btn btn-p btn-lg" onclick="openModal('register')" style="font-size:16px;padding:14px 32px;box-shadow:0 0 24px rgba(124,58,237,.5)" id="hero-cta">🚀 Get access — $5 USD one-time</button>
+      <button class="btn btn-lg" onclick="openModal('login')" id="hero-login-btn">I have an account →</button>
     </div>
-    <div style="margin-top:14px;font-size:12px;color:var(--mu)">✓ Pago único, sin mensualidades &nbsp;·&nbsp; ✓ Acceso de por vida &nbsp;·&nbsp; ✓ Pagos seguros con Stripe</div>
+    <div style="margin-top:14px;font-size:12px;color:var(--mu)" id="hero-sub">✓ One-time payment, no subscriptions &nbsp;·&nbsp; ✓ Lifetime access &nbsp;·&nbsp; ✓ Secure payments with Stripe</div>
     <div style="display:flex;gap:32px;justify-content:center;margin-top:36px;flex-wrap:wrap">
-      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">$100</div><div style="font-size:12px;color:#6B7A95">MXN acceso único</div></div>
-      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">70%</div><div style="font-size:12px;color:#6B7A95">Para el autor</div></div>
-      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">$210</div><div style="font-size:12px;color:#6B7A95">Máx por venta MXN</div></div>
-      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">🔓</div><div style="font-size:12px;color:#6B7A95">Desde 101 votos</div></div>
+      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">$5</div><div style="font-size:12px;color:#6B7A95" id="stat-access">USD one-time access</div></div>
+      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">70%</div><div style="font-size:12px;color:#6B7A95" id="stat-author">To the author</div></div>
+      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">$10.50</div><div style="font-size:12px;color:#6B7A95" id="stat-max">Max per sale USD</div></div>
+      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">🔓</div><div style="font-size:12px;color:#6B7A95" id="stat-votes">From 101 votes</div></div>
     </div>
   </div>
 
-  <!-- Categorías -->
+  <!-- Categories -->
   <div class="section">
-    <h2 class="syne" style="font-size:20px;font-weight:700;margin-bottom:16px;text-align:center">Explora por categoría</h2>
+    <h2 class="syne" style="font-size:20px;font-weight:700;margin-bottom:16px;text-align:center" id="cats-title">Explore by category</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px" id="landing-cats"></div>
   </div>
 
-  <!-- Por qué unirse -->
+  <!-- Why join -->
   <div class="section">
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:900px;margin:0 auto">
       <div class="card" style="padding:20px;text-align:center">
         <div style="font-size:32px;margin-bottom:10px">🎯</div>
-        <div style="font-weight:700;margin-bottom:6px">Prompts que funcionan</div>
-        <div style="font-size:12px;color:var(--mu)">Votados y probados por la comunidad. Solo los mejores llegan a los primeros lugares.</div>
+        <div style="font-weight:700;margin-bottom:6px" id="feat1-title">Prompts that work</div>
+        <div style="font-size:12px;color:var(--mu)" id="feat1-desc">Voted and tested by the community. Only the best reach the top.</div>
       </div>
       <div class="card" style="padding:20px;text-align:center">
         <div style="font-size:32px;margin-bottom:10px">💰</div>
-        <div style="font-weight:700;margin-bottom:6px">Gana publicando</div>
-        <div style="font-size:12px;color:var(--mu)">Sube tus prompts y recibe el 70% de cada venta directamente en tu cuenta bancaria.</div>
+        <div style="font-weight:700;margin-bottom:6px" id="feat2-title">Earn by publishing</div>
+        <div style="font-size:12px;color:var(--mu)" id="feat2-desc">Upload your prompts and receive 70% of every sale directly to your bank account.</div>
       </div>
       <div class="card" style="padding:20px;text-align:center">
         <div style="font-size:32px;margin-bottom:10px">🔓</div>
-        <div style="font-weight:700;margin-bottom:6px">Tuyo para siempre</div>
-        <div style="font-size:12px;color:var(--mu)">Los prompts que compras son tuyos permanentemente.</div>
+        <div style="font-weight:700;margin-bottom:6px" id="feat3-title">Yours forever</div>
+        <div style="font-size:12px;color:var(--mu)" id="feat3-desc">The prompts you buy are yours permanently.</div>
       </div>
       <div class="card" style="padding:20px;text-align:center">
-        <div style="font-size:32px;margin-bottom:10px">🇲🇽</div>
-        <div style="font-weight:700;margin-bottom:6px">100% en español</div>
-        <div style="font-size:12px;color:var(--mu)">El único marketplace de prompts creado y pensado para hispanohablantes.</div>
+        <div style="font-size:32px;margin-bottom:10px">🌍</div>
+        <div style="font-weight:700;margin-bottom:6px" id="feat4-title">Global community</div>
+        <div style="font-size:12px;color:var(--mu)" id="feat4-desc">The best AI prompt marketplace for creators worldwide. Available in English and Spanish.</div>
       </div>
     </div>
   </div>
 
-  <!-- Precios -->
+  <!-- Pricing -->
   <div class="section" style="padding-bottom:60px">
-    <h2 class="syne" style="font-size:20px;font-weight:700;margin-bottom:6px;text-align:center">¿Cómo funciona el precio?</h2>
-    <p style="color:var(--mu);text-align:center;margin-bottom:10px;font-size:13px;max-width:560px;margin-left:auto;margin-right:auto">
-      Pagas <strong>$100 MXN una sola vez</strong> para acceder al marketplace. Sin mensualidades, sin renovaciones. Los prompts más votados se desbloquean con un pago adicional único y son tuyos para siempre.
+    <h2 class="syne" style="font-size:20px;font-weight:700;margin-bottom:6px;text-align:center" id="pricing-title">How does pricing work?</h2>
+    <p style="color:var(--mu);text-align:center;margin-bottom:10px;font-size:13px;max-width:560px;margin-left:auto;margin-right:auto" id="pricing-desc">
+      Pay <strong>$5 USD once</strong> to access the marketplace. No subscriptions, no renewals. The most voted prompts unlock with an additional one-time payment and are yours forever.
     </p>
-
-    <!-- Ejemplo visual -->
-    <div style="background:rgba(29,106,229,.08);border:.5px solid rgba(29,106,229,.25);border-radius:12px;padding:16px 20px;max-width:560px;margin:0 auto 28px;font-size:13px;line-height:1.8">
-      <div style="font-weight:700;color:#5B9BF8;margin-bottom:8px">📖 Ejemplo práctico:</div>
-      <div>1. Pagas <strong>$100 MXN una sola vez</strong> → accedes de por vida a todos los prompts con 1–100 votos.</div>
-      <div style="margin-top:6px">2. Encuentras un prompt con 150 votos → lo desbloqueas por <strong>$100 MXN adicionales, una sola vez</strong>.</div>
-      <div style="margin-top:6px">3. Ese prompt es tuyo para siempre.</div>
-      <div style="margin-top:6px">4. Si quieres otro prompt diferente → pagas solo por ese.</div>
+    <div style="background:rgba(29,106,229,.08);border:.5px solid rgba(29,106,229,.25);border-radius:12px;padding:16px 20px;max-width:560px;margin:0 auto 28px;font-size:13px;line-height:1.8" id="pricing-example-box">
+      <div style="font-weight:700;color:#5B9BF8;margin-bottom:8px" id="pricing-example-title">📖 Practical example:</div>
+      <div id="pricing-ex1">1. Pay <strong>$5 USD once</strong> → lifetime access to all prompts with 1–100 votes.</div>
+      <div style="margin-top:6px" id="pricing-ex2">2. You find a prompt with 150 votes → unlock it for <strong>$5 USD more, one-time</strong>.</div>
+      <div style="margin-top:6px" id="pricing-ex3">3. That prompt is yours forever.</div>
+      <div style="margin-top:6px" id="pricing-ex4">4. Want another prompt? → pay only for that one.</div>
     </div>
-
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;max-width:900px;margin:0 auto">
-      <!-- Acceso único -->
+      <!-- Access -->
       <div class="pcrd">
-        <div style="font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Paso 1 — Acceso</div>
-        <div class="syne" style="font-size:26px;font-weight:800;margin-bottom:3px">$100 MXN<span style="font-size:13px;color:var(--mu);font-weight:400"> única vez</span></div>
-        <div style="font-size:12px;color:var(--mu);margin-bottom:14px">Tu acceso de por vida al marketplace</div>
-        <div style="font-size:13px;color:var(--ok)">✓ Sin mensualidades ni renovaciones</div>
-        <div style="font-size:13px;color:var(--ok);margin-top:5px">✓ Prompts gratuitos ilimitados (1–100 votos)</div>
-        <div style="font-size:13px;color:var(--ok);margin-top:5px">✓ Sube y vende tus propios prompts</div>
-        <div style="font-size:13px;color:var(--ok);margin-top:5px">✓ Gana el 70% de cada venta</div>
+        <div style="font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px" id="tier0-label">Step 1 — Access</div>
+        <div class="syne" style="font-size:26px;font-weight:800;margin-bottom:3px">$5 USD<span style="font-size:13px;color:var(--mu);font-weight:400" id="tier0-once"> one-time</span></div>
+        <div style="font-size:12px;color:var(--mu);margin-bottom:14px" id="tier0-sub">Your lifetime access to the marketplace</div>
+        <div style="font-size:13px;color:var(--ok)" id="tier0-f1">✓ No subscriptions or renewals</div>
+        <div style="font-size:13px;color:var(--ok);margin-top:5px" id="tier0-f2">✓ Unlimited free prompts (1–100 votes)</div>
+        <div style="font-size:13px;color:var(--ok);margin-top:5px" id="tier0-f3">✓ Upload and sell your own prompts</div>
+        <div style="font-size:13px;color:var(--ok);margin-top:5px" id="tier0-f4">✓ Earn 70% of every sale</div>
       </div>
-      <!-- Popular+ -->
+      <!-- Featured -->
       <div class="pcrd" style="border-color:#1D6AE544">
-        <div style="font-size:11px;font-weight:700;color:#1D6AE5;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Paso 2 opcional — ✨ Destacado</div>
-        <div class="syne" style="font-size:26px;font-weight:800;margin-bottom:3px">$200 MXN</div>
-        <div style="font-size:12px;color:var(--mu);margin-bottom:14px">Por cada prompt con 201–300 votos</div>
-        <div style="font-size:13px;color:#1D6AE5">✨ Pago único — tuyo para siempre</div>
-        <div style="font-size:13px;color:#1D6AE5;margin-top:5px">✨ Autor recibe $140 MXN</div>
-        <div style="font-size:13px;color:#1D6AE5;margin-top:5px">✨ Los más validados por la comunidad</div>
+        <div style="font-size:11px;font-weight:700;color:#1D6AE5;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px" id="tier2-label">Optional Step 2 — ✨ Featured</div>
+        <div class="syne" style="font-size:26px;font-weight:800;margin-bottom:3px">$10 USD</div>
+        <div style="font-size:12px;color:var(--mu);margin-bottom:14px" id="tier2-sub">Per prompt with 201–300 votes</div>
+        <div style="font-size:13px;color:#1D6AE5" id="tier2-f1">✨ One-time — yours forever</div>
+        <div style="font-size:13px;color:#1D6AE5;margin-top:5px" id="tier2-f2">✨ Author earns $7 USD</div>
+        <div style="font-size:13px;color:#1D6AE5;margin-top:5px" id="tier2-f3">✨ Most validated by the community</div>
       </div>
       <!-- PRO -->
       <div class="pcrd" style="border-color:#FCD34D44">
-        <div style="font-size:11px;font-weight:700;color:#B45309;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Paso 2 opcional — ⭐ PRO</div>
-        <div class="syne" style="font-size:26px;font-weight:800;margin-bottom:3px">$300 MXN</div>
-        <div style="font-size:12px;color:var(--mu);margin-bottom:14px">Por cada prompt con 300+ votos</div>
-        <div style="font-size:13px;color:#B45309">⭐ Pago único — tuyo para siempre</div>
-        <div style="font-size:13px;color:#B45309;margin-top:5px">⭐ Autor recibe $210 MXN</div>
-        <div style="font-size:13px;color:#B45309;margin-top:5px">⭐ Los más votados de toda la plataforma</div>
+        <div style="font-size:11px;font-weight:700;color:#B45309;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px" id="tier3-label">Optional Step 2 — ⭐ PRO</div>
+        <div class="syne" style="font-size:26px;font-weight:800;margin-bottom:3px">$15 USD</div>
+        <div style="font-size:12px;color:var(--mu);margin-bottom:14px" id="tier3-sub">Per prompt with 300+ votes</div>
+        <div style="font-size:13px;color:#B45309" id="tier3-f1">⭐ One-time — yours forever</div>
+        <div style="font-size:13px;color:#B45309;margin-top:5px" id="tier3-f2">⭐ Author earns $10.50 USD</div>
+        <div style="font-size:13px;color:#B45309;margin-top:5px" id="tier3-f3">⭐ Top voted on the platform</div>
       </div>
     </div>
     <div style="text-align:center;margin-top:24px">
-      <div class="stripe-pill" style="margin-bottom:12px">S Pagos procesados con Stripe · Depósito en 1–2 días hábiles a tu cuenta bancaria</div>
+      <div class="stripe-pill" style="margin-bottom:12px" id="stripe-pill">S Payments processed with Stripe · Deposit in 1–2 business days to your bank account</div>
       <br>
-      <button class="btn btn-p btn-lg" onclick="openModal('register')" style="margin-top:12px;box-shadow:0 0 20px rgba(124,58,237,.4)">🚀 Acceder por $100 MXN únicos →</button>
-      <div style="margin-top:10px;font-size:12px;color:var(--mu)">Pago único · Sin mensualidades · Acceso de por vida</div>
+      <button class="btn btn-p btn-lg" onclick="openModal('register')" style="margin-top:12px;box-shadow:0 0 20px rgba(124,58,237,.4)" id="pricing-cta">🚀 Get access for $5 USD →</button>
+      <div style="margin-top:10px;font-size:12px;color:var(--mu)" id="pricing-footer">One-time payment · No subscriptions · Lifetime access</div>
     </div>
   </div>
 </div>
@@ -267,22 +220,22 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
   <div class="section">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
       <div>
-        <h1 class="syne" style="font-size:22px;font-weight:800">Explorar prompts</h1>
-        <p style="color:var(--mu);font-size:12px" id="prompt-count">Cargando...</p>
+        <h1 class="syne" style="font-size:22px;font-weight:800" id="app-title">Explore prompts</h1>
+        <p style="color:var(--mu);font-size:12px" id="prompt-count">Loading...</p>
       </div>
-      ${state.user ? '<button class="btn btn-p btn-sm" onclick="openModal(\'upload\')">+ Subir prompt</button>' : ''}
+      <button class="btn btn-p btn-sm" onclick="openModal('upload')" id="upload-btn" style="display:none">+ Upload prompt</button>
     </div>
     <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-      <input class="inp" id="search-inp" placeholder="🔍  Buscar prompts o tags..." style="flex:1;min-width:180px" oninput="renderPrompts()">
-      <select class="inp" id="filter-tier" style="width:150px" onchange="renderPrompts()">
-        <option value="all">Todos los niveles</option>
-        <option value="free">✓ Gratis</option>
-        <option value="medio">🔥 Popular</option>
-        <option value="pro">⭐ PRO</option>
+      <input class="inp" id="search-inp" placeholder="🔍  Search prompts or tags..." style="flex:1;min-width:180px" oninput="renderPrompts()">
+      <select class="inp" id="filter-tier" style="width:160px" onchange="renderPrompts()">
+        <option value="all" id="filter-all">All levels</option>
+        <option value="free" id="filter-free">✓ Free</option>
+        <option value="medio" id="filter-popular">🔥 Popular</option>
+        <option value="pro" id="filter-pro">⭐ PRO</option>
       </select>
-      <select class="inp" id="sort-sel" style="width:130px" onchange="renderPrompts()">
-        <option value="votes">↑ Más votados</option>
-        <option value="recent">Recientes</option>
+      <select class="inp" id="sort-sel" style="width:140px" onchange="renderPrompts()">
+        <option value="votes" id="sort-votes">↑ Most voted</option>
+        <option value="recent" id="sort-recent">Recent</option>
       </select>
     </div>
     <div id="cat-bar" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:16px"></div>
@@ -295,23 +248,23 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
   <div class="section">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;flex-wrap:wrap;gap:10px">
       <div>
-        <h1 class="syne" style="font-size:22px;font-weight:800">Dashboard del creador</h1>
-        <p style="color:var(--mu);font-size:12px" id="dash-welcome">Cargando...</p>
+        <h1 class="syne" style="font-size:22px;font-weight:800" id="dash-title">Creator Dashboard</h1>
+        <p style="color:var(--mu);font-size:12px" id="dash-welcome">Loading...</p>
       </div>
-      <button class="btn btn-sm" style="background:#635BFF;color:#fff;border-color:#635BFF" onclick="connectStripeAccount()">
-        S Conectar cuenta bancaria
+      <button class="btn btn-sm" style="background:#635BFF;color:#fff;border-color:#635BFF" onclick="connectStripeAccount()" id="dash-connect-btn">
+        S Connect bank account
       </button>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:20px">
-      <div class="stat"><div style="font-size:10px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Ganancias totales</div><div class="syne" style="font-size:22px;font-weight:800;color:#B45309" id="d-total">$0 MXN</div></div>
-      <div class="stat"><div style="font-size:10px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Mis prompts</div><div class="syne" style="font-size:22px;font-weight:800" id="d-count">0</div></div>
-      <div class="stat"><div style="font-size:10px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Total votos</div><div class="syne" style="font-size:22px;font-weight:800;color:var(--acc2)" id="d-votes">0</div></div>
-      <div class="stat"><div style="font-size:10px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Ventas totales</div><div class="syne" style="font-size:22px;font-weight:800;color:var(--ok)" id="d-sales">0</div></div>
+      <div class="stat"><div style="font-size:10px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px" id="dash-earn-label">Total earnings</div><div class="syne" style="font-size:22px;font-weight:800;color:#B45309" id="d-total">$0</div></div>
+      <div class="stat"><div style="font-size:10px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px" id="dash-prompts-label">My prompts</div><div class="syne" style="font-size:22px;font-weight:800" id="d-count">0</div></div>
+      <div class="stat"><div style="font-size:10px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px" id="dash-votes-label">Total votes</div><div class="syne" style="font-size:22px;font-weight:800;color:var(--acc2)" id="d-votes">0</div></div>
+      <div class="stat"><div style="font-size:10px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px" id="dash-sales-label">Total sales</div><div class="syne" style="font-size:22px;font-weight:800;color:var(--ok)" id="d-sales">0</div></div>
     </div>
     <div id="dash-connect-status" style="margin-bottom:16px"></div>
-    <h2 class="syne" style="font-size:16px;font-weight:700;margin-bottom:12px">Mis prompts publicados</h2>
+    <h2 class="syne" style="font-size:16px;font-weight:700;margin-bottom:12px" id="dash-myprompts-title">My published prompts</h2>
     <div id="dash-prompts" style="display:flex;flex-direction:column;gap:8px"></div>
-    <h2 class="syne" style="font-size:16px;font-weight:700;margin-top:24px;margin-bottom:12px">Historial de pagos</h2>
+    <h2 class="syne" style="font-size:16px;font-weight:700;margin-top:24px;margin-bottom:12px" id="dash-history-title">Payment history</h2>
     <div id="payment-history" class="card" style="overflow:auto"></div>
   </div>
 </div>
@@ -334,40 +287,301 @@ const API = 'https://promptostore-backend-production.up.railway.app';
 function getToken() { return localStorage.getItem('ps_token'); }
 function authHeaders() { return {'Content-Type':'application/json','Authorization':'Bearer ' + getToken()}; }
 
+// ── LANGUAGE ──
+let lang = localStorage.getItem('ps_lang') || 'en';
+
+const T = {
+  en: {
+    // NAV
+    navLogin: 'Sign in', navRegister: 'Sign up', navExplore: 'Explore', navDash: 'My dashboard', navUpload: '+ Upload', navLogout: 'Sign out',
+    // HERO
+    heroPill: '✦ AI Prompt Marketplace · Payments with Stripe',
+    heroH1: 'The best prompts,<br>voted by the community',
+    heroP: 'Access, upload and monetize AI prompts. Earn 70% of every sale directly to your bank account.',
+    heroCta: '🚀 Get access — $5 USD one-time',
+    heroLoginBtn: 'I have an account →',
+    heroSub: '✓ One-time payment, no subscriptions &nbsp;·&nbsp; ✓ Lifetime access &nbsp;·&nbsp; ✓ Secure payments with Stripe',
+    statAccess: 'USD one-time access', statAuthor: 'To the author', statMax: 'Max per sale USD', statVotes: 'From 101 votes',
+    catsTitle: 'Explore by category',
+    feat1Title: 'Prompts that work', feat1Desc: 'Voted and tested by the community. Only the best reach the top.',
+    feat2Title: 'Earn by publishing', feat2Desc: 'Upload your prompts and receive 70% of every sale directly to your bank account.',
+    feat3Title: 'Yours forever', feat3Desc: 'The prompts you buy are yours permanently.',
+    feat4Title: 'Global community', feat4Desc: 'The best AI prompt marketplace for creators worldwide. Available in English and Spanish.',
+    pricingTitle: 'How does pricing work?',
+    pricingDesc: 'Pay <strong>$5 USD once</strong> to access the marketplace. No subscriptions, no renewals. The most voted prompts unlock with an additional one-time payment and are yours forever.',
+    pricingExTitle: '📖 Practical example:',
+    pricingEx1: '1. Pay <strong>$5 USD once</strong> → lifetime access to all prompts with 1–100 votes.',
+    pricingEx2: '2. You find a prompt with 150 votes → unlock it for <strong>$5 USD more, one-time</strong>.',
+    pricingEx3: '3. That prompt is yours forever.',
+    pricingEx4: '4. Want another prompt? → pay only for that one.',
+    tier0Label: 'Step 1 — Access', tier0Once: ' one-time', tier0Sub: 'Your lifetime access to the marketplace',
+    tier0F1: '✓ No subscriptions or renewals', tier0F2: '✓ Unlimited free prompts (1–100 votes)', tier0F3: '✓ Upload and sell your own prompts', tier0F4: '✓ Earn 70% of every sale',
+    tier2Label: 'Optional Step 2 — ✨ Featured', tier2Sub: 'Per prompt with 201–300 votes',
+    tier2F1: '✨ One-time — yours forever', tier2F2: '✨ Author earns $7 USD', tier2F3: '✨ Most validated by the community',
+    tier3Label: 'Optional Step 2 — ⭐ PRO', tier3Sub: 'Per prompt with 300+ votes',
+    tier3F1: '⭐ One-time — yours forever', tier3F2: '⭐ Author earns $10.50 USD', tier3F3: '⭐ Top voted on the platform',
+    stripePill: 'S Payments processed with Stripe · Deposit in 1–2 business days to your bank account',
+    pricingCta: '🚀 Get access for $5 USD →', pricingFooter: 'One-time payment · No subscriptions · Lifetime access',
+    // APP
+    appTitle: 'Explore prompts', promptCount: ' prompts available', noResults: 'No results',
+    filterAll: 'All levels', filterFree: '✓ Free', filterPopular: '🔥 Popular', filterPro: '⭐ PRO',
+    sortVotes: '↑ Most voted', sortRecent: 'Recent',
+    catAll: '🌐 All',
+    promptLocked: '🔒 Access required', promptView: 'View prompt — ', promptFree: 'View free', promptPremium: 'Premium content',
+    // DASHBOARD
+    dashTitle: 'Creator Dashboard', dashWelcome: 'Hello, ',
+    dashConnectBtn: 'S Connect bank account',
+    dashEarnLabel: 'Total earnings', dashPromptsLabel: 'My prompts', dashVotesLabel: 'Total votes', dashSalesLabel: 'Total sales',
+    dashMyPromptsTitle: 'My published prompts', dashHistoryTitle: 'Payment history',
+    dashConnected: '✓ Bank account connected via Stripe', dashConnectedSub: 'You receive 70% automatically on each sale',
+    dashBankTitle: 'Bank account for deposits', dashBankSub: 'Connect your account to receive 70% automatically via Stripe Connect',
+    dashConnectBtn2: 'S Connect →',
+    dashNoPrompts: 'You haven\'t published any prompts yet', dashUploadFirst: '+ Upload first prompt',
+    dashMaxLevel: 'Max level ⭐', dashVotes: 'votes', dashNextLevel: ' for next level',
+    dashNoPayments: 'No payments recorded yet',
+    dashTablePrompt: 'Prompt', dashTableEarning: 'Your share', dashTableDate: 'Date', dashTableStatus: 'Status',
+    dashCompleted: '✓ completed',
+    // MODALS
+    loginTitle: 'Sign in', loginSub: 'Welcome back', loginEmail: 'Email', loginPass: 'Password',
+    loginBtn: 'Sign in →', loginNoAccount: 'No account? ', loginRegister: 'Register',
+    loginEmailPh: 'hello@example.com',
+    registerTitle: 'Create account', registerSub: 'One-time access: <strong>$5 USD once</strong> · No subscriptions',
+    registerName: 'Your name', registerEmail: 'Email', registerPass: 'Password',
+    registerBtn: 'Pay $5 USD and create account →', registerSecurity: '🔒 Secure one-time payment with Stripe · No automatic renewals',
+    registerNamePh: 'e.g. John Smith', registerEmailPh: 'hello@example.com',
+    uploadTitle: 'Upload prompt', uploadSub: 'Free → 100 votes ($3.50/sale) → 200 votes ($7/sale)',
+    uploadTitleLabel: 'Title *', uploadTitlePh: 'e.g. Expert B2B Copywriter',
+    uploadCatLabel: 'Category *', uploadCatPh: 'Choose category',
+    uploadAiLabel: 'Compatible AI *', uploadAiPh: 'Choose AI',
+    uploadPreviewLabel: 'Preview', uploadPreviewPh: 'First words of the prompt...',
+    uploadFullLabel: 'Full prompt *', uploadFullPh: 'Only buyers will see this',
+    uploadTagsLabel: 'Tags (comma-separated)', uploadTagsPh: 'marketing, copy, sales',
+    uploadTip: '💡 Start free. The community votes and the level rises automatically.',
+    uploadBtn: 'Publish prompt →',
+    // PROMPT VIEW
+    promptCreator: 'Prompt creator', promptCopy: '📋 Copy', promptUnlocked: '✓ Prompt permanently unlocked',
+    promptAuthorEarns: '💰 Author earns', promptPayStripe: '· Paid with Stripe · Permanent access',
+    promptUnlockBtn: 'Unlock for $', promptUnlockBtnSuffix: ' USD →',
+    promptUnlockProgress: 'Unlock to view',
+    // NOTIFICATIONS
+    notifCopied: 'Prompt copied to clipboard ✓',
+    notifLogout: 'Session closed',
+    notifAccessOk: '✓ Access activated. Welcome to PromptStore.pro!',
+    notifPromptOk: '✓ Prompt permanently unlocked',
+    notifBankOk: '✓ Bank account connected via Stripe',
+    notifVoteErr: 'Error voting',
+    notifFieldsErr: 'Please fill in all fields',
+    notifPublished: 'Prompt published successfully ✓',
+    notifConnecting: 'Connecting with Stripe Connect...',
+    notifErrDash: 'Error loading dashboard',
+    notifTierUp: 'Prompt reached level ',
+    notifSpinner: 'Connecting with Stripe...',
+    notifPublishing: 'Publishing...',
+    notifProcessing: 'Processing...',
+    notifNeedAccess: 'You need active access to publish',
+    currency: 'USD', currencySymbol: '$',
+  },
+  es: {
+    navLogin: 'Iniciar sesión', navRegister: 'Registrarse', navExplore: 'Explorar', navDash: 'Mi dashboard', navUpload: '+ Subir', navLogout: 'Cerrar sesión',
+    heroPill: '✦ Marketplace de prompts · Pagos con Stripe',
+    heroH1: 'Los mejores prompts,<br>votados por la comunidad',
+    heroP: 'Accede, sube y monetiza prompts de IA. Gana el 70% de cada venta directo a tu cuenta bancaria.',
+    heroCta: '🚀 Crear cuenta — $5 USD único',
+    heroLoginBtn: 'Ya tengo cuenta →',
+    heroSub: '✓ Pago único, sin mensualidades &nbsp;·&nbsp; ✓ Acceso de por vida &nbsp;·&nbsp; ✓ Pagos seguros con Stripe',
+    statAccess: 'USD acceso único', statAuthor: 'Para el autor', statMax: 'Máx por venta USD', statVotes: 'Desde 101 votos',
+    catsTitle: 'Explora por categoría',
+    feat1Title: 'Prompts que funcionan', feat1Desc: 'Votados y probados por la comunidad. Solo los mejores llegan a los primeros lugares.',
+    feat2Title: 'Gana publicando', feat2Desc: 'Sube tus prompts y recibe el 70% de cada venta directamente en tu cuenta bancaria.',
+    feat3Title: 'Tuyo para siempre', feat3Desc: 'Los prompts que compras son tuyos permanentemente.',
+    feat4Title: 'Comunidad global', feat4Desc: 'El mejor marketplace de prompts para creadores de todo el mundo. Disponible en inglés y español.',
+    pricingTitle: '¿Cómo funciona el precio?',
+    pricingDesc: 'Pagas <strong>$5 USD una sola vez</strong> para acceder al marketplace. Sin mensualidades, sin renovaciones. Los prompts más votados se desbloquean con un pago adicional único y son tuyos para siempre.',
+    pricingExTitle: '📖 Ejemplo práctico:',
+    pricingEx1: '1. Pagas <strong>$5 USD una sola vez</strong> → accedes de por vida a todos los prompts con 1–100 votos.',
+    pricingEx2: '2. Encuentras un prompt con 150 votos → lo desbloqueas por <strong>$5 USD adicionales, una sola vez</strong>.',
+    pricingEx3: '3. Ese prompt es tuyo para siempre.',
+    pricingEx4: '4. ¿Quieres otro prompt? → pagas solo por ese.',
+    tier0Label: 'Paso 1 — Acceso', tier0Once: ' única vez', tier0Sub: 'Tu acceso de por vida al marketplace',
+    tier0F1: '✓ Sin mensualidades ni renovaciones', tier0F2: '✓ Prompts gratuitos ilimitados (1–100 votos)', tier0F3: '✓ Sube y vende tus propios prompts', tier0F4: '✓ Gana el 70% de cada venta',
+    tier2Label: 'Paso 2 opcional — ✨ Destacado', tier2Sub: 'Por cada prompt con 201–300 votos',
+    tier2F1: '✨ Pago único — tuyo para siempre', tier2F2: '✨ Autor recibe $7 USD', tier2F3: '✨ Los más validados por la comunidad',
+    tier3Label: 'Paso 2 opcional — ⭐ PRO', tier3Sub: 'Por cada prompt con 300+ votos',
+    tier3F1: '⭐ Pago único — tuyo para siempre', tier3F2: '⭐ Autor recibe $10.50 USD', tier3F3: '⭐ Los más votados de toda la plataforma',
+    stripePill: 'S Pagos procesados con Stripe · Depósito en 1–2 días hábiles a tu cuenta bancaria',
+    pricingCta: '🚀 Acceder por $5 USD →', pricingFooter: 'Pago único · Sin mensualidades · Acceso de por vida',
+    appTitle: 'Explorar prompts', promptCount: ' prompts disponibles', noResults: 'Sin resultados',
+    filterAll: 'Todos los niveles', filterFree: '✓ Gratis', filterPopular: '🔥 Popular', filterPro: '⭐ PRO',
+    sortVotes: '↑ Más votados', sortRecent: 'Recientes',
+    catAll: '🌐 Todos',
+    promptLocked: '🔒 Requiere acceso', promptView: 'Ver prompt — ', promptFree: 'Ver gratis', promptPremium: 'Contenido premium',
+    dashTitle: 'Dashboard del creador', dashWelcome: 'Hola, ',
+    dashConnectBtn: 'S Conectar cuenta bancaria',
+    dashEarnLabel: 'Ganancias totales', dashPromptsLabel: 'Mis prompts', dashVotesLabel: 'Total votos', dashSalesLabel: 'Ventas totales',
+    dashMyPromptsTitle: 'Mis prompts publicados', dashHistoryTitle: 'Historial de pagos',
+    dashConnected: '✓ Cuenta bancaria conectada via Stripe', dashConnectedSub: 'Recibes el 70% automáticamente en cada venta',
+    dashBankTitle: 'Cuenta bancaria para depósitos', dashBankSub: 'Conecta tu cuenta para recibir el 70% automáticamente via Stripe Connect',
+    dashConnectBtn2: 'S Conectar →',
+    dashNoPrompts: 'Aún no has publicado prompts', dashUploadFirst: '+ Subir primer prompt',
+    dashMaxLevel: 'Nivel máximo ⭐', dashVotes: 'votos', dashNextLevel: ' para siguiente nivel',
+    dashNoPayments: 'Sin pagos registrados aún',
+    dashTablePrompt: 'Prompt', dashTableEarning: 'Tu parte', dashTableDate: 'Fecha', dashTableStatus: 'Estado',
+    dashCompleted: '✓ completado',
+    loginTitle: 'Iniciar sesión', loginSub: 'Bienvenido de vuelta', loginEmail: 'Correo', loginPass: 'Contraseña',
+    loginBtn: 'Entrar →', loginNoAccount: '¿No tienes cuenta? ', loginRegister: 'Regístrate',
+    loginEmailPh: 'hola@ejemplo.com',
+    registerTitle: 'Crear cuenta', registerSub: 'Acceso único: <strong>$5 USD una sola vez</strong> · Sin mensualidades',
+    registerName: 'Tu nombre', registerEmail: 'Correo', registerPass: 'Contraseña',
+    registerBtn: 'Pagar $5 USD y crear cuenta →', registerSecurity: '🔒 Pago único seguro con Stripe · Sin renovaciones automáticas',
+    registerNamePh: 'Ej: Ana García', registerEmailPh: 'hola@ejemplo.com',
+    uploadTitle: 'Subir prompt', uploadSub: 'Gratis → 100 votos ($3.50/venta) → 200 votos ($7/venta)',
+    uploadTitleLabel: 'Título *', uploadTitlePh: 'Ej: Copywriter experto para B2B',
+    uploadCatLabel: 'Categoría *', uploadCatPh: 'Elige categoría',
+    uploadAiLabel: 'IA compatible *', uploadAiPh: 'Elige IA',
+    uploadPreviewLabel: 'Vista previa', uploadPreviewPh: 'Primeras palabras del prompt...',
+    uploadFullLabel: 'Prompt completo *', uploadFullPh: 'Solo lo ven quienes lo compren',
+    uploadTagsLabel: 'Tags (separados por coma)', uploadTagsPh: 'marketing, copy, ventas',
+    uploadTip: '💡 Empieza gratis. La comunidad vota y el nivel sube automáticamente.',
+    uploadBtn: 'Publicar prompt →',
+    promptCreator: 'Creador del prompt', promptCopy: '📋 Copiar', promptUnlocked: '✓ Prompt desbloqueado permanentemente',
+    promptAuthorEarns: '💰 El autor recibe', promptPayStripe: '· Pagado con Stripe · Acceso permanente',
+    promptUnlockBtn: 'Desbloquear por $', promptUnlockBtnSuffix: ' USD →',
+    promptUnlockProgress: 'Desbloquea para ver',
+    notifCopied: 'Prompt copiado al portapapeles ✓',
+    notifLogout: 'Sesión cerrada',
+    notifAccessOk: '✓ Acceso activado. ¡Bienvenido a PromptStore.pro!',
+    notifPromptOk: '✓ Prompt desbloqueado permanentemente',
+    notifBankOk: '✓ Cuenta bancaria conectada via Stripe',
+    notifVoteErr: 'Error al votar',
+    notifFieldsErr: 'Completa todos los campos',
+    notifPublished: 'Prompt publicado con éxito ✓',
+    notifConnecting: 'Conectando con Stripe Connect...',
+    notifErrDash: 'Error cargando dashboard',
+    notifTierUp: '¡Prompt subió a nivel ',
+    notifSpinner: 'Conectando con Stripe...',
+    notifPublishing: 'Publicando...',
+    notifProcessing: 'Procesando...',
+    notifNeedAccess: 'Necesitas acceso activo para publicar',
+    currency: 'USD', currencySymbol: '$',
+  }
+};
+
+function t(key) { return (T[lang] || T['en'])[key] || key; }
+
+function applyLang() {
+  const ids = [
+    'hero-pill','hero-p','hero-sub','stat-access','stat-author','stat-max','stat-votes',
+    'cats-title','feat1-title','feat1-desc','feat2-title','feat2-desc','feat3-title','feat3-desc','feat4-title','feat4-desc',
+    'pricing-title','pricing-desc','pricing-example-title','pricing-ex1','pricing-ex2','pricing-ex3','pricing-ex4',
+    'tier0-label','tier0-once','tier0-sub','tier0-f1','tier0-f2','tier0-f3','tier0-f4',
+    'tier2-label','tier2-sub','tier2-f1','tier2-f2','tier2-f3',
+    'tier3-label','tier3-sub','tier3-f1','tier3-f2','tier3-f3',
+    'stripe-pill','pricing-footer',
+    'app-title','dash-title','dash-connect-btn',
+    'dash-earn-label','dash-prompts-label','dash-votes-label','dash-sales-label',
+    'dash-myprompts-title','dash-history-title',
+    'filter-all','filter-free','filter-popular','filter-pro','sort-votes','sort-recent',
+  ];
+  const map = {
+    'hero-pill':'heroPill','hero-p':'heroP','hero-sub':'heroSub',
+    'stat-access':'statAccess','stat-author':'statAuthor','stat-max':'statMax','stat-votes':'statVotes',
+    'cats-title':'catsTitle',
+    'feat1-title':'feat1Title','feat1-desc':'feat1Desc','feat2-title':'feat2Title','feat2-desc':'feat2Desc',
+    'feat3-title':'feat3Title','feat3-desc':'feat3Desc','feat4-title':'feat4Title','feat4-desc':'feat4Desc',
+    'pricing-title':'pricingTitle','pricing-desc':'pricingDesc',
+    'pricing-example-title':'pricingExTitle','pricing-ex1':'pricingEx1','pricing-ex2':'pricingEx2','pricing-ex3':'pricingEx3','pricing-ex4':'pricingEx4',
+    'tier0-label':'tier0Label','tier0-once':'tier0Once','tier0-sub':'tier0Sub',
+    'tier0-f1':'tier0F1','tier0-f2':'tier0F2','tier0-f3':'tier0F3','tier0-f4':'tier0F4',
+    'tier2-label':'tier2Label','tier2-sub':'tier2Sub','tier2-f1':'tier2F1','tier2-f2':'tier2F2','tier2-f3':'tier2F3',
+    'tier3-label':'tier3Label','tier3-sub':'tier3Sub','tier3-f1':'tier3F1','tier3-f2':'tier3F2','tier3-f3':'tier3F3',
+    'stripe-pill':'stripePill','pricing-footer':'pricingFooter',
+    'app-title':'appTitle','dash-title':'dashTitle','dash-connect-btn':'dashConnectBtn',
+    'dash-earn-label':'dashEarnLabel','dash-prompts-label':'dashPromptsLabel',
+    'dash-votes-label':'dashVotesLabel','dash-sales-label':'dashSalesLabel',
+    'dash-myprompts-title':'dashMyPromptsTitle','dash-history-title':'dashHistoryTitle',
+    'filter-all':'filterAll','filter-free':'filterFree','filter-popular':'filterPopular','filter-pro':'filterPro',
+    'sort-votes':'sortVotes','sort-recent':'sortRecent',
+  };
+  for (const [id, key] of Object.entries(map)) {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = t(key);
+  }
+  // Special innerHTML elements
+  const h1 = document.getElementById('hero-h1');
+  if (h1) h1.innerHTML = t('heroH1');
+  const cta = document.getElementById('hero-cta');
+  if (cta) cta.textContent = t('heroCta');
+  const hlogin = document.getElementById('hero-login-btn');
+  if (hlogin) hlogin.textContent = t('heroLoginBtn');
+  const pcta = document.getElementById('pricing-cta');
+  if (pcta) pcta.textContent = t('pricingCta');
+  // Search placeholder
+  const si = document.getElementById('search-inp');
+  if (si) si.placeholder = lang === 'es' ? '🔍  Buscar prompts o tags...' : '🔍  Search prompts or tags...';
+  // Lang toggle button
+  const lb = document.getElementById('lang-toggle');
+  if (lb) lb.textContent = lang === 'es' ? '🇺🇸 EN' : '🇪🇸 ES';
+  // Nav login/register
+  document.getElementById('nav-login').textContent = t('navLogin');
+  document.getElementById('nav-register').textContent = t('navRegister');
+  // Upload button
+  const ub = document.getElementById('upload-btn');
+  if (ub) ub.textContent = t('navUpload');
+  // html lang attr
+  document.documentElement.lang = lang;
+  document.title = lang === 'es' ? 'PromptStore.pro — Marketplace de Prompts IA' : 'PromptStore.pro — AI Prompt Marketplace';
+  // Re-render if prompts loaded
+  if (state.prompts.length) renderPrompts();
+  buildLandingCats();
+  buildCatBar();
+}
+
+function toggleLang() {
+  lang = lang === 'en' ? 'es' : 'en';
+  localStorage.setItem('ps_lang', lang);
+  applyLang();
+}
+
 const CATS = [
-  {id:'marketing',label:'Marketing',icon:'📣',color:'#DC2626'},
-  {id:'imagen',label:'Imagen & Arte',icon:'🎨',color:'#1D6AE5'},
-  {id:'codigo',label:'Código',icon:'💻',color:'#0284C7'},
-  {id:'negocios',label:'Negocios',icon:'💼',color:'#D97706'},
-  {id:'escritura',label:'Escritura',icon:'✍️',color:'#059669'},
-  {id:'educacion',label:'Educación',icon:'🎓',color:'#2563EB'},
-  {id:'productividad',label:'Productividad',icon:'⚡',color:'#DC2626'},
-  {id:'redes',label:'Redes Sociales',icon:'📱',color:'#EA580C'},
-  {id:'seo',label:'SEO',icon:'🔍',color:'#65A30D'},
-  {id:'ventas',label:'Ventas',icon:'💰',color:'#0D9488'},
-  {id:'roleplay',label:'Roleplay',icon:'🎭',color:'#DB2777'},
-  {id:'otro',label:'Otro',icon:'✨',color:'#1D6AE5'},
+  {id:'marketing',label:{en:'Marketing',es:'Marketing'},icon:'📣',color:'#DC2626'},
+  {id:'imagen',label:{en:'Image & Art',es:'Imagen & Arte'},icon:'🎨',color:'#1D6AE5'},
+  {id:'codigo',label:{en:'Code',es:'Código'},icon:'💻',color:'#0284C7'},
+  {id:'negocios',label:{en:'Business',es:'Negocios'},icon:'💼',color:'#D97706'},
+  {id:'escritura',label:{en:'Writing',es:'Escritura'},icon:'✍️',color:'#059669'},
+  {id:'educacion',label:{en:'Education',es:'Educación'},icon:'🎓',color:'#2563EB'},
+  {id:'productividad',label:{en:'Productivity',es:'Productividad'},icon:'⚡',color:'#DC2626'},
+  {id:'redes',label:{en:'Social Media',es:'Redes Sociales'},icon:'📱',color:'#EA580C'},
+  {id:'seo',label:{en:'SEO',es:'SEO'},icon:'🔍',color:'#65A30D'},
+  {id:'ventas',label:{en:'Sales',es:'Ventas'},icon:'💰',color:'#0D9488'},
+  {id:'roleplay',label:{en:'Roleplay',es:'Roleplay'},icon:'🎭',color:'#DB2777'},
+  {id:'otro',label:{en:'Other',es:'Otro'},icon:'✨',color:'#1D6AE5'},
 ];
-const AI_TOOLS = ['ChatGPT','Claude','Gemini','Midjourney','DALL-E','Stable Diffusion','Llama','Otro'];
+const AI_TOOLS = ['ChatGPT','Claude','Gemini','Midjourney','DALL-E','Stable Diffusion','Llama','Other'];
 
-// ── STATE ──
+function catLabel(c) { return c.label[lang] || c.label['en']; }
+
 let state = {
-  user: null,
-  prompts: [],
-  votes: [],
-  purchased: [],
-  filterCat: 'all',
-  payments: [],
+  user: null, prompts: [], votes: [], purchased: [], filterCat: 'all', payments: [],
 };
 
-// ── HELPERS ──
-const getCat = id => CATS.find(c => c.id === id) || CATS[11];
+// Tiers — prices in USD cents for Stripe, display in USD
 const getTier = v => {
-  if (v > 300) return {tier:'pro',   label:'⭐ PRO',     price:300, color:'#B45309', bg:'#FEF3C7'};
-  if (v > 200) return {tier:'medio2',label:'🔥 Popular+',price:200, color:'#1D6AE5', bg:'#DBEAFE'};
-  if (v > 100) return {tier:'medio', label:'🔥 Popular', price:100, color:'#991B1B', bg:'#FEE2E2'};
-  return              {tier:'free',  label:'✓ Gratis',  price:0,   color:'#065F46', bg:'#D1FAE5'};
+  if (v > 300) return {tier:'pro',   label:'⭐ PRO',     price:15, color:'#B45309', bg:'#FEF3C7'};
+  if (v > 200) return {tier:'medio2',label:'🔥 Featured',price:10, color:'#1D6AE5', bg:'#DBEAFE'};
+  if (v > 100) return {tier:'medio', label:'🔥 Popular', price:5,  color:'#991B1B', bg:'#FEE2E2'};
+  return              {tier:'free',  label:'✓ Free',     price:0,  color:'#065F46', bg:'#D1FAE5'};
 };
+const getTierLabel = ti => {
+  const labels = {
+    pro: {en:'⭐ PRO', es:'⭐ PRO'},
+    medio2: {en:'🔥 Featured', es:'🔥 Destacado'},
+    medio: {en:'🔥 Popular', es:'🔥 Popular'},
+    free: {en:'✓ Free', es:'✓ Gratis'},
+  };
+  return (labels[ti.tier] || {})[lang] || ti.label;
+};
+
+const getCat = id => CATS.find(c => c.id === id) || CATS[11];
 
 function notify(msg, type='ok') {
   const el = document.getElementById('notif');
@@ -381,7 +595,6 @@ function saveLocal() {
   if (state.user) localStorage.setItem('ps_user', JSON.stringify(state.user));
 }
 
-// ── SCREENS ──
 function showScreen(id) {
   if (id === 'app' || id === 'dashboard') {
     if (!state.user) { openModal('login'); return; }
@@ -403,33 +616,36 @@ function updateNav() {
   const nb = document.getElementById('nav-btns');
   if (state.user) {
     nb.innerHTML = `
-      <button class="btn btn-sm" onclick="showScreen('app')">Explorar</button>
-      <button class="btn btn-sm" onclick="showScreen('dashboard')">Mi dashboard</button>
-      <button class="btn btn-p btn-sm" onclick="openModal('upload')">+ Subir</button>
-      <div class="av" style="width:30px;height:30px;cursor:pointer;font-size:11px" onclick="logout()" title="Cerrar sesión">${state.user.name[0].toUpperCase()}</div>`;
+      <button class="lang-btn" onclick="toggleLang()" id="lang-toggle">${lang==='es'?'🇺🇸 EN':'🇪🇸 ES'}</button>
+      <button class="btn btn-sm" onclick="showScreen('app')">${t('navExplore')}</button>
+      <button class="btn btn-sm" onclick="showScreen('dashboard')">${t('navDash')}</button>
+      <button class="btn btn-p btn-sm" onclick="openModal('upload')">${t('navUpload')}</button>
+      <div class="av" style="width:30px;height:30px;cursor:pointer;font-size:11px" onclick="logout()" title="${t('navLogout')}">${state.user.name[0].toUpperCase()}</div>`;
   } else {
     nb.innerHTML = `
-      <button class="btn btn-sm" onclick="openModal('login')">Iniciar sesión</button>
-      <button class="btn btn-p btn-sm" onclick="openModal('register')">Registrarse</button>`;
+      <button class="lang-btn" onclick="toggleLang()" id="lang-toggle">${lang==='es'?'🇺🇸 EN':'🇪🇸 ES'}</button>
+      <button class="btn btn-sm" onclick="openModal('login')" id="nav-login">${t('navLogin')}</button>
+      <button class="btn btn-p btn-sm" onclick="openModal('register')" id="nav-register">${t('navRegister')}</button>`;
   }
 }
 
-// ── LANDING CATS ──
 function buildLandingCats() {
-  document.getElementById('landing-cats').innerHTML = CATS.map(c => `
+  const el = document.getElementById('landing-cats');
+  if (!el) return;
+  el.innerHTML = CATS.map(c => `
     <div class="card" style="padding:14px;text-align:center;cursor:pointer;transition:all .2s;border-color:transparent"
       onmouseenter="this.style.borderColor='${c.color}'" onmouseleave="this.style.borderColor='transparent'"
       onclick="showScreen('app');setFCat('${c.id}')">
       <div style="font-size:24px;margin-bottom:6px">${c.icon}</div>
-      <div style="font-size:12px;font-weight:600;color:${c.color}">${c.label}</div>
+      <div style="font-size:12px;font-weight:600;color:${c.color}">${catLabel(c)}</div>
     </div>`).join('');
 }
 
-// ── CAT BAR ──
 function buildCatBar() {
   const bar = document.getElementById('cat-bar');
-  bar.innerHTML = `<div class="cpill on" id="cat-all" onclick="setFCat('all')">🌐 Todos</div>` +
-    CATS.map(c => `<div class="cpill" id="cat-${c.id}" onclick="setFCat('${c.id}')">${c.icon} ${c.label}</div>`).join('');
+  if (!bar) return;
+  bar.innerHTML = `<div class="cpill on" id="cat-all" onclick="setFCat('all')">${t('catAll')}</div>` +
+    CATS.map(c => `<div class="cpill" id="cat-${c.id}" onclick="setFCat('${c.id}')">${c.icon} ${catLabel(c)}</div>`).join('');
 }
 
 function setFCat(id) {
@@ -440,7 +656,6 @@ function setFCat(id) {
   renderPrompts();
 }
 
-// ── RENDER PROMPTS ──
 function renderPrompts() {
   const q = (document.getElementById('search-inp')?.value || '').toLowerCase();
   const tier = document.getElementById('filter-tier')?.value || 'all';
@@ -450,29 +665,35 @@ function renderPrompts() {
   if (state.filterCat !== 'all') list = list.filter(p => p.category === state.filterCat);
   if (tier !== 'all') list = list.filter(p => getTier(p.votes).tier === tier);
   list.sort((a, b) => sort === 'votes' ? b.votes - a.votes : b.id - a.id);
-  document.getElementById('prompt-count').textContent = list.length + ' prompts disponibles';
+  const countEl = document.getElementById('prompt-count');
+  if (countEl) countEl.textContent = list.length + t('promptCount');
   const grid = document.getElementById('prompt-grid');
-  if (!list.length) { grid.innerHTML = '<div style="text-align:center;padding:60px;color:var(--mu)"><div style="font-size:32px;margin-bottom:10px">🔍</div><p>Sin resultados</p></div>'; return; }
+  if (!grid) return;
+  if (!list.length) {
+    grid.innerHTML = `<div style="text-align:center;padding:60px;color:var(--mu)"><div style="font-size:32px;margin-bottom:10px">🔍</div><p>${t('noResults')}</p></div>`;
+    return;
+  }
   grid.innerHTML = list.map(p => {
     const ci = getCat(p.category);
     const ti = getTier(p.votes);
+    const tiLabel = getTierLabel(ti);
     const voted = state.votes.includes(p.id);
     const paid = ti.tier !== 'free';
     const member = !!state.user;
-    return `<div class="card pcard fi" onclick="viewPrompt(${p.id})">
+    return `<div class="card pcard fi" onclick="viewPrompt('${p.id}')">
       ${ti.tier==='pro' ? '<div style="height:3px;background:linear-gradient(90deg,#F59E0B,#EF4444)"></div>' : ''}
-      ${ti.tier==='medio' ? '<div style="height:3px;background:linear-gradient(90deg,#EF4444,#38BDF8)"></div>' : ''}
+      ${ti.tier==='medio'||ti.tier==='medio2' ? '<div style="height:3px;background:linear-gradient(90deg,#EF4444,#38BDF8)"></div>' : ''}
       <div style="padding:14px 14px 10px;flex:1">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px">
           <div style="display:flex;gap:5px;flex-wrap:wrap">
-            <span class="badge" style="background:${ci.color}18;color:${ci.color}">${ci.icon} ${ci.label}</span>
+            <span class="badge" style="background:${ci.color}18;color:${ci.color}">${ci.icon} ${catLabel(ci)}</span>
             <span class="badge" style="background:rgba(255,255,255,.05);color:var(--mu)">🤖 ${p.ai}</span>
           </div>
-          ${paid ? `<span class="badge" style="background:${ti.bg};color:${ti.color};flex-shrink:0">${ti.label}</span>` : ''}
+          ${paid ? `<span class="badge" style="background:${ti.bg};color:${ti.color};flex-shrink:0">${tiLabel}</span>` : ''}
         </div>
         <div style="font-weight:700;font-size:14px;margin-bottom:6px;line-height:1.3">${p.title}</div>
-        <div style="font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:8px;min-height:36px" ${!member && paid ? 'class="blurred"' : ''}>${!member && paid ? 'Contenido premium' : p.preview}</div>
-        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px">${p.tags.map(t => `<span class="tag">#${t}</span>`).join('')}</div>
+        <div style="font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:8px;min-height:36px" ${!member && paid ? 'class="blurred"' : ''}>${!member && paid ? t('promptPremium') : p.preview}</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px">${p.tags.map(tg => `<span class="tag">#${tg}</span>`).join('')}</div>
         <div style="display:flex;align-items:center;justify-content:space-between;border-top:.5px solid var(--bdr);padding-top:8px">
           <div style="display:flex;align-items:center;gap:6px">
             <div class="av" style="width:24px;height:24px;font-size:10px">${p.av}</div>
@@ -480,122 +701,110 @@ function renderPrompts() {
           </div>
           <div style="display:flex;gap:6px;align-items:center">
             <span style="font-size:11px;color:var(--mu)">⬇ ${p.downloads}</span>
-            <button class="vbtn ${voted ? 'on' : ''}" onclick="event.stopPropagation();votePrompt(${p.id})">▲ ${p.votes}</button>
+            <button class="vbtn ${voted ? 'on' : ''}" onclick="event.stopPropagation();votePrompt('${p.id}')">▲ ${p.votes}</button>
           </div>
         </div>
       </div>
       <div style="padding:0 14px 12px">
         <button class="btn ${paid ? 'btn-gold' : 'btn-ok'} btn-sm" style="width:100%;justify-content:center"
-          onclick="event.stopPropagation();viewPrompt(${p.id})">
-          ${!member ? '🔒 Requiere acceso' : paid ? `Ver prompt — $${p.price} MXN` : 'Ver gratis'}
+          onclick="event.stopPropagation();viewPrompt('${p.id}')">
+          ${!member ? t('promptLocked') : paid ? t('promptView') + '$' + ti.price + ' USD' : t('promptFree')}
         </button>
       </div>
     </div>`;
   }).join('');
 }
 
-// ── VOTE ──
 async function votePrompt(id) {
   if (!state.user) { openModal('login'); return; }
   try {
-    const res = await fetch(`${API}/prompts/${id}/vote`, {
-      method: 'POST', headers: authHeaders()
-    });
+    const res = await fetch(`${API}/prompts/${id}/vote`, { method: 'POST', headers: authHeaders() });
     const data = await res.json();
     if (data.error) { notify(data.error, 'err'); return; }
-    state.votes = data.voted
-      ? [...state.votes, id]
-      : state.votes.filter(x => x !== id);
+    state.votes = data.voted ? [...state.votes, id] : state.votes.filter(x => x !== id);
     state.prompts = state.prompts.map(p => {
       if (p._id !== id && p.id !== id) return p;
       const ti = getTier(data.votes);
-      if (ti.tier !== getTier(p.votes).tier) notify(`¡Prompt subió a nivel ${ti.label}!`, 'info');
+      if (ti.tier !== getTier(p.votes).tier) notify(t('notifTierUp') + getTierLabel(ti) + '!', 'info');
       return {...p, votes: data.votes, price: data.price};
     });
     renderPrompts();
-  } catch(err) {
-    notify('Error al votar', 'err');
-  }
+  } catch(err) { notify(t('notifVoteErr'), 'err'); }
 }
 
-// ── VIEW PROMPT ──
 function viewPrompt(id) {
   if (!state.user) { openModal('login'); return; }
   const p = state.prompts.find(x => (x._id||x.id) === id);
   if (!p) return;
   const ti = getTier(p.votes);
+  const tiLabel = getTierLabel(ti);
   const ci = getCat(p.category);
   const voted = state.votes.includes(id);
   const unlocked = state.purchased.includes(id) || ti.tier === 'free';
   const paid = ti.tier !== 'free';
-
   openModal('custom', `
     <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px">
-      <span class="badge" style="background:${ci.color}18;color:${ci.color}">${ci.icon} ${ci.label}</span>
+      <span class="badge" style="background:${ci.color}18;color:${ci.color}">${ci.icon} ${catLabel(ci)}</span>
       <span class="badge" style="background:rgba(255,255,255,.05);color:var(--mu)">🤖 ${p.ai}</span>
-      ${paid ? `<span class="badge" style="background:${ti.bg};color:${ti.color}">${ti.label}</span>` : ''}
+      ${paid ? `<span class="badge" style="background:${ti.bg};color:${ti.color}">${tiLabel}</span>` : ''}
     </div>
     <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:8px">${p.title}</h2>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
       <div class="av" style="width:32px;height:32px;font-size:12px">${p.av}</div>
-      <div><div style="font-weight:600;font-size:13px">${p.author}</div><div style="font-size:11px;color:var(--mu)">Creador del prompt</div></div>
+      <div><div style="font-weight:600;font-size:13px">${p.author}</div><div style="font-size:11px;color:var(--mu)">${t('promptCreator')}</div></div>
       <div style="margin-left:auto;display:flex;gap:6px;align-items:center">
         <span style="font-size:11px;color:var(--mu)">⬇ ${p.downloads}</span>
-        <button class="vbtn ${voted ? 'on' : ''}" onclick="votePrompt(${id})">▲ ${p.votes}</button>
+        <button class="vbtn ${voted ? 'on' : ''}" onclick="votePrompt('${id}')">▲ ${p.votes}</button>
       </div>
     </div>
     <div style="margin-bottom:16px">
-      <label class="lbl">El Prompt</label>
+      <label class="lbl">Prompt</label>
       <div style="background:var(--sur);border-radius:8px;padding:14px;border:.5px solid var(--bdr);position:relative;min-height:100px">
-        <p style="font-size:13px;line-height:1.8;filter:${unlocked ? 'none' : 'blur(5px)'};user-select:${unlocked ? 'text' : 'none'}">${p.full}</p>
-        ${!unlocked ? `<div class="lock-overlay"><div style="text-align:center;color:#fff"><div style="font-size:24px;margin-bottom:4px">🔒</div><div style="font-size:12px;font-weight:600">Desbloquea para ver</div></div></div>` : ''}
+        <p style="font-size:13px;line-height:1.8;filter:${unlocked?'none':'blur(5px)'};user-select:${unlocked?'text':'none'}">${p.full}</p>
+        ${!unlocked ? `<div class="lock-overlay"><div style="text-align:center;color:#fff"><div style="font-size:24px;margin-bottom:4px">🔒</div><div style="font-size:12px;font-weight:600">${t('promptUnlockProgress')}</div></div></div>` : ''}
       </div>
-      ${unlocked ? `<button class="btn btn-sm" style="margin-top:7px" onclick="copyPrompt(${id})">📋 Copiar</button>` : ''}
+      ${unlocked ? `<button class="btn btn-sm" style="margin-top:7px" onclick="copyPrompt('${id}')">${t('promptCopy')}</button>` : ''}
     </div>
-    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px">${p.tags.map(t => `<span class="tag">#${t}</span>`).join('')}</div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px">${p.tags.map(tg => `<span class="tag">#${tg}</span>`).join('')}</div>
     ${!unlocked ? `
       <div style="background:#DBEAFE;border-radius:8px;padding:12px;margin-bottom:12px;font-size:12px;color:#1E3A8A">
-        💰 El autor recibe <strong>$${Math.round(p.price * .7)} MXN</strong> · Pagado con Stripe · Acceso permanente
+        ${t('promptAuthorEarns')} <strong>$${(ti.price * .7).toFixed(2)} USD</strong> ${t('promptPayStripe')}
       </div>
       <button class="btn btn-gold" id="buy-btn-${id}" style="width:100%;justify-content:center;padding:12px;font-size:14px"
-        onclick="buyPromptReal(${id})">
-        Desbloquear por $${p.price} MXN →
+        onclick="buyPromptReal('${id}')">
+        ${t('promptUnlockBtn')}${ti.price}${t('promptUnlockBtnSuffix')}
       </button>
-    ` : `<div style="background:#D1FAE5;border-radius:8px;padding:11px;font-size:12px;color:#065F46;text-align:center">✓ Prompt desbloqueado permanentemente</div>`}
+    ` : `<div style="background:#D1FAE5;border-radius:8px;padding:11px;font-size:12px;color:#065F46;text-align:center">${t('promptUnlocked')}</div>`}
   `);
 }
 
-// ── BUY PROMPT ──
 async function buyPromptReal(id) {
   if (!state.user) { openModal('login'); return; }
-  const p = state.prompts.find(x => (x._id || x.id) === id);
+  const p = state.prompts.find(x => (x._id||x.id) === id);
   if (!p) return;
   const btn = document.getElementById('buy-btn-' + id);
-  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Procesando...'; }
+  if (btn) { btn.disabled = true; btn.innerHTML = `<span class="spinner"></span> ${t('notifProcessing')}`; }
   try {
     const res = await fetch(`${API}/prompt/buy`, {
       method: 'POST', headers: authHeaders(),
       body: JSON.stringify({promptId: id}),
     });
     const data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      throw new Error(data.error || 'Error al crear sesión de pago');
-    }
+    if (data.url) { window.location.href = data.url; }
+    else throw new Error(data.error || 'Error');
   } catch (err) {
     notify('Error: ' + err.message, 'err');
-    if (btn) { btn.disabled = false; btn.textContent = `Desbloquear por $${p.price} MXN →`; }
+    const ti = getTier(p.votes);
+    if (btn) { btn.disabled = false; btn.textContent = `${t('promptUnlockBtn')}${ti.price}${t('promptUnlockBtnSuffix')}`; }
   }
 }
 
 function copyPrompt(id) {
   const p = state.prompts.find(x => (x._id||x.id) === id);
   navigator.clipboard?.writeText(p.full);
-  notify('Prompt copiado al portapapeles ✓', 'ok');
+  notify(t('notifCopied'), 'ok');
 }
 
-// ── AUTH ──
 function openModal(type, customContent) {
   const bg = document.getElementById('modal-bg');
   const mc = document.getElementById('modal-content');
@@ -606,80 +815,80 @@ function openModal(type, customContent) {
   if (type === 'upload')   mc.innerHTML = buildUpload();
 }
 
-function closeModal() {
-  document.getElementById('modal-bg').classList.remove('open');
-}
+function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
 
 function buildLogin() {
   return `
-    <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">Iniciar sesión</h2>
-    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">Bienvenido de vuelta</p>
-    <div class="fg"><label class="lbl">Correo</label><input class="inp" id="l-email" type="email" placeholder="hola@ejemplo.com"></div>
-    <div class="fg"><label class="lbl">Contraseña</label><input class="inp" id="l-pass" type="password" placeholder="••••••••"></div>
-    <button class="btn btn-p" style="width:100%;justify-content:center;padding:11px;margin-top:4px" onclick="doLogin()">Entrar →</button>
-    <p style="text-align:center;font-size:12px;color:var(--mu);margin-top:12px">¿No tienes cuenta? <span style="color:var(--acc2);cursor:pointer" onclick="openModal('register')">Regístrate</span></p>`;
+    <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">${t('loginTitle')}</h2>
+    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">${t('loginSub')}</p>
+    <div class="fg"><label class="lbl">${t('loginEmail')}</label><input class="inp" id="l-email" type="email" placeholder="${t('loginEmailPh')}"></div>
+    <div class="fg"><label class="lbl">${t('loginPass')}</label><input class="inp" id="l-pass" type="password" placeholder="••••••••"></div>
+    <button class="btn btn-p" style="width:100%;justify-content:center;padding:11px;margin-top:4px" onclick="doLogin()">${t('loginBtn')}</button>
+    <p style="text-align:center;font-size:12px;color:var(--mu);margin-top:12px">${t('loginNoAccount')}<span style="color:var(--acc2);cursor:pointer" onclick="openModal('register')">${t('loginRegister')}</span></p>`;
 }
 
 function buildRegister() {
   return `
-    <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">Crear cuenta</h2>
-    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">Acceso único: <strong>$100 MXN una sola vez</strong> · Sin mensualidades</p>
-    <div class="fg"><label class="lbl">Tu nombre</label><input class="inp" id="r-name" placeholder="Ej: Ana García"></div>
-    <div class="fg"><label class="lbl">Correo</label><input class="inp" id="r-email" type="email" placeholder="hola@ejemplo.com"></div>
-    <div class="fg"><label class="lbl">Contraseña</label><input class="inp" id="r-pass" type="password" placeholder="••••••••"></div>
-    <button class="btn btn-p" id="reg-btn" style="width:100%;justify-content:center;padding:11px;margin-top:4px" onclick="doRegister()">
-      Pagar $100 MXN y crear cuenta →
-    </button>
-    <p style="text-align:center;font-size:11px;color:var(--mu);margin-top:10px">🔒 Pago único seguro con Stripe · Sin renovaciones automáticas</p>`;
+    <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">${t('registerTitle')}</h2>
+    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">${t('registerSub')}</p>
+    <div class="fg"><label class="lbl">${t('registerName')}</label><input class="inp" id="r-name" placeholder="${t('registerNamePh')}"></div>
+    <div class="fg"><label class="lbl">${t('registerEmail')}</label><input class="inp" id="r-email" type="email" placeholder="${t('registerEmailPh')}"></div>
+    <div class="fg"><label class="lbl">${t('registerPass')}</label><input class="inp" id="r-pass" type="password" placeholder="••••••••"></div>
+    <button class="btn btn-p" id="reg-btn" style="width:100%;justify-content:center;padding:11px;margin-top:4px" onclick="doRegister()">${t('registerBtn')}</button>
+    <p style="text-align:center;font-size:11px;color:var(--mu);margin-top:10px">${t('registerSecurity')}</p>`;
 }
 
 function buildUpload() {
   return `
-    <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">Subir prompt</h2>
-    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">Gratis → 100 votos ($140/venta) → 200 votos ($210/venta)</p>
-    <div class="fg"><label class="lbl">Título *</label><input class="inp" id="u-title" placeholder="Ej: Copywriter experto para B2B"></div>
+    <h2 class="syne" style="font-size:18px;font-weight:800;margin-bottom:4px">${t('uploadTitle')}</h2>
+    <p style="color:var(--mu);font-size:12px;margin-bottom:18px">${t('uploadSub')}</p>
+    <div class="fg"><label class="lbl">${t('uploadTitleLabel')}</label><input class="inp" id="u-title" placeholder="${t('uploadTitlePh')}"></div>
     <div class="grid2" style="margin-bottom:14px">
-      <div><label class="lbl">Categoría *</label>
-        <select class="inp" id="u-cat"><option value="">Elige categoría</option>${CATS.map(c => `<option value="${c.id}">${c.icon} ${c.label}</option>`).join('')}</select></div>
-      <div><label class="lbl">IA compatible *</label>
-        <select class="inp" id="u-ai"><option value="">Elige IA</option>${AI_TOOLS.map(a => `<option>${a}</option>`).join('')}</select></div>
+      <div><label class="lbl">${t('uploadCatLabel')}</label>
+        <select class="inp" id="u-cat"><option value="">${t('uploadCatPh')}</option>${CATS.map(c => `<option value="${c.id}">${c.icon} ${catLabel(c)}</option>`).join('')}</select></div>
+      <div><label class="lbl">${t('uploadAiLabel')}</label>
+        <select class="inp" id="u-ai"><option value="">${t('uploadAiPh')}</option>${AI_TOOLS.map(a => `<option>${a}</option>`).join('')}</select></div>
     </div>
-    <div class="fg"><label class="lbl">Vista previa</label><input class="inp" id="u-preview" placeholder="Primeras palabras del prompt..."></div>
-    <div class="fg"><label class="lbl">Prompt completo *</label><textarea class="inp" id="u-full" rows="4" placeholder="Solo lo ven quienes lo compren"></textarea></div>
-    <div class="fg"><label class="lbl">Tags (separados por coma)</label><input class="inp" id="u-tags" placeholder="marketing, copy, ventas"></div>
-    <div style="background:#D1FAE5;border-radius:8px;padding:10px;font-size:12px;color:#065F46;margin-bottom:14px">
-      💡 Empieza gratis. La comunidad vota y el nivel sube automáticamente.
-    </div>
-    <button class="btn btn-p" style="width:100%;justify-content:center;padding:11px" onclick="doUpload()">Publicar prompt →</button>`;
+    <div class="fg"><label class="lbl">${t('uploadPreviewLabel')}</label><input class="inp" id="u-preview" placeholder="${t('uploadPreviewPh')}"></div>
+    <div class="fg"><label class="lbl">${t('uploadFullLabel')}</label><textarea class="inp" id="u-full" rows="4" placeholder="${t('uploadFullPh')}"></textarea></div>
+    <div class="fg"><label class="lbl">${t('uploadTagsLabel')}</label><input class="inp" id="u-tags" placeholder="${t('uploadTagsPh')}"></div>
+    <div style="background:#D1FAE5;border-radius:8px;padding:10px;font-size:12px;color:#065F46;margin-bottom:14px">${t('uploadTip')}</div>
+    <button class="btn btn-p" style="width:100%;justify-content:center;padding:11px" onclick="doUpload()">${t('uploadBtn')}</button>`;
 }
 
-// ── LOGIN ──
-function doLogin() {
+async function doLogin() {
   const email = document.getElementById('l-email')?.value;
   const pass = document.getElementById('l-pass')?.value;
-  if (!email || !pass) { notify('Completa todos los campos', 'err'); return; }
-  const name = email.split('@')[0];
-  state.user = {name, email, member: true};
-  saveLocal();
-  closeModal();
-  showScreen('app');
-  notify('¡Bienvenido de vuelta, ' + name + '!', 'ok');
-  updateNav();
+  if (!email || !pass) { notify(t('notifFieldsErr'), 'err'); return; }
+  try {
+    const res = await fetch(`${API}/auth/login`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email, password: pass})
+    });
+    const data = await res.json();
+    if (data.error) { notify(data.error, 'err'); return; }
+    state.user = {name: data.name, email: data.email, member: data.membershipActive};
+    localStorage.setItem('ps_token', data.token);
+    saveLocal();
+    closeModal();
+    await loadPrompts();
+    await loadMyData();
+    showScreen('app');
+    updateNav();
+  } catch(e) { notify('Error', 'err'); }
 }
 
-// ── REGISTER (pago único de acceso con Stripe) ──
 async function doRegister() {
   const name = document.getElementById('r-name')?.value;
   const email = document.getElementById('r-email')?.value;
   const pass = document.getElementById('r-pass')?.value;
-  if (!name || !email || !pass) { notify('Completa todos los campos', 'err'); return; }
+  if (!name || !email || !pass) { notify(t('notifFieldsErr'), 'err'); return; }
   const btn = document.getElementById('reg-btn');
   btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Conectando con Stripe...';
+  btn.innerHTML = `<span class="spinner"></span> ${t('notifSpinner')}`;
   try {
     const res = await fetch(`${API}/access/checkout`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      method: 'POST', headers: {'Content-Type':'application/json'},
       body: JSON.stringify({name, email, password: pass}),
     });
     const data = await res.json();
@@ -687,211 +896,178 @@ async function doRegister() {
       state.user = {name, email, member: false};
       saveLocal();
       window.location.href = data.url;
-    } else {
-      throw new Error(data.error || 'Error al crear sesión de pago');
-    }
+    } else throw new Error(data.error || 'Error');
   } catch (err) {
     notify('Error: ' + err.message, 'err');
     btn.disabled = false;
-    btn.textContent = 'Pagar $100 MXN y crear cuenta →';
+    btn.textContent = t('registerBtn');
   }
 }
 
-// ── UPLOAD ──
 async function doUpload() {
   const title = document.getElementById('u-title')?.value;
   const cat = document.getElementById('u-cat')?.value;
   const ai = document.getElementById('u-ai')?.value;
   const full = document.getElementById('u-full')?.value;
-  if (!title || !cat || !ai || !full) { notify('Completa los campos obligatorios', 'err'); return; }
-  if (!state.user?.member) { notify('Necesitas acceso activo para publicar', 'err'); return; }
+  if (!title || !cat || !ai || !full) { notify(t('notifFieldsErr'), 'err'); return; }
+  if (!state.user?.member) { notify(t('notifNeedAccess'), 'err'); return; }
   const preview = document.getElementById('u-preview')?.value || full.slice(0, 70) + '...';
-  const tags = (document.getElementById('u-tags')?.value || '').split(',').map(t => t.trim()).filter(Boolean);
+  const tags = (document.getElementById('u-tags')?.value || '').split(',').map(tg => tg.trim()).filter(Boolean);
   const btn = document.querySelector('#modal-content .btn-p');
-  if(btn){btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Publicando...';}
+  if (btn) { btn.disabled = true; btn.innerHTML = `<span class="spinner"></span> ${t('notifPublishing')}`; }
   try {
     const res = await fetch(`${API}/prompts`, {
       method: 'POST', headers: authHeaders(),
       body: JSON.stringify({title, description: preview, content: full, category: cat, model: ai, tags})
     });
     const data = await res.json();
-    if (data.error) { notify(data.error, 'err'); if(btn){btn.disabled=false;btn.textContent='Publicar prompt →';} return; }
+    if (data.error) { notify(data.error, 'err'); if(btn){btn.disabled=false;btn.textContent=t('uploadBtn');} return; }
     closeModal();
     await loadPrompts();
-    notify('Prompt publicado con éxito ✓', 'ok');
+    notify(t('notifPublished'), 'ok');
   } catch(err) {
-    notify('Error al publicar: ' + err.message, 'err');
-    if(btn){btn.disabled=false;btn.textContent='Publicar prompt →';}
+    notify('Error: ' + err.message, 'err');
+    if (btn) { btn.disabled = false; btn.textContent = t('uploadBtn'); }
   }
 }
 
-// ── DASHBOARD ──
 async function renderDashboard() {
   if (!state.user) return;
-  document.getElementById('dash-welcome').textContent = 'Hola, ' + state.user.name;
+  document.getElementById('dash-welcome').textContent = t('dashWelcome') + state.user.name;
   try {
     const res = await fetch(`${API}/dashboard`, {headers: authHeaders()});
     const data = await res.json();
-    if (data.error) { notify(data.error, 'err'); return; }
+    if (data.error) { notify(t('notifErrDash'), 'err'); return; }
     const totalVotes = (data.prompts || []).reduce((s, p) => s + (p.votes||0), 0);
-    document.getElementById('d-total').textContent = '$' + (data.totalEarnings||0).toFixed(0) + ' MXN';
+    document.getElementById('d-total').textContent = '$' + (data.totalEarnings||0).toFixed(2) + ' USD';
     document.getElementById('d-count').textContent = data.promptCount || 0;
     document.getElementById('d-votes').textContent = totalVotes;
     document.getElementById('d-sales').textContent = data.salesCount || 0;
 
-    // Connect status
     const cs = document.getElementById('dash-connect-status');
     if (data.connected) {
       cs.innerHTML = `<div class="card" style="padding:14px;background:#D1FAE518">
-        <div style="font-weight:600;font-size:13px;color:var(--ok)">✓ Cuenta bancaria conectada via Stripe</div>
-        <div style="font-size:12px;color:var(--mu);margin-top:3px">Recibes el 70% automáticamente en cada venta</div>
+        <div style="font-weight:600;font-size:13px;color:var(--ok)">${t('dashConnected')}</div>
+        <div style="font-size:12px;color:var(--mu);margin-top:3px">${t('dashConnectedSub')}</div>
       </div>`;
     } else {
       cs.innerHTML = `<div class="card" style="padding:14px">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
           <div>
-            <div style="font-weight:600;font-size:13px;margin-bottom:3px">Cuenta bancaria para depósitos</div>
-            <div style="font-size:12px;color:var(--mu)">Conecta tu cuenta para recibir el 70% automáticamente via Stripe Connect</div>
+            <div style="font-weight:600;font-size:13px;margin-bottom:3px">${t('dashBankTitle')}</div>
+            <div style="font-size:12px;color:var(--mu)">${t('dashBankSub')}</div>
           </div>
-          <button class="btn btn-sm" style="background:#635BFF;color:#fff;border-color:#635BFF" onclick="connectStripeAccount()">S Conectar →</button>
+          <button class="btn btn-sm" style="background:#635BFF;color:#fff;border-color:#635BFF" onclick="connectStripeAccount()">${t('dashConnectBtn2')}</button>
         </div>
       </div>`;
     }
 
-    // Mis prompts
     const dp = document.getElementById('dash-prompts');
     const myP = data.prompts || [];
     if (!myP.length) {
       dp.innerHTML = `<div class="card" style="padding:20px;text-align:center;color:var(--mu)">
         <div style="font-size:28px;margin-bottom:8px">🚀</div>
-        <p style="font-size:13px;margin-bottom:12px">Aún no has publicado prompts</p>
-        <button class="btn btn-p btn-sm" onclick="openModal('upload')">+ Subir primer prompt</button>
+        <p style="font-size:13px;margin-bottom:12px">${t('dashNoPrompts')}</p>
+        <button class="btn btn-p btn-sm" onclick="openModal('upload')">${t('dashUploadFirst')}</button>
       </div>`;
     } else {
       dp.innerHTML = myP.map(p => {
         const ti = getTier(p.votes);
+        const tiLabel = getTierLabel(ti);
         const ci = getCat(p.category);
-        const nextThresh = ti.tier === 'free' ? 101 : ti.tier === 'medio' ? 201 : ti.tier === 'medio2' ? 301 : null;
-        const progress = nextThresh ? Math.min(100, Math.round(p.votes / nextThresh * 100)) : 100;
+        const nextThresh = ti.tier==='free'?101:ti.tier==='medio'?201:ti.tier==='medio2'?301:null;
+        const progress = nextThresh ? Math.min(100, Math.round(p.votes/nextThresh*100)) : 100;
         return `<div class="card" style="padding:14px">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
             <div style="flex:1">
               <div style="font-weight:700;font-size:13px;margin-bottom:4px">${p.title}</div>
               <div style="display:flex;gap:5px;flex-wrap:wrap">
-                <span class="badge" style="background:${ci.color}18;color:${ci.color}">${ci.icon} ${ci.label}</span>
-                <span class="badge" style="background:${ti.bg};color:${ti.color}">${ti.label}</span>
+                <span class="badge" style="background:${ci.color}18;color:${ci.color}">${ci.icon} ${catLabel(ci)}</span>
+                <span class="badge" style="background:${ti.bg};color:${ti.color}">${tiLabel}</span>
               </div>
             </div>
             <div style="text-align:right;flex-shrink:0">
               <div class="syne" style="font-size:16px;font-weight:800;color:var(--mu)">▲ ${p.votes}</div>
-              <div style="font-size:11px;color:var(--mu)">votos</div>
+              <div style="font-size:11px;color:var(--mu)">${t('dashVotes')}</div>
             </div>
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--mu)">
-            ${nextThresh ? `<div>${p.votes}/${nextThresh} para siguiente nivel</div>` : '<div style="color:var(--ok);font-weight:600">Nivel máximo ⭐</div>'}
+            ${nextThresh ? `<div>${p.votes}/${nextThresh}${t('dashNextLevel')}</div>` : `<div style="color:var(--ok);font-weight:600">${t('dashMaxLevel')}</div>`}
           </div>
           ${nextThresh ? `<div class="prog"><div class="prog-fill" style="width:${progress}%;background:${ti.tier==='free'?'var(--ok)':'#DC2626'}"></div></div>` : ''}
         </div>`;
       }).join('');
     }
 
-    // Historial
     const ph = document.getElementById('payment-history');
     const sales = data.recentSales || [];
     if (!sales.length) {
-      ph.innerHTML = '<div style="padding:20px;text-align:center;color:var(--mu);font-size:13px">Sin pagos registrados aún</div>';
+      ph.innerHTML = `<div style="padding:20px;text-align:center;color:var(--mu);font-size:13px">${t('dashNoPayments')}</div>`;
     } else {
       ph.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:12px">
         <thead><tr style="background:var(--sur)">
-          ${['Prompt','Tu parte','Fecha','Estado'].map(h => `<th style="padding:10px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);font-weight:600">${h}</th>`).join('')}
+          ${[t('dashTablePrompt'),t('dashTableEarning'),t('dashTableDate'),t('dashTableStatus')].map(h => `<th style="padding:10px 14px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);font-weight:600">${h}</th>`).join('')}
         </tr></thead>
         <tbody>${sales.map(pay => `<tr style="border-top:.5px solid var(--bdr)">
           <td style="padding:10px 14px;font-weight:500">${pay.promptId}</td>
-          <td style="padding:10px 14px;font-weight:700;color:#B45309">$${pay.authorEarning} MXN</td>
-          <td style="padding:10px 14px;color:var(--mu)">${new Date(pay.date).toLocaleDateString('es-MX')}</td>
-          <td style="padding:10px 14px"><span class="badge" style="background:#D1FAE5;color:#065F46">✓ completado</span></td>
+          <td style="padding:10px 14px;font-weight:700;color:#B45309">$${pay.authorEarning.toFixed(2)} USD</td>
+          <td style="padding:10px 14px;color:var(--mu)">${new Date(pay.date).toLocaleDateString(lang==='es'?'es-MX':'en-US')}</td>
+          <td style="padding:10px 14px"><span class="badge" style="background:#D1FAE5;color:#065F46">${t('dashCompleted')}</span></td>
         </tr>`).join('')}</tbody>
       </table>`;
     }
-  } catch(err) {
-    notify('Error cargando dashboard', 'err');
-  }
+  } catch(err) { notify(t('notifErrDash'), 'err'); }
 }
 
-// ── STRIPE CONNECT ──
 async function connectStripeAccount() {
   if (!state.user) { openModal('login'); return; }
-  notify('Conectando con Stripe Connect...', 'info');
+  notify(t('notifConnecting'), 'info');
   try {
-    const res = await fetch(`${API}/connect/onboard`, {
-      method: 'POST', headers: authHeaders()
-    });
+    const res = await fetch(`${API}/connect/onboard`, { method: 'POST', headers: authHeaders() });
     const data = await res.json();
     if (data.url) window.location.href = data.url;
     else throw new Error(data.error);
-  } catch (err) {
-    notify('Error: ' + err.message, 'err');
-  }
+  } catch (err) { notify('Error: ' + err.message, 'err'); }
 }
 
-// ── LOGOUT ──
 function logout() {
-  state.user = null;
-  state.prompts = [];
-  state.votes = [];
-  state.purchased = [];
-  localStorage.removeItem('ps_user');
-  localStorage.removeItem('ps_token');
+  state.user = null; state.prompts = []; state.votes = []; state.purchased = [];
+  localStorage.removeItem('ps_user'); localStorage.removeItem('ps_token');
   showScreen('landing');
   updateNav();
-  notify('Sesión cerrada', 'info');
+  notify(t('notifLogout'), 'info');
 }
 
-// ── SUCCESS PAGE ──
 async function checkSuccess() {
   const params = new URLSearchParams(window.location.search);
   const type = params.get('type');
   const connectStatus = params.get('connect');
-
   if (type === 'access') {
     const saved = localStorage.getItem('ps_user');
-    if (saved) {
-      state.user = JSON.parse(saved);
-      state.user.member = true;
-      saveLocal();
-    }
+    if (saved) { state.user = JSON.parse(saved); state.user.member = true; saveLocal(); }
     try {
       const res = await fetch(`${API}/auth/me`, {headers: authHeaders()});
       const data = await res.json();
       if (!data.error) { state.user = {...state.user, member: data.membershipActive}; saveLocal(); }
     } catch(e){}
-    notify('✓ Acceso activado. ¡Bienvenido a PromptStore.pro!', 'ok');
+    notify(t('notifAccessOk'), 'ok');
     window.history.replaceState({}, '', '/');
-    await loadPrompts();
-    await loadMyData();
-    showScreen('app');
-    updateNav();
+    await loadPrompts(); await loadMyData(); showScreen('app'); updateNav();
   }
-
   if (type === 'prompt') {
     const promptId = params.get('promptId');
     if (promptId) state.purchased.push(promptId);
-    notify('✓ Prompt desbloqueado permanentemente', 'ok');
+    notify(t('notifPromptOk'), 'ok');
     window.history.replaceState({}, '', '/');
-    await loadPrompts();
-    await loadMyData();
-    showScreen('app');
-    updateNav();
+    await loadPrompts(); await loadMyData(); showScreen('app'); updateNav();
   }
-
   if (connectStatus === 'success') {
-    notify('✓ Cuenta bancaria conectada via Stripe', 'ok');
+    notify(t('notifBankOk'), 'ok');
     window.history.replaceState({}, '', '/');
     showScreen('dashboard');
   }
 }
 
-// ── LOAD PROMPTS FROM API ──
 async function loadPrompts() {
   try {
     const cat = state.filterCat !== 'all' ? `?category=${state.filterCat}` : '';
@@ -899,24 +1075,15 @@ async function loadPrompts() {
     const data = await res.json();
     if (data.prompts) {
       state.prompts = data.prompts.map(p => ({
-        ...p,
-        id: p._id,
-        ai: p.model || 'ChatGPT',
-        author: p.authorName,
+        ...p, id: p._id, ai: p.model || 'ChatGPT', author: p.authorName,
         av: (p.authorName||'U').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2),
-        preview: p.description,
-        full: p.content,
-        tier: getTier(p.votes).tier,
-        downloads: 0,
+        preview: p.description, full: p.content, tier: getTier(p.votes).tier, downloads: 0,
       }));
       renderPrompts();
     }
-  } catch(err) {
-    console.error('Error cargando prompts:', err);
-  }
+  } catch(err) { console.error('Error loading prompts:', err); }
 }
 
-// ── LOAD USER VOTES & UNLOCKED ──
 async function loadMyData() {
   if (!getToken()) return;
   try {
@@ -931,25 +1098,16 @@ async function loadMyData() {
   } catch(e){}
 }
 
-// ── INIT ──
 async function init() {
+  applyLang();
   buildLandingCats();
   buildCatBar();
-
-  // Restaurar sesión
   const saved = localStorage.getItem('ps_user');
-  if (saved && getToken()) {
-    state.user = JSON.parse(saved);
-    updateNav();
-  }
-
-  // Verificar si viene de Stripe
+  if (saved && getToken()) { state.user = JSON.parse(saved); updateNav(); }
   if (window.location.search.includes('type=') || window.location.search.includes('connect=')) {
     await checkSuccess();
   } else if (state.user) {
-    await loadPrompts();
-    await loadMyData();
-    showScreen('app');
+    await loadPrompts(); await loadMyData(); showScreen('app');
   }
 }
 
