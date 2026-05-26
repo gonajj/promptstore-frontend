@@ -288,7 +288,7 @@ function getToken() { return localStorage.getItem('ps_token'); }
 function authHeaders() { return {'Content-Type':'application/json','Authorization':'Bearer ' + getToken()}; }
 
 // ── LANGUAGE ──
-let lang = localStorage.getItem('ps_lang') || 'en';
+let lang = localStorage.getItem('ps_lang') || 'es';
 
 const T = {
   en: {
