@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PromptStore.pro — AI Prompt Marketplace</title>
+<title>PromptStore.pro — Marketplace de Prompts de IA</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-99FKL8SVKN"></script>
 <script>
@@ -104,9 +104,9 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
 <nav>
   <div class="logo" onclick="goHome()">⚡ PromptStore.pro</div>
   <div class="nav-links" id="nav-btns">
-    <button class="lang-btn" onclick="toggleLang()" id="lang-toggle">🇪🇸 ES</button>
-    <button class="btn btn-sm" onclick="openModal('login')" id="nav-login">Sign in</button>
-    <button class="btn btn-p btn-sm" onclick="openModal('register')" id="nav-register">Sign up</button>
+    <button class="lang-btn" onclick="toggleLang()" id="lang-toggle">🇺🇸 EN</button>
+    <button class="btn btn-sm" onclick="openModal('login')" id="nav-login">Iniciar sesión</button>
+    <button class="btn btn-p btn-sm" onclick="openModal('register')" id="nav-register">Registrarse</button>
   </div>
 </nav>
 
@@ -114,26 +114,26 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
 <div id="s-landing" class="screen active">
   <div class="hero">
     <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(29,106,229,.14);border:.5px solid rgba(29,106,229,.3);padding:5px 14px;border-radius:999px;font-size:12px;color:#5B9BF8;margin-bottom:14px" id="hero-pill">
-      ✦ AI Prompt Marketplace · Payments with Stripe
+      ✦ Marketplace de Prompts IA · Pagos con Stripe
     </div>
-    <h1 class="syne" id="hero-h1">The best prompts,<br>voted by the community</h1>
-    <p id="hero-p">Access, upload and monetize AI prompts. Earn 70% of every sale directly to your bank account.</p>
+    <h1 class="syne" id="hero-h1">Los mejores prompts,<br>votados por la comunidad</h1>
+    <p id="hero-p">Accede, sube y monetiza prompts de IA. Gana el 70% de cada venta directo a tu cuenta bancaria.</p>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button class="btn btn-p btn-lg" onclick="openModal('register')" style="font-size:16px;padding:14px 32px;box-shadow:0 0 24px rgba(124,58,237,.5)" id="hero-cta">🚀 Get access — $5 USD one-time</button>
-      <button class="btn btn-lg" onclick="openModal('login')" id="hero-login-btn">I have an account →</button>
+      <button class="btn btn-p btn-lg" onclick="openModal('register')" style="font-size:16px;padding:14px 32px;box-shadow:0 0 24px rgba(124,58,237,.5)" id="hero-cta">🚀 Crear cuenta — $5 USD único</button>
+      <button class="btn btn-lg" onclick="openModal('login')" id="hero-login-btn">Ya tengo cuenta →</button>
     </div>
-    <div style="margin-top:14px;font-size:12px;color:var(--mu)" id="hero-sub">✓ One-time payment, no subscriptions &nbsp;·&nbsp; ✓ Lifetime access &nbsp;·&nbsp; ✓ Secure payments with Stripe</div>
+    <div style="margin-top:14px;font-size:12px;color:var(--mu)" id="hero-sub">✓ Pago único, sin mensualidades &nbsp;·&nbsp; ✓ Acceso de por vida &nbsp;·&nbsp; ✓ Pagos seguros con Stripe</div>
     <div style="display:flex;gap:32px;justify-content:center;margin-top:36px;flex-wrap:wrap">
-      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">$5</div><div style="font-size:12px;color:#6B7A95" id="stat-access">USD one-time access</div></div>
-      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">70%</div><div style="font-size:12px;color:#6B7A95" id="stat-author">To the author</div></div>
-      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">$10.50</div><div style="font-size:12px;color:#6B7A95" id="stat-max">Max per sale USD</div></div>
-      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">🔓</div><div style="font-size:12px;color:#6B7A95" id="stat-votes">From 101 votes</div></div>
+      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">$5</div><div style="font-size:12px;color:#6B7A95" id="stat-access">USD acceso único</div></div>
+      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">70%</div><div style="font-size:12px;color:#6B7A95" id="stat-author">Para el autor</div></div>
+      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">$10.50</div><div style="font-size:12px;color:#6B7A95" id="stat-max">Máx por venta USD</div></div>
+      <div style="text-align:center"><div class="syne" style="font-size:24px;font-weight:800;color:#5B9BF8">🔓</div><div style="font-size:12px;color:#6B7A95" id="stat-votes">Desde 101 votos</div></div>
     </div>
   </div>
 
   <!-- Categories -->
   <div class="section">
-    <h2 class="syne" style="font-size:20px;font-weight:700;margin-bottom:16px;text-align:center" id="cats-title">Explore by category</h2>
+    <h2 class="syne" style="font-size:20px;font-weight:700;margin-bottom:16px;text-align:center" id="cats-title">Explora por categoría</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px" id="landing-cats"></div>
   </div>
 
@@ -209,8 +209,8 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
     <div style="text-align:center;margin-top:24px">
       <div class="stripe-pill" style="margin-bottom:12px" id="stripe-pill">S Payments processed with Stripe · Deposit in 1–2 business days to your bank account</div>
       <br>
-      <button class="btn btn-p btn-lg" onclick="openModal('register')" style="margin-top:12px;box-shadow:0 0 20px rgba(124,58,237,.4)" id="pricing-cta">🚀 Get access for $5 USD →</button>
-      <div style="margin-top:10px;font-size:12px;color:var(--mu)" id="pricing-footer">One-time payment · No subscriptions · Lifetime access</div>
+      <button class="btn btn-p btn-lg" onclick="openModal('register')" style="margin-top:12px;box-shadow:0 0 20px rgba(124,58,237,.4)" id="pricing-cta">🚀 Acceder por $5 USD →</button>
+      <div style="margin-top:10px;font-size:12px;color:var(--mu)" id="pricing-footer">Pago único · Sin mensualidades · Acceso de por vida</div>
     </div>
   </div>
 </div>
@@ -295,7 +295,7 @@ const T = {
     // NAV
     navLogin: 'Sign in', navRegister: 'Sign up', navExplore: 'Explore', navDash: 'My dashboard', navUpload: '+ Upload', navLogout: 'Sign out',
     // HERO
-    heroPill: '✦ AI Prompt Marketplace · Payments with Stripe',
+    heroPill: '✦ Marketplace de Prompts IA · Pagos con Stripe',
     heroH1: 'The best prompts,<br>voted by the community',
     heroP: 'Access, upload and monetize AI prompts. Earn 70% of every sale directly to your bank account.',
     heroCta: '🚀 Get access — $5 USD one-time',
@@ -540,6 +540,7 @@ function toggleLang() {
   lang = lang === 'en' ? 'es' : 'en';
   localStorage.setItem('ps_lang', lang);
   applyLang();
+  if (state.user) loadPrompts();
 }
 
 const CATS = [
@@ -850,6 +851,11 @@ function buildUpload() {
       <div><label class="lbl">${t('uploadAiLabel')}</label>
         <select class="inp" id="u-ai"><option value="">${t('uploadAiPh')}</option>${AI_TOOLS.map(a => `<option>${a}</option>`).join('')}</select></div>
     </div>
+    <div class="fg"><label class="lbl">${lang === 'es' ? 'Idioma del prompt' : 'Prompt language'}</label>
+      <select class="inp" id="u-lang">
+        <option value="es" ${lang === 'es' ? 'selected' : ''}>🇪🇸 Español</option>
+        <option value="en" ${lang === 'en' ? 'selected' : ''}>🇺🇸 English</option>
+      </select></div>
     <div class="fg"><label class="lbl">${t('uploadPreviewLabel')}</label><input class="inp" id="u-preview" placeholder="${t('uploadPreviewPh')}"></div>
     <div class="fg"><label class="lbl">${t('uploadFullLabel')}</label><textarea class="inp" id="u-full" rows="4" placeholder="${t('uploadFullPh')}"></textarea></div>
     <div class="fg"><label class="lbl">${t('uploadTagsLabel')}</label><input class="inp" id="u-tags" placeholder="${t('uploadTagsPh')}"></div>
@@ -919,7 +925,7 @@ async function doUpload() {
   try {
     const res = await fetch(`${API}/prompts`, {
       method: 'POST', headers: authHeaders(),
-      body: JSON.stringify({title, description: preview, content: full, category: cat, model: ai, tags})
+      body: JSON.stringify({title, description: preview, content: full, category: cat, model: ai, tags, lang: document.getElementById('u-lang')?.value || lang})
     });
     const data = await res.json();
     if (data.error) { notify(data.error, 'err'); if(btn){btn.disabled=false;btn.textContent=t('uploadBtn');} return; }
@@ -1071,8 +1077,10 @@ async function checkSuccess() {
 
 async function loadPrompts() {
   try {
-    const cat = state.filterCat !== 'all' ? `?category=${state.filterCat}` : '';
-    const res = await fetch(`${API}/prompts${cat}`);
+    const params = new URLSearchParams();
+    if (state.filterCat !== 'all') params.set('category', state.filterCat);
+    params.set('lang', lang);
+    const res = await fetch(`${API}/prompts?${params.toString()}`);
     const data = await res.json();
     if (data.prompts) {
       state.prompts = data.prompts.map(p => ({
