@@ -1,5 +1,6 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/sitemap.xml", "destination": "https://promptostore-backend-production.up.railway.app/sitemap.xml" },
+    { "source": "/p/:path*", "destination": "https://promptostore-backend-production.up.railway.app/p/:path*" }
   ]
 }
