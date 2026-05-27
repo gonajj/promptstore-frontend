@@ -536,11 +536,14 @@ function applyLang() {
   buildCatBar();
 }
 
-function toggleLang() {
+async function toggleLang() {
   lang = lang === 'en' ? 'es' : 'en';
   localStorage.setItem('ps_lang', lang);
   applyLang();
-  if (state.user) loadPrompts();
+  state.prompts = [];
+  renderPrompts();
+  await loadPrompts();
+  if (state.user) await loadMyData();
 }
 
 const CATS = [
