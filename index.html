@@ -123,7 +123,7 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
       ✦ Marketplace de Prompts IA · Pagos con Stripe
     </div>
     <h1 class="syne" id="hero-h1">Los mejores prompts,<br>votados por la comunidad</h1>
-    <p id="hero-p">Accede, sube y monetiza prompts de IA. Gana el 70% de cada venta directo a tu cuenta bancaria.</p>
+    <p id="hero-p">Explora prompts gratuitos sin registrarte. Paga $100 MXN una sola vez para acceso completo y sube tus propios prompts.</p>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
       <button class="btn btn-p btn-lg" onclick="openModal('register')" style="font-size:16px;padding:14px 32px;box-shadow:0 0 24px rgba(124,58,237,.5)" id="hero-cta">🚀 Crear cuenta — $5 USD único</button>
       <button class="btn btn-lg" onclick="openModal('login')" id="hero-login-btn">Ya tengo cuenta →</button>
@@ -391,7 +391,7 @@ const T = {
     navLogin: 'Iniciar sesión', navRegister: 'Registrarse', navExplore: 'Explorar', navDash: 'Mi dashboard', navUpload: '+ Subir', navLogout: 'Cerrar sesión',
     heroPill: '✦ Marketplace de prompts · Pagos con Stripe',
     heroH1: 'Los mejores prompts,<br>votados por la comunidad',
-    heroP: 'Accede, sube y monetiza prompts de IA. Gana el 70% de cada venta directo a tu cuenta bancaria.',
+    heroP: 'Explora prompts gratuitos sin registrarte. Paga $100 MXN una sola vez para acceso completo y sube tus propios prompts.',
     heroCta: '🚀 Crear cuenta — $5 USD único',
     heroLoginBtn: 'Ya tengo cuenta →',
     heroSub: '✓ Pago único, sin mensualidades &nbsp;·&nbsp; ✓ Acceso de por vida &nbsp;·&nbsp; ✓ Pagos seguros con Stripe',
@@ -580,6 +580,7 @@ const getTier = v => {
   if (v > 300) return {tier:'pro',   label:'⭐ PRO',     price:15, color:'#B45309', bg:'#FEF3C7'};
   if (v > 200) return {tier:'medio2',label:'🔥 Featured',price:10, color:'#1D6AE5', bg:'#DBEAFE'};
   if (v > 100) return {tier:'medio', label:'🔥 Popular', price:5,  color:'#991B1B', bg:'#FEE2E2'};
+  if (v > 20)  return {tier:'member',label:'🔒 Members', price:0,  color:'#6B7A95', bg:'#F1F5F9'};
   return              {tier:'free',  label:'✓ Free',     price:0,  color:'#065F46', bg:'#D1FAE5'};
 };
 const getTierLabel = ti => {
@@ -607,7 +608,7 @@ function saveLocal() {
 }
 
 function showScreen(id) {
-  if (id === 'app' || id === 'dashboard') {
+  if (id === 'dashboard') {
     if (!state.user) { openModal('login'); return; }
     if (!state.user.member) { openModal('register'); return; }
   }
@@ -619,8 +620,7 @@ function showScreen(id) {
 }
 
 function goHome() {
-  if (state.user) showScreen('app');
-  else showScreen('landing');
+  showScreen('app');
 }
 
 function updateNav() {
@@ -690,7 +690,9 @@ function renderPrompts() {
     const tiLabel = getTierLabel(ti);
     const voted = state.votes.includes(p.id);
     const paid = ti.tier !== 'free';
-    const member = !!state.user;
+    const member = !!state.user?.member;
+    const loggedIn = !!state.user;
+    const isFreePublic = ti.tier === 'free'; // <= 20 votes, visible to all
     return `<div class="card pcard fi" onclick="viewPrompt('${p.id}')">
       ${ti.tier==='pro' ? '<div style="height:3px;background:linear-gradient(90deg,#F59E0B,#EF4444)"></div>' : ''}
       ${ti.tier==='medio'||ti.tier==='medio2' ? '<div style="height:3px;background:linear-gradient(90deg,#EF4444,#38BDF8)"></div>' : ''}
@@ -703,7 +705,7 @@ function renderPrompts() {
           ${paid ? `<span class="badge" style="background:${ti.bg};color:${ti.color};flex-shrink:0">${tiLabel}</span>` : ''}
         </div>
         <div style="font-weight:700;font-size:14px;margin-bottom:6px;line-height:1.3">${p.title}</div>
-        <div style="font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:8px;min-height:36px" ${!member && paid ? 'class="blurred"' : ''}>${!member && paid ? t('promptPremium') : p.preview}</div>
+        <div style="font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:8px;min-height:36px" ${(!loggedIn && !isFreePublic) || (!member && paid) ? 'class="blurred"' : ''}>${(!loggedIn && !isFreePublic) ? t('promptPremium') : (!member && paid) ? t('promptPremium') : p.preview}</div>
         <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px">${p.tags.map(tg => `<span class="tag">#${tg}</span>`).join('')}</div>
         <div style="display:flex;align-items:center;justify-content:space-between;border-top:.5px solid var(--bdr);padding-top:8px">
           <div style="display:flex;align-items:center;gap:6px">
@@ -719,7 +721,7 @@ function renderPrompts() {
       <div style="padding:0 14px 12px">
         <button class="btn ${paid ? 'btn-gold' : 'btn-ok'} btn-sm" style="width:100%;justify-content:center"
           onclick="event.stopPropagation();viewPrompt('${p.id}')">
-          ${!member ? t('promptLocked') : paid ? t('promptView') + '$' + ti.price + ' USD' : t('promptFree')}
+          ${isFreePublic && !loggedIn ? t('promptFree') + ' — Ver' : !loggedIn ? '🔒 ' + t('promptLocked') : !member && ti.tier === 'member' ? '🔒 Requiere membresía' : paid ? t('promptView') + '$' + ti.price + ' USD' : t('promptFree')}
         </button>
       </div>
     </div>`;
@@ -744,7 +746,10 @@ async function votePrompt(id) {
 }
 
 function viewPrompt(id) {
-  if (!state.user) { openModal('login'); return; }
+  const _p = state.prompts.find(x => (x._id||x.id) === id);
+  const _ti = _p ? getTier(_p.votes) : null;
+  // Allow viewing free prompts (<=20 votes) without login
+  if (!state.user && _ti && _ti.tier !== 'free') { openModal('login'); return; }
   const p = state.prompts.find(x => (x._id||x.id) === id);
   if (!p) return;
   const ti = getTier(p.votes);
