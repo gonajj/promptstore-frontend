@@ -143,6 +143,16 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
   <div class="section">
     <h2 class="syne" style="font-size:20px;font-weight:700;margin-bottom:16px;text-align:center" id="cats-title">Explora por categoría</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px" id="landing-cats"></div>
+    <!-- Enlace VISIBLE al catalogo, en la pantalla de inicio.
+         La prueba en tiempo real de Search Console mostro dos cosas: que
+         #prompt-grid llega vacio (Googlebot no espera al fetch de la API) y
+         que el otro enlace a /explorar vive dentro de #s-app, que arranca
+         con display:none. Este esta en la pantalla activa y lo ve tanto un
+         visitante como el rastreador. Fuera de #landing-cats a proposito:
+         buildLandingCats() reescribe ese contenedor entero. -->
+    <p style="text-align:center;margin-top:22px;font-size:13px">
+      <a href="/explorar" style="color:var(--acc2);text-decoration:none;font-weight:600">Ver el catálogo completo de prompts →</a>
+    </p>
   </div>
 
   <!-- Why join -->
