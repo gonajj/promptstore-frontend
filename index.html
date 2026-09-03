@@ -91,6 +91,8 @@ select.inp{cursor:pointer}
 .stripe-pill{background:#635BFF;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:4px}
 .pcard{display:flex;flex-direction:column;cursor:pointer;transition:box-shadow .15s,transform .15s}
 .pcard:hover{box-shadow:0 6px 24px rgba(0,0,0,.25);transform:translateY(-2px)}
+.ptitle{color:inherit;text-decoration:none}
+.ptitle:hover{text-decoration:underline}
 hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
 .fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -246,6 +248,12 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
     </div>
     <div id="cat-bar" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:16px"></div>
     <div id="prompt-grid" class="pgrid"></div>
+    <!-- Enlace real en el HTML servido (no generado por JS) hacia el catalogo
+         completo. Es la puerta de entrada que Google usa para rastrear las
+         paginas de prompt sin depender de ejecutar el JavaScript. -->
+    <p style="text-align:center;margin-top:28px;font-size:13px">
+      <a href="/explorar" style="color:var(--mu);text-decoration:underline">Ver el catálogo completo de prompts</a>
+    </p>
   </div>
 </div>
 
@@ -288,6 +296,18 @@ hr.div{border:none;border-top:.5px solid var(--bdr);margin:16px 0}
 // CONFIG
 // ══════════════════════════════════════════════════════════════════════
 const API = 'https://promptostore-backend-production.up.railway.app';
+
+// Debe producir exactamente el mismo slug que slugify() del backend: la URL
+// del enlace tiene que coincidir con la canonica, si no el servidor responde
+// un 301 innecesario en cada click.
+function slugify(text) {
+  return String(text || '').toLowerCase()
+    .replace(/[áàäâ]/g, 'a').replace(/[éèëê]/g, 'e')
+    .replace(/[íìïî]/g, 'i').replace(/[óòöô]/g, 'o')
+    .replace(/[úùüû]/g, 'u').replace(/ñ/g, 'n')
+    .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-')
+    .replace(/-+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
+}
 
 // ── AUTH HELPERS ──
 function getToken() { return localStorage.getItem('ps_token'); }
@@ -704,7 +724,7 @@ function renderPrompts() {
           </div>
           ${paid ? `<span class="badge" style="background:${ti.bg};color:${ti.color};flex-shrink:0">${tiLabel}</span>` : ''}
         </div>
-        <div style="font-weight:700;font-size:14px;margin-bottom:6px;line-height:1.3">${p.title}</div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:6px;line-height:1.3"><a href="/p/${slugify(p.title)}-${p.id}" class="ptitle" onclick="event.stopPropagation();if(event.metaKey||event.ctrlKey||event.shiftKey)return;event.preventDefault();viewPrompt('${p.id}')">${p.title}</a></div>
         <div style="font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:8px;min-height:36px" ${(!loggedIn && !isFreePublic) || (!member && paid) ? 'class="blurred"' : ''}>${(!loggedIn && !isFreePublic) ? t('promptPremium') : (!member && paid) ? t('promptPremium') : p.preview}</div>
         <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px">${p.tags.map(tg => `<span class="tag">#${tg}</span>`).join('')}</div>
         <div style="display:flex;align-items:center;justify-content:space-between;border-top:.5px solid var(--bdr);padding-top:8px">
