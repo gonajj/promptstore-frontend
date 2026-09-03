@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "https://promptostore-backend-production.up.railway.app/sitemap.xml" },
+    { "source": "/robots.txt", "destination": "https://promptostore-backend-production.up.railway.app/robots.txt" },
     { "source": "/p/:path*", "destination": "https://promptostore-backend-production.up.railway.app/p/:path*" }
   ]
 }
